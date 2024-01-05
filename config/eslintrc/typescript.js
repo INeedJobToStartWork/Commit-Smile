@@ -41,7 +41,7 @@ export default [
 
       "@stylistic/ts/key-spacing": ["error", { beforeColon: false }],
       // "@stylistic/ts/lines-between-class-members:": ["error", "always"],
-      "@stylistic/ts/space-before-function-paren": "error",
+      "@stylistic/ts/space-before-function-paren": ["error", { anonymous: "always", named: "ignore" }],
       "@stylistic/ts/type-annotation-spacing": [
         "error",
         { after: true, before: false, overrides: { arrow: { after: true, before: true } } }
