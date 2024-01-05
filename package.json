@@ -1,6 +1,6 @@
 {
   "name": "commitsmile",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Make smile on your commits",
   "keywords": [],
   "license": "ISC",
@@ -50,5 +50,9 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-merge": "^5.10.0"
+  },
+  "packageManager": "pnpm@8.11.0",
+  "engines": {
+    "node": ">=18"
   }
 }
