@@ -1,0 +1,66 @@
+name: "✨Idea - Feature Request"
+title: "✨[Idea] - <TITLE_OF_ISSUE>"
+description: Share your ideas with us!
+labels: [feature]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Wow, good to see you there!
+        It's good to know you're creative ✨
+
+        Before submitting a new feature request, please check the links below to see if there somebody already requested it:
+          - CommitSmile's [Idea's tab]()
+          - CommitSmile's [closed ideas tab]()
+          - CommitSmile's [Discussions tab]() 
+
+        Please fill in as much of the template below as you're able. If you don't know the answer to a question, that's okay, but please try to fill in as much as you can.
+  - type: input
+    id: idea
+    attributes:
+      label: Idea ✨
+      description: Please give a short description of the feature
+      placeholder: e.g. I want to add cooldown to button
+    validations:
+      required: true
+
+  - type: input
+    id: work
+    attributes:
+      label: How it should work?
+      description: Give a description of how it should work
+      placeholder: |
+        e.g After clicking button, it should be disabled for X seconds
+    validations:
+      required: true
+
+  - type: input
+    id: solution
+    attributes:
+      label: What it gonna solve? Why we should ad it?
+      description: How it will help you and others? What kind of problems it will solve?.
+      placeholder: |
+        e.g It will help me and users to prevent api calls spamming and give a better user experience.
+    validations:
+      required: true
+
+  - type: input
+    id: implementation
+    attributes:
+      label: How it should be implemented?
+      description: What do you expect, how it should be implemented? Which props?
+      placeholder: |
+
+    validations:
+      required: true
+
+  - type: input
+    id: example
+    attributes:
+      label: Example of usage / I have seen it in other library
+      description: |
+        You can give a link to currently implemented feature in other library / give your own example.
+        (Images, videos, code snippets, etc.)
+      placeholder: |
+        e.g Similar feature is implemented in XXX lib.
+        Here is link: XXXX

@@ -1,0 +1,100 @@
+name: "🐞 Report a bug"
+title: "🐞[BUG] - <TITLE_OF_ISSUE>"
+description: Create new report!
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug to FluiUI! 🙏
+
+        If you have a question about how to achieve something and are struggling, please post a question
+        inside of either of the following places:
+          - CommitSmile's 💬[Discussion's tab](https://github.com/INeedJobToStartWork/CommitSmile/discussions)
+
+        Before submitting a new bug/issue, please check the links below to see if there is a solution or question posted there already:
+          - CommitSmile's [Issue's tab]()
+          - CommitSmile's [closed issues tab]()
+          - CommitSmile's [Discussions tab]()
+
+
+        Please fill in as much of the template below as you're able. If you don't know the answer to a question, that's okay, but please try to fill in as much as you can.
+        It'll help us to triage your issue as quickly as possible.
+  - type: input
+    id: description
+    attributes:
+      label: Issue Description
+      description: Please give a short description of the issue
+      placeholder: Description title
+    validations:
+      required: true
+  - type: input
+    id: commitSmile_version
+    attributes:
+      label: CommitSmile Version
+      description: Which CommitSmile version are you using?
+      placeholder: e.g. v0.5.0
+    validations:
+      required: true
+  - type: checkboxes
+    id: commitSmile_latest
+    attributes:
+      label: Tested on Latest Version
+      description: Check if this issue is reproducible with the latest version - it could be fixed.
+      options:
+        - label: "Yes"
+  - type: input
+    id: reproductionLink
+    attributes:
+      label: Reproduction
+      description: Please provide a link to a reproduction on Github, CodeSandbox or StackBlitz.
+      placeholder: |
+        e.g. https://github.com/ineedjobtostartwork/xxx
+  - type: textarea
+    id: reproductionProcess
+    attributes:
+      label: Process to Reproduce bug
+      description: Please provide steps to reproduce the bug.
+      placeholder: |
+        e.g.
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+  - type: textarea
+    id: reproductionImages
+    attributes:
+      label: Photo/Images Showing Bug
+      description: |
+        If applicable, please provide screenshots or photos showing the bug.
+        More about github attachments limits: https://docs.github.com/en/github/writing-on-github/working-with-advanced-formatting/attaching-files.
+  - type: textarea
+    id: reproductionLogs
+    attributes:
+      label: Logs
+      description: If applicable, please provide logs showing the bug (if exists).
+  - type: textarea
+    id: expectedBehavior
+    attributes:
+      label: What we got - What we expected
+      description: What did you expect to happen? What happened instead?
+  - type: textarea
+    id: additionalContext
+    attributes:
+      label: Additional Context
+      description: What did you wanted to do? Please provide any additional information here.
+  - type: textarea
+    id: triedFix
+    attributes:
+      label: What did you try to fix it?
+      description: What did you try to fix it? Every information is useful.
+  - type: textarea
+    id: howSolved
+    attributes:
+      label: How did you solve it?
+      description: How did you solve it? It's okay if you didn't solve it yet.
+  - type: textarea
+    id: possibleSolution
+    attributes:
+      label: How problem can be solved?
+      description: If you have any idea, please share it with us.
