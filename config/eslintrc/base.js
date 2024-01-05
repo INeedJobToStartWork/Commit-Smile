@@ -270,7 +270,7 @@ export default [
       "@stylistic/js/nonblock-statement-body-position": ["error", "beside"],
       "@stylistic/js/object-curly-newline": ["error", { multiline: true }],
       "@stylistic/js/rest-spread-spacing": ["error", "never"],
-      "@stylistic/js/space-before-function-paren": "error",
+      "@stylistic/js/space-before-function-paren": ["error", { anonymous: "always", named: "ignore" }],
 
       "@stylistic/js/space-unary-ops": "error",
       "@stylistic/js/spaced-comment": ["error", "always"],

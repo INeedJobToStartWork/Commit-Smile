@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.3.0
+
+### Minor Changes
+
+- added loading/reading file function with ext support .(mjs,cjs,js,mts,cts,ts) and preExt
+
 ## 0.2.0
 
 ### Minor Changes

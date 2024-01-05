@@ -1,5 +1,6 @@
 import { version } from "../package.json";
-import { logging } from "./utils";
+import { findConfig, readConfig } from "@/functions";
+import { logging } from "@/utils";
 import { program } from "commander";
 import path from "path";
 
@@ -11,12 +12,15 @@ program.version(PACKAGE_VERSION);
 program
   .option("-C, --config <relativePath>", "path to config", EXECUTED_PATH)
   .option("-D, --debugger", "Debugger mode", false)
-  .action((options: { debugger: boolean }) => {
+  .action(async (options: { debugger: boolean; config: string }) => {
     process.env.DEBUG = options.debugger ? "TRUE" : "FALSE";
 
     logging.debug("Debug mode enabled");
     logging.debug("Options: ", options);
-    logging.info("Hello world ;D!");
+
+    const configPath = await readConfig(await findConfig(options.config));
+
+    logging.debug(`Config: ${configPath.template}`);
   });
 
 program.parse(process.argv);

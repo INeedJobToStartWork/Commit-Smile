@@ -13,12 +13,18 @@ export default {
       }
     ]
   },
+
   name: "base",
   output: {
     clean: true,
     filename: "[name].cjs",
     path: path.resolve(__dirname, "dist")
   },
-  resolve: { extensions: ["", ".ts", ".js", ".mjs", ".mts"] },
+  resolve: {
+    extensions: ["", ".ts", ".js", ".mjs", ".mts"],
+    alias: {
+      "@": path.resolve(__dirname, "src/")
+    }
+  },
   target: "node"
 };
