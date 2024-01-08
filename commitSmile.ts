@@ -1,6 +1,6 @@
 // import defaultConfig from "./defaultConfig";
 // import defaultConfig from "./defaultConfig"
-import defaultConfig from "./defaultConfig";
+// import defaultConfig from "./defaultConfig";
 import type { configSchema } from "@/utils/types";
 import type z from "zod";
 

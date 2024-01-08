@@ -7,6 +7,8 @@
 	"author": "ineedjobtostartwork",
 	"type": "module",
 	"main": "index.js",
+	"module": "./dist/main.cjs",
+	"types": "./dist/main.d.ts",
 	"bin": {
 		"commitsmile": "./dist/main.cjs"
 	},
