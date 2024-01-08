@@ -1,6 +1,6 @@
 import { version as PACKAGE_VERSION } from "../package.json";
 import type { TStages } from "./utils/types";
-import { findConfig, readConfig } from "@/functions";
+import { getConfiguration } from "@/functions";
 import { logging, prompter } from "@/utils";
 import { spawnSync } from "child_process";
 import { program } from "commander";
@@ -11,6 +11,7 @@ const EXECUTED_PATH = path.join(path.resolve());
 program.version(PACKAGE_VERSION);
 
 program
+	.description("Execute Commit Smile application")
 	.option("-C, --config <relativePath>", "path to config", EXECUTED_PATH)
 	.option("-D, --debugger", "Debugger mode", false)
 	.action(async (options: { debugger: boolean; config: string }) => {
@@ -19,11 +20,8 @@ program
 		logging.debug("Debug mode enabled");
 		logging.debug("Options: ", options);
 
-		const config = await readConfig(await findConfig(options.config));
+		const config = await getConfiguration(options.config);
 
-		// const Answers: Partial<Record<TStages, string | string[]>> = {
-
-		// es
 		const Answers = {
 			CHANGES: await prompter.select(config.CHANGES),
 			SCOPES: await prompter.select(config.SCOPES),
@@ -33,9 +31,9 @@ program
 
 		const commit = `${Answers.CHANGES}(${Answers.SCOPES ? Answers.SCOPES : ""}): ${Answers.COMMIT_SHORT}`;
 		logging.info(commit);
-		// "git", ["commit", "-m", commit],
 		await prompter.confirm(
 			"Is this commit valid?",
+			false,
 			() => {
 				spawnSync(`git commit -m "${commit}"`, {
 					shell: true,
@@ -44,8 +42,15 @@ program
 			},
 			() => process.exit(1)
 		);
-		// await prompter.confirm("🚀 Push it?", async () => spawn("git", ["push"], { stdio: "inherit" }));
-		//  change app process (index.ts),add utils and types
+
 		return process.exit(0);
 	});
+
+program
+	.command("init")
+	.description("Init configuration file")
+	.action(() => {
+		logging.info("Init");
+	});
+
 program.parse(process.argv);

@@ -11,8 +11,8 @@ type TFunctions = () => ChildProcess | unknown;
 export class prompter {
 	private static LABEL_FOR_CUSTOM = "Write your custom value:";
 
-	static async confirm(label: string, cb?: TFunctions, exitCb?: TFunctions): Promise<boolean> {
-		let ans = await consola.prompt(label, { type: "confirm" });
+	static async confirm(label: string, initial?: boolean, cb?: TFunctions, exitCb?: TFunctions): Promise<boolean> {
+		let ans = await consola.prompt(label, { type: "confirm", initial: initial });
 		logging.debug("ODPOWIEDZ TO: ", ans);
 		if (ans) {
 			logging.debug("TAK");
