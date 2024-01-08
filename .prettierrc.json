@@ -3,7 +3,7 @@
 	"bracketSameLine": true,
 	"bracketSpacing": true,
 	"cursorOffset": -1,
-	"plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-packagejson", "prettier-plugin-sort-json"],
+	"plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-packagejson"],
 	"printWidth": 120,
 	"proseWrap": "always",
 	"tabWidth": 2,

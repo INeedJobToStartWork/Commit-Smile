@@ -1,19 +1,28 @@
+import { logging } from ".";
 import type { TOptionSelect, TOptionText } from "./types";
+import type { ChildProcess } from "child_process";
 import consola from "consola";
 import type z from "zod";
 
 // export type TPrompterOutput = string | string[];
 
+type TFunctions = () => ChildProcess | unknown;
+
 export class prompter {
 	private static LABEL_FOR_CUSTOM = "Write your custom value:";
 
-	static async confirm(label: string, cb?: () => unknown, exitCb?: () => unknown): Promise<boolean> {
+	static async confirm(label: string, cb?: TFunctions, exitCb?: TFunctions): Promise<boolean> {
 		let ans = await consola.prompt(label, { type: "confirm" });
+		logging.debug("ODPOWIEDZ TO: ", ans);
 		if (ans) {
-			if (cb) await cb();
+			logging.debug("TAK");
+			if (cb != undefined) {
+				logging.debug("CALLBACK ZACZYNA SIE");
+				await cb();
+			}
 			return true;
 		}
-		if (exitCb) await exitCb();
+		if (exitCb) exitCb();
 		return false;
 	}
 

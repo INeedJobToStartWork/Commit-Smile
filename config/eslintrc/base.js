@@ -96,7 +96,7 @@ export default [
 				{ ignoreDestructuring: true, ignoreGlobals: true, ignoreImports: true, properties: "always" }
 			],
 			"no-unused-private-class-members": "error",
-			"capitalized-comments": ["error", "never"],
+			// "capitalized-comments": ["error", "never"],
 			"no-unused-vars": "warn",
 			"class-methods-use-this": "error",
 			"no-use-before-define": "off",
@@ -213,7 +213,7 @@ export default [
 			"prefer-object-has-own": "warn",
 			"prefer-object-spread": "error",
 			// "sort-keys": "warn",
-			"@EslintSortKeys/sort-keys-fix": "warn",
+			// "@EslintSortKeys/sort-keys-fix": "warn",
 
 			"prefer-promise-reject-errors": "error",
 

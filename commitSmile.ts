@@ -3,7 +3,7 @@ import type { configSchema } from "@/utils/types";
 import type z from "zod";
 
 export const Config: z.input<typeof configSchema> = {
-	// sCOPES: {
+	// SCOPES: {
 	//   label: defaultConfig.SCOPES.label,
 	//   options: [
 	//     { label: "🌍 Enviroment", value: "enviroment" },
