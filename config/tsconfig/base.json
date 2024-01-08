@@ -4,6 +4,7 @@
 		"lib": ["esnext", "dom"],
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
+		"target": "ES6",
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
 		"alwaysStrict": false,

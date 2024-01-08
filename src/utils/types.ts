@@ -1,9 +1,10 @@
 import defaultConfig from "@/../defaultConfig";
 import z from "zod";
 
-const TOptionSelect = z.object({
+export const TOptionSelect = z.object({
 	isCustom: z.boolean().default(false),
 	label: z.string(),
+	multiple: z.boolean().default(false),
 	options: z
 		.union([
 			z.string(),
@@ -15,10 +16,10 @@ const TOptionSelect = z.object({
 		])
 		.array()
 		.nonempty()
-		.optional()
+	// .optional()
 });
 
-const TOptionText = z.object({
+export const TOptionText = z.object({
 	default: z.string().optional(),
 	initial: z.string().optional(),
 	label: z.string(),

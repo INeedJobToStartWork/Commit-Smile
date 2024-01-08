@@ -60,6 +60,7 @@ export const defaultConfig: z.input<typeof CommitSmileConfSchema> = {
 	SCOPES: {
 		isCustom: true,
 		label: "What is the scope of this change (e.g. component or file name)? (press enter to skip)",
+		multiple: true,
 		options: [
 			{ label: "🌍 Enviroment", value: "enviroment" },
 			{ label: "📖 Docs", value: "docs" },
