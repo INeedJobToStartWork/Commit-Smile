@@ -60,7 +60,7 @@ program
 			js: { filename: "commitSmile.json", path: path.join(path.resolve(), "../templates/configs/config.js.hbs") },
 			json: { filename: "commitSmile.json", path: path.join(process.cwd(), "../templates/configs/config.json.hbs") }
 		};
-		const answers = { ext: "", module: "", fileName: "" };
+		const answers = {} as Record<string, string | undefined>;
 
 		answers.ext = (await prompter.select({
 			label: "Choose config template:",
@@ -70,13 +70,16 @@ program
 				{ label: "{} JSON", value: "json" }
 			]
 		})) as string;
-		answers.module = (await prompter.select({
-			label: "Choose module type:",
-			options: [
-				{ label: "EcmaScript", value: "esm", hint: "default - import/export" },
-				{ label: "CommonJS", value: "commonjs", hint: "require/module.exports" }
-			]
-		})) as string;
+		answers.module =
+			answers.ext != "json"
+				? ((await prompter.select({
+						label: "Choose module type:",
+						options: [
+							{ label: "EcmaScript", value: "esm", hint: "default - import/export" },
+							{ label: "CommonJS", value: "commonjs", hint: "require/module.exports" }
+						]
+					})) as string)
+				: undefined;
 		answers.fileName = (await prompter.text({
 			label: "Choose file name:",
 			placeholder: `${defaultTemp[answers.ext].filename}`,

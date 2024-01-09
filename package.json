@@ -1,17 +1,20 @@
 {
 	"name": "commitsmile",
-	"version": "0.3.2",
+	"version": "0.3.4",
 	"description": "Make smile on your commits",
 	"keywords": [],
 	"license": "ISC",
 	"author": "ineedjobtostartwork",
 	"type": "module",
-	"main": "index.js",
+	"main": "main.cjs",
 	"module": "./dist/main.cjs",
 	"types": "./dist/main.d.ts",
 	"bin": {
 		"commitsmile": "./dist/main.cjs"
 	},
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "webpack --config ./config/webpack/webpack.prod.js",
 		"dev": "webpack --config ./config/webpack/webpack.dev.js",
@@ -19,6 +22,8 @@
 		"link-cli": "pnpm unlink --global && pnpm link --global",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
+		"npm:postpack": "clean-package restore",
+		"npm:prepack": "clean-package",
 		"pre": "git add . && npx lint-staged",
 		"prepare": "husky install",
 		"start": "node ./dist/main.cjs",

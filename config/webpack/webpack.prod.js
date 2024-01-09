@@ -20,7 +20,7 @@ export default merge(webpackBaseConfig, {
 					inlinedLibraries: ["zod", "@"]
 				}
 			},
-			outFile: "index.d.ts",
+			outFile: "main.d.ts",
 			compilationOptions: {},
 			removeEmptyLines: false,
 			removeEmptyExports: false

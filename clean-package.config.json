@@ -1,0 +1,9 @@
+{
+	"indent": 4,
+	"remove": ["devDependencies", "dependencies", "lint-staged"],
+	"replace": {
+		"scripts": {
+			"npm:postpack": "clean-package restore"
+		}
+	}
+}

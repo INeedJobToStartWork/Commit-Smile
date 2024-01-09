@@ -46,6 +46,9 @@ devDependencies:
   chalk:
     specifier: ^5.3.0
     version: 5.3.0
+  clean-package:
+    specifier: ^2.2.0
+    version: 2.2.0
   eslint:
     specifier: ^8.56.0
     version: 8.56.0
@@ -2120,6 +2123,14 @@ packages:
     engines: { node: ">=8" }
     dev: true
 
+  /clean-package@2.2.0:
+    resolution:
+      { integrity: sha512-vLv8kRqvh4smPDpqAYFPLEijTppAd/cfCz4yBcUGoVl/JKu6ZWKhlo+G/cAmwlSa29RudfBeuyiNEzas8bTwEQ== }
+    hasBin: true
+    dependencies:
+      dot-prop: 6.0.1
+    dev: true
+
   /cli-cursor@4.0.0:
     resolution:
       { integrity: sha512-VGtlMu3x/4DOtIUwEkRezxUZ2lBacNJCHash0N0WeZDBS+7Ux1dm3XWAgWYxLJFMMdOeXMHXorshEFhbMSGelg== }
@@ -2415,6 +2426,14 @@ packages:
     engines: { node: ">=6.0.0" }
     dependencies:
       esutils: 2.0.3
+    dev: true
+
+  /dot-prop@6.0.1:
+    resolution:
+      { integrity: sha512-tE7ztYzXHIeyvc7N+hR3oi7FIbf/NIjVP9hmAt3yMXzrQ072/fpjGLx2GxNxGxUl5V73MEqYzioOMoVhGMJ5cA== }
+    engines: { node: ">=10" }
+    dependencies:
+      is-obj: 2.0.0
     dev: true
 
   /dts-bundle-generator@9.2.1:
@@ -3572,6 +3591,12 @@ packages:
     resolution:
       { integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng== }
     engines: { node: ">=0.12.0" }
+    dev: true
+
+  /is-obj@2.0.0:
+    resolution:
+      { integrity: sha512-drqDG3cbczxxEJRoOXcOjtdp1J/lyp1mNn0xaznRs8+muBhgQcrnbspox5X5fOw0HnMnbfDzvnEMEtqDEJEo8w== }
+    engines: { node: ">=8" }
     dev: true
 
   /is-path-inside@3.0.3:
