@@ -1,4 +1,5 @@
 import webpackBaseConfig from "./webpack.base.js";
+import bundle from "bundle-declarations-webpack-plugin";
 import { merge } from "webpack-merge";
 
 export default merge(webpackBaseConfig, {
@@ -10,5 +11,19 @@ export default merge(webpackBaseConfig, {
 		minimize: true,
 		providedExports: true,
 		usedExports: true
-	}
+	},
+	plugins: [
+		new bundle.BundleDeclarationsWebpackPlugin({
+			entry: {
+				filePath: "./src/utils/types.ts",
+				libraries: {
+					inlinedLibraries: ["zod", "@"]
+				}
+			},
+			outFile: "index.d.ts",
+			compilationOptions: {},
+			removeEmptyLines: false,
+			removeEmptyExports: false
+		})
+	]
 });
