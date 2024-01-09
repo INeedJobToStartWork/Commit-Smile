@@ -1,4 +1,4 @@
-import defaultConfig from "@/../defaultConfig";
+import defaultConfig from "@/defaultConfig";
 import z from "zod";
 
 export const TOptionSelect = z.object({

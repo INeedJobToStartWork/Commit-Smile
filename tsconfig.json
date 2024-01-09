@@ -1,11 +1,14 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
 	"compilerOptions": {
+		"declaration": true,
+
 		"outDir": "./dist",
 		"baseUrl": "./src",
 		"paths": {
 			"@/*": ["*"]
 		}
 	},
+	// "include": ["src"],
 	"extends": "./config/tsconfig/base.json"
 }

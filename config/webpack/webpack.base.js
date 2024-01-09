@@ -1,3 +1,4 @@
+import p from "bundle-declarations-webpack-plugin";
 import path from "path";
 
 const __dirname = path.resolve();
@@ -26,5 +27,16 @@ export default {
 			"@": path.resolve(__dirname, "src/")
 		}
 	},
-	target: "node"
+	target: "node",
+	plugins: [
+		new p.BundleDeclarationsWebpackPlugin({
+			entry: ["./src/utils/types.ts"],
+			outFile: "types.d.ts",
+			compilationOptions: {
+				libraries: {
+					inlinedLibraries: ["zod"]
+				}
+			}
+		})
+	]
 };

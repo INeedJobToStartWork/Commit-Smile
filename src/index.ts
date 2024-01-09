@@ -4,7 +4,10 @@ import { getConfiguration } from "@/functions";
 import { logging, prompter } from "@/utils";
 import { spawnSync } from "child_process";
 import { program } from "commander";
+// import { copyFileSync } from "fs";
 import path from "path";
+
+export * from "@/utils/types";
 
 const EXECUTED_PATH = path.join(path.resolve());
 
@@ -49,8 +52,38 @@ program
 program
 	.command("init")
 	.description("Init configuration file")
-	.action(() => {
-		logging.info("Init");
+	.action(async () => {
+		logging.info("Init your config file!");
+
+		const defaultTemp: Record<string, { filename: string; path: string }> = {
+			ts: { filename: "commitSmile.ts", path: path.join(import.meta.url, "./templates/configs/config.ts.hbs") },
+			js: { filename: "commitSmile.json", path: path.join(path.resolve(), "../templates/configs/config.js.hbs") },
+			json: { filename: "commitSmile.json", path: path.join(process.cwd(), "../templates/configs/config.json.hbs") }
+		};
+		const answers = { ext: "", module: "", fileName: "" };
+
+		answers.ext = (await prompter.select({
+			label: "Choose config template:",
+			options: [
+				{ label: "🟦 Typescript", value: "ts", hint: "Default" },
+				{ label: "🟨 Javascript", value: "js" },
+				{ label: "{} JSON", value: "json" }
+			]
+		})) as string;
+		answers.module = (await prompter.select({
+			label: "Choose module type:",
+			options: [
+				{ label: "EcmaScript", value: "esm", hint: "default - import/export" },
+				{ label: "CommonJS", value: "commonjs", hint: "require/module.exports" }
+			]
+		})) as string;
+		answers.fileName = (await prompter.text({
+			label: "Choose file name:",
+			placeholder: `${defaultTemp[answers.ext].filename}`,
+			default: `${defaultTemp[answers.ext].filename}`
+		})) as string;
+
+		// await copyFileSync(defaultTemp[answers.ext].path, `${import.meta.url}/${answers.fileName}`, 1);
 	});
 
 program.parse(process.argv);
