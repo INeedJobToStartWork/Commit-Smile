@@ -30,13 +30,14 @@ export default {
 	target: "node",
 	plugins: [
 		new p.BundleDeclarationsWebpackPlugin({
-			entry: ["./src/utils/types.ts"],
-			outFile: "types.d.ts",
-			compilationOptions: {
+			entry: {
+				filePath: "./src/utils/types.ts",
 				libraries: {
-					inlinedLibraries: ["zod"]
+					inlinedLibraries: ["zod", "@"]
 				}
-			}
+			},
+			outFile: "types.d.ts",
+			compilationOptions: {}
 		})
 	]
 };
