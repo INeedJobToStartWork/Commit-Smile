@@ -13,6 +13,7 @@ export default [
 			"**/config/**",
 			"**/node_modules/**",
 			"**/dist/**",
+			"**/lib/**",
 			"**/*.d.ts",
 			"**/tsconfig.json",
 			"**/theme.config.jsx"
@@ -56,7 +57,7 @@ export default [
 			"no-dupe-else-if": "error",
 			"no-dupe-keys": "error",
 			"no-duplicate-case": "error",
-			"no-duplicate-imports": "error",
+			// "no-duplicate-imports": "error",
 			"no-empty-character-class": "error",
 			"no-empty-pattern": "warn",
 			"no-ex-assign": "error",

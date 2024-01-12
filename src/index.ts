@@ -1,4 +1,4 @@
-import { version as PACKAGE_VERSION } from "../package.json";
+import def from "../package.json";
 import type { TStages } from "./utils/types";
 import { getConfiguration } from "@/functions";
 import { logging, prompter } from "@/utils";
@@ -7,11 +7,9 @@ import { program } from "commander";
 // import { copyFileSync } from "fs";
 import path from "path";
 
-export * from "@/utils/types";
-
 const EXECUTED_PATH = path.join(path.resolve());
 
-program.version(PACKAGE_VERSION);
+program.version(def.version);
 
 program
 	.description("Execute Commit Smile application")

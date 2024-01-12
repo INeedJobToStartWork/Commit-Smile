@@ -1,9 +1,12 @@
 {
 	"indent": 4,
-	"remove": ["devDependencies", "dependencies", "lint-staged"],
+	"remove": ["devDependencies", "dependencies", "lint-staged", "bin"],
 	"replace": {
 		"scripts": {
 			"npm:postpack": "clean-package restore"
+		},
+		"bin": {
+			"commitsmile": "index.cjs"
 		}
 	}
 }

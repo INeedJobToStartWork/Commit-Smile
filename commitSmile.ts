@@ -1,10 +1,9 @@
 // import defaultConfig from "./defaultConfig";
 // import defaultConfig from "./defaultConfig"
 // import defaultConfig from "./defaultConfig";
-import type { configSchema } from "@/utils/types";
-import type z from "zod";
+import type { config } from "./dist/index.d.ts";
 
-export const Config: z.input<typeof configSchema> = {
+export const Config: config = {
 	// SCOPES: {
 	// 	label: defaultConfig.SCOPES.label,
 	// 	options: [

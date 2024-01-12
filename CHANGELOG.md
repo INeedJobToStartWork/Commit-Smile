@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.3.6
+
+### Patch Changes
+
+- fix package.json at npm
+
 ## 0.3.0
 
 ### Minor Changes
