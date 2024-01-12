@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.3.7
+
+### Patch Changes
+
+- fix build output for npm (add ReadMe and reduce size)
+
 ## 0.3.6
 
 ### Patch Changes

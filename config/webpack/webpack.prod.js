@@ -1,9 +1,11 @@
 import webpackBaseConfig from "./webpack.base.js";
 import bundle from "bundle-declarations-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 import { merge } from "webpack-merge";
 
 const __dirname = path.resolve();
+const PATHOUT = path.resolve(__dirname, "dist");
 
 export default merge(webpackBaseConfig, {
 	mode: "production",
@@ -23,9 +25,15 @@ export default merge(webpackBaseConfig, {
 			compilationOptions: {},
 			removeEmptyLines: false,
 			removeEmptyExports: false
+		}),
+		new CopyPlugin({
+			patterns: [
+				{ from: path.resolve(__dirname, "README.md"), to: PATHOUT },
+				{ from: path.resolve(__dirname, "Package.json"), to: PATHOUT }
+			]
 		})
 	],
 	output: {
-		path: path.resolve(__dirname, "dist")
+		path: PATHOUT
 	}
 });

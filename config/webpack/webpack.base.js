@@ -4,8 +4,7 @@ const __dirname = path.resolve();
 
 export default {
 	entry: {
-		index: path.resolve(__dirname, "src/index.ts"),
-		readme: path.resolve(__dirname, "readme.md")
+		index: path.resolve(__dirname, "src/index.ts")
 	},
 
 	module: {
@@ -16,19 +15,6 @@ export default {
 				use: {
 					loader: "swc-loader"
 				}
-			},
-			{
-				exclude: "/\\node_modules\\[^\\]+$/gusm",
-				test: /\.(json|md)$/i,
-				type: "javascript/auto",
-				use: [
-					{
-						loader: "file-loader",
-						options: {
-							name: "[name].[ext]"
-						}
-					}
-				]
 			}
 		]
 	},
@@ -38,6 +24,7 @@ export default {
 		clean: true,
 		filename: "[name].cjs",
 		path: path.resolve(__dirname, "lib"),
+		chunkLoading: false,
 		library: {
 			type: "commonjs2",
 			export: "default"
