@@ -1,6 +1,5 @@
-import type { configSchema } from "./types";
-import { TOptionText, TOptionSelect } from "./types";
-import type z from "zod";
+// import { TOptionTextZod, TOptionSelect } from "./types";
+// export { TOptionTextZod as TOptionText, TOptionSelect };
+import type { UserConfig } from "./types";
 
-export { TOptionText, TOptionSelect };
-export type config = z.input<typeof configSchema>;
+export type TConfig = UserConfig;

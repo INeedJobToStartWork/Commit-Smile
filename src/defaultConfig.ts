@@ -1,9 +1,15 @@
-import type { CommitSmileConfSchema } from "@/utils/types";
+import type { configSchema } from "@/utils/types";
 import type z from "zod";
 
-export const defaultConfig: z.input<typeof CommitSmileConfSchema> = {
+export const defaultConfig: z.infer<typeof configSchema> = {
 	CHANGES: {
-		label: "What changes are you making?",
+		multiple: false,
+		custom: {
+			value: false,
+			amount: 1
+		},
+		message: "What type of changes are you making?",
+		required: true,
 		options: [
 			{
 				hint: "A new feature for the user, not a new feature for build script",
@@ -48,19 +54,14 @@ export const defaultConfig: z.input<typeof CommitSmileConfSchema> = {
 			}
 		]
 	},
-	COMMIT_DESCRIPTION: {
-		default: "",
-		label: "Write longer description of commit (optional)",
-		placeholder: ""
-	},
-	COMMIT_SHORT: {
-		label: "Write short description of commit",
-		placeholder: "Commit will..."
-	},
 	SCOPES: {
-		isCustom: true,
-		label: "What is the scope of this change (e.g. component or file name)? (press enter to skip)",
+		custom: {
+			value: true,
+			amount: 99
+		},
+		message: "What is the scope of this change (e.g. component or file name)?",
 		multiple: true,
+		required: true,
 		options: [
 			{ label: "🌍 Enviroment", value: "enviroment" },
 			{ label: "📖 Docs", value: "docs" },
@@ -68,7 +69,17 @@ export const defaultConfig: z.input<typeof CommitSmileConfSchema> = {
 			{ label: "📱 Mobile", value: "mobile" },
 			{ label: "🍃 API", value: "api" }
 		]
+	},
+	COMMIT_SHORT: {
+		message: "Write short description of commit",
+		validate(input: string) {
+			if (input.length === 0) return `Value is required!`;
+			return void 0;
+		}
+	},
+	COMMIT_DESCRIPTION: {
+		message: "Write longer description of commit (optional)"
 	}
-} as const;
+};
 
 export default defaultConfig;

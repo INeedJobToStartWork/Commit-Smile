@@ -1,11 +1,11 @@
 import { findConfig, readConfig } from ".";
-import { configSchema } from "@/utils/types";
+import { UserConfigSchema } from "@/utils/types";
 import type z from "zod";
 
-export const getConfiguration = async (configPath: string): Promise<Object & z.infer<typeof configSchema>> => {
+export const getConfiguration = async (configPath: string): Promise<Object & z.infer<typeof UserConfigSchema>> => {
 	const path = await findConfig(configPath);
 	if (path) return readConfig(path);
-	return configSchema.parse({});
+	return UserConfigSchema.parse({});
 };
 
 export default getConfiguration;

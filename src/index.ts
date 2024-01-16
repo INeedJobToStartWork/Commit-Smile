@@ -1,10 +1,11 @@
 import def from "../package.json";
-import type { TStages } from "./utils/types";
+import { select } from "./components";
 import { getConfiguration } from "@/functions";
-import { logging, prompter } from "@/utils";
+import { logging } from "@/utils";
+import * as prompter from "@clack/prompts";
+import chalk from "chalk";
 import { spawnSync } from "child_process";
 import { program } from "commander";
-// import { copyFileSync } from "fs";
 import path from "path";
 
 const EXECUTED_PATH = path.join(path.resolve());
@@ -22,69 +23,196 @@ program
 		logging.debug("Options: ", options);
 
 		const config = await getConfiguration(options.config);
-
-		const Answers = {
-			CHANGES: await prompter.select(config.CHANGES),
-			SCOPES: await prompter.select(config.SCOPES),
-			COMMIT_SHORT: await prompter.text(config.COMMIT_SHORT),
-			COMMIT_DESCRIPTION: (await prompter.text(config.COMMIT_DESCRIPTION)) satisfies string
-		} as const satisfies Partial<Record<TStages, unknown>>;
-
-		const commit = `${Answers.CHANGES}(${Answers.SCOPES ? Answers.SCOPES : ""}): ${Answers.COMMIT_SHORT}`;
-		logging.info(commit);
-		await prompter.confirm(
-			"Is this commit valid?",
-			false,
-			() => {
-				spawnSync(`git commit -m "${commit}"`, {
-					shell: true,
-					stdio: "inherit"
-				});
+		// const Answers = await prompter.group(
+		// 	{
+		// 		changes: async () => await select(config.CHANGES),
+		// 		scopes: async () => await select(config.SCOPES),
+		// 		commitShort: async () => await prompter.text(config.COMMIT_SHORT),
+		// 		commitDescription: async () => await prompter.text(config.COMMIT_DESCRIPTION),
+		// commit: async ({ results }) => {
+		// 	const { changes, scopes, commitShort } = results;
+		// 	const commit = (): string => {
+		// 		const scopesFormat = scopes ? `(${scopes})` : "";
+		// 		return `${changes}${scopesFormat}: ${commitShort}`;
+		// 	};
+		// 	prompter.note(commit());
+		// 	let agree = await prompter.confirm({ message: "Commit message is correct?" });
+		// 	if (prompter.isCancel(agree) || !agree) {
+		// 		prompter.cancel("Commit message is canceled!");
+		// 		process.exit(0);
+		// 	}
+		// 	return commit;
+		// }
+		// 	},
+		// 	{
+		// 		onCancel: () => {
+		// 			prompter.cancel("Operation cancelled.");
+		// 			process.exit(0);
+		// 		}
+		// 	}
+		// );
+		// console.log(Answers.commit);
+		const group = await prompter.group(
+			{
+				changes: async () => select(config.CHANGES),
+				scopes: async () => select(config.SCOPES),
+				commitShort: async () => prompter.text(config.COMMIT_SHORT),
+				commitDescription: async () => prompter.text(config.COMMIT_DESCRIPTION),
+				commit: async ({ results }) => {
+					const { changes, scopes, commitShort } = results;
+					const commit = (): string => {
+						const scopesFormat = scopes ? `(${scopes})` : "";
+						return `${changes}${scopesFormat}: ${commitShort}`;
+					};
+					prompter.note(commit());
+					let agree = await prompter.confirm({ message: "Commit message is correct?" });
+					if (prompter.isCancel(agree) || !agree) {
+						prompter.cancel("Commit message is canceled!");
+						process.exit(0);
+					}
+					return commit();
+				}
 			},
-			() => process.exit(1)
+			{
+				// On Cancel callback that wraps the group
+				// So if the user cancels one of the prompts in the group this function will be called
+				onCancel: ({ results }) => {
+					prompter.cancel("Operation cancelled.");
+					process.exit(0);
+				}
+			}
 		);
+
+		console.log(group.changes, group.scopes, group.commitShort, group.commitDescription, group.commit);
+		console.log(`git commit -m "${group.commit}" ${group.commitDescription ? `-m "${group.commitDescription}"` : ""}`);
+
+		// logging.info(
+		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`
+		// );
+		// spawnSync(
+		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`,
+		// 	{
+		// 		shell: true,
+		// 		stdio: "inherit"
+		// 	}
+		// );
 
 		return process.exit(0);
 	});
+// program
+// 	.description("Execute Commit Smile application")
+// 	.option("-C, --config <relativePath>", "path to config", EXECUTED_PATH)
+// 	.option("-D, --debugger", "Debugger mode", false)
+// 	.action(async (options: { debugger: boolean; config: string }) => {
+// 		process.env.DEBUG = options.debugger ? "TRUE" : "FALSE";
 
-program
-	.command("init")
-	.description("Init configuration file")
-	.action(async () => {
-		logging.info("Init your config file!");
+// 		logging.debug("Debug mode enabled");
+// 		logging.debug("Options: ", options);
 
-		const defaultTemp: Record<string, { filename: string; path: string }> = {
-			ts: { filename: "commitSmile.ts", path: path.join(import.meta.url, "./templates/configs/config.ts.hbs") },
-			js: { filename: "commitSmile.json", path: path.join(path.resolve(), "../templates/configs/config.js.hbs") },
-			json: { filename: "commitSmile.json", path: path.join(process.cwd(), "../templates/configs/config.json.hbs") }
-		};
-		const answers = {} as Record<string, string | undefined>;
+// 		const config = await getConfiguration(options.config);
+// 		const Answers = await prompter.group(
+// 			{
+// 				changes: async () => await select(config.CHANGES),
+// 				scopes: async () => await select(config.SCOPES),
+// 				commitShort: async () => await prompter.text(config.COMMIT_SHORT),
+// 				commitDescription: async () => await prompter.text(config.COMMIT_DESCRIPTION),
+// 				commit: async ({ results }) => {
+// 					const { changes, scopes, commitShort } = results;
+// 					const commit = (): string => {
+// 						const scopesFormat = scopes ? `(${scopes})` : "";
+// 						return `${changes}${scopesFormat}: ${commitShort}`;
+// 					};
+// 					prompter.note(commit());
+// 					let agree = await prompter.confirm({ message: "Commit message is correct?" });
+// 					if (prompter.isCancel(agree) || !agree) {
+// 						prompter.cancel("Commit message is canceled!");
+// 						process.exit(0);
+// 					}
+// 					return commit;
+// 				}
+// 			},
+// 			{
+// 				onCancel: () => {
+// 					prompter.cancel("Operation cancelled.");
+// 					process.exit(0);
+// 				}
+// 			}
+// 		);
+// 		console.log(Answers.commit);
+// 		// logging.info(
+// 		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`
+// 		// );
+// 		// spawnSync(
+// 		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`,
+// 		// 	{
+// 		// 		shell: true,
+// 		// 		stdio: "inherit"
+// 		// 	}
+// 		// );
 
-		answers.ext = (await prompter.select({
-			label: "Choose config template:",
-			options: [
-				{ label: "🟦 Typescript", value: "ts", hint: "Default" },
-				{ label: "🟨 Javascript", value: "js" },
-				{ label: "{} JSON", value: "json" }
-			]
-		})) as string;
-		answers.module =
-			answers.ext != "json"
-				? ((await prompter.select({
-						label: "Choose module type:",
-						options: [
-							{ label: "EcmaScript", value: "esm", hint: "default - import/export" },
-							{ label: "CommonJS", value: "commonjs", hint: "require/module.exports" }
-						]
-					})) as string)
-				: undefined;
-		answers.fileName = (await prompter.text({
-			label: "Choose file name:",
-			placeholder: `${defaultTemp[answers.ext].filename}`,
-			default: `${defaultTemp[answers.ext].filename}`
-		})) as string;
+// 		return process.exit(0);
+// 	});
 
-		// await copyFileSync(defaultTemp[answers.ext].path, `${import.meta.url}/${answers.fileName}`, 1);
-	});
+// program
+// 	.command("init")
+// 	.description("Init configuration file")
+// 	.action(async () => {
+// 		// console.log("JESTEŚMY TU: ", import.meta.url);
+// 		// console.log("TWORZYMY TU: ", process.cwd());
+// 		const Answers = prompter.group(
+// 			{
+// 				intro: () => {
+// 					prompter.intro(chalk.bgMagenta("Init your config file!"));
+// 				},
+// 				type: () =>
+// 					select({
+// 						custom: {
+// 							value: false,
+// 							amount: 1
+// 						},
+// 						message: "Select config type:",
+// 						required: true,
+// 						options: [
+// 							{
+// 								label: "🟦 Typescript",
+// 								value: "ts"
+// 							},
+// 							{
+// 								label: "🟨 Javascript",
+// 								value: "js"
+// 							}
+// 						]
+// 					}),
+// 				module: () =>
+// 					select({
+// 						custom: {
+// 							value: false,
+// 							amount: 1
+// 						},
+// 						message: "Select module type:",
+// 						initialValues: ["cjs"],
+// 						options: [
+// 							{
+// 								label: "EcmaScript",
+// 								value: "esm",
+// 								hint: "esm"
+// 							},
+// 							{
+// 								label: "CommonJS",
+// 								value: "esm",
+// 								hint: "cjs"
+// 							}
+// 						]
+// 					}),
+// 				outro: () => prompter.outro("Thank you for your answers!")
+// 			},
+// 			{
+// 				onCancel: () => {
+// 					prompter.cancel("Operation cancelled.");
+// 					process.exit(0);
+// 				}
+// 			}
+// 		);
+// 	});
 
 program.parse(process.argv);
