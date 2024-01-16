@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.3.9
+
+### Patch Changes
+
+- Refactor Code, changed UI (changed consola => @clack/prompts)
+
 ## 0.3.7
 
 ### Patch Changes

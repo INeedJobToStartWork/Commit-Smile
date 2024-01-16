@@ -1,8 +1,8 @@
-import { configSchema } from "@/utils/types";
+import { UserConfigSchema } from "@/utils/types";
 import jiti from "jiti";
 import type z from "zod";
 
-export const readConfig = async (configPath: string): Promise<z.infer<object & typeof configSchema>> => {
+export const readConfig = async (configPath: string): Promise<z.infer<object & typeof UserConfigSchema>> => {
 	let result = (await jiti(process.cwd(), {
 		cache: true,
 		debug: process.env.DEBUG === "TRUE"
@@ -10,7 +10,7 @@ export const readConfig = async (configPath: string): Promise<z.infer<object & t
 
 	let parsed = Object.hasOwn(result, "default") ? result.default : result;
 
-	return configSchema.parse(parsed);
+	return UserConfigSchema.parse(parsed);
 };
 
 export default readConfig;

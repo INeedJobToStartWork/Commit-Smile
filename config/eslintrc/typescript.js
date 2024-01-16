@@ -32,7 +32,7 @@ export default [
 			"@stylistic/plus/type-generic-spacing": ["error"],
 			"@stylistic/plus/type-named-tuple-spacing": ["error"],
 			"@stylistic/ts/block-spacing": ["error", "always"],
-			"@stylistic/ts/brace-style": ["error", "stroustrup", { allowSingleLine: true }],
+			// "@stylistic/ts/brace-style": ["error", "stroustrup", { allowSingleLine: true }],
 			// "@stylistic/ts/brace-style": ["error", "allman", { allowSingleLine: true }],
 			"@stylistic/ts/comma-dangle": "error",
 			"@stylistic/ts/comma-spacing": ["error", { after: true, before: false }],
