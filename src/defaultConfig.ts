@@ -65,7 +65,7 @@ export const defaultConfig: z.infer<typeof configSchema> = {
 		options: [
 			{ label: "🌍 Enviroment", value: "enviroment" },
 			{ label: "📖 Docs", value: "docs" },
-			{ label: "🌐 Website", value: "api" },
+			{ label: "🌐 Website", value: "web" },
 			{ label: "📱 Mobile", value: "mobile" },
 			{ label: "🍃 API", value: "api" }
 		]

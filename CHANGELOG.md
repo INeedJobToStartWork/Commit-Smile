@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.3.10
+
+### Patch Changes
+
+- fix commit message bug + scopes bug (same value website and api)
+
 ## 0.3.9
 
 ### Patch Changes

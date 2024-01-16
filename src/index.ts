@@ -23,36 +23,7 @@ program
 		logging.debug("Options: ", options);
 
 		const config = await getConfiguration(options.config);
-		// const Answers = await prompter.group(
-		// 	{
-		// 		changes: async () => await select(config.CHANGES),
-		// 		scopes: async () => await select(config.SCOPES),
-		// 		commitShort: async () => await prompter.text(config.COMMIT_SHORT),
-		// 		commitDescription: async () => await prompter.text(config.COMMIT_DESCRIPTION),
-		// commit: async ({ results }) => {
-		// 	const { changes, scopes, commitShort } = results;
-		// 	const commit = (): string => {
-		// 		const scopesFormat = scopes ? `(${scopes})` : "";
-		// 		return `${changes}${scopesFormat}: ${commitShort}`;
-		// 	};
-		// 	prompter.note(commit());
-		// 	let agree = await prompter.confirm({ message: "Commit message is correct?" });
-		// 	if (prompter.isCancel(agree) || !agree) {
-		// 		prompter.cancel("Commit message is canceled!");
-		// 		process.exit(0);
-		// 	}
-		// 	return commit;
-		// }
-		// 	},
-		// 	{
-		// 		onCancel: () => {
-		// 			prompter.cancel("Operation cancelled.");
-		// 			process.exit(0);
-		// 		}
-		// 	}
-		// );
-		// console.log(Answers.commit);
-		const group = await prompter.group(
+		const Answers = await prompter.group(
 			{
 				changes: async () => select(config.CHANGES),
 				scopes: async () => select(config.SCOPES),
@@ -74,84 +45,23 @@ program
 				}
 			},
 			{
-				// On Cancel callback that wraps the group
-				// So if the user cancels one of the prompts in the group this function will be called
-				onCancel: ({ results }) => {
+				onCancel: () => {
 					prompter.cancel("Operation cancelled.");
 					process.exit(0);
 				}
 			}
 		);
-
-		console.log(group.changes, group.scopes, group.commitShort, group.commitDescription, group.commit);
-		console.log(`git commit -m "${group.commit}" ${group.commitDescription ? `-m "${group.commitDescription}"` : ""}`);
-
-		// logging.info(
-		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`
-		// );
-		// spawnSync(
-		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`,
-		// 	{
-		// 		shell: true,
-		// 		stdio: "inherit"
-		// 	}
-		// );
+		logging.debug(Answers.commit);
+		spawnSync(
+			`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`,
+			{
+				shell: true,
+				stdio: "inherit"
+			}
+		);
 
 		return process.exit(0);
 	});
-// program
-// 	.description("Execute Commit Smile application")
-// 	.option("-C, --config <relativePath>", "path to config", EXECUTED_PATH)
-// 	.option("-D, --debugger", "Debugger mode", false)
-// 	.action(async (options: { debugger: boolean; config: string }) => {
-// 		process.env.DEBUG = options.debugger ? "TRUE" : "FALSE";
-
-// 		logging.debug("Debug mode enabled");
-// 		logging.debug("Options: ", options);
-
-// 		const config = await getConfiguration(options.config);
-// 		const Answers = await prompter.group(
-// 			{
-// 				changes: async () => await select(config.CHANGES),
-// 				scopes: async () => await select(config.SCOPES),
-// 				commitShort: async () => await prompter.text(config.COMMIT_SHORT),
-// 				commitDescription: async () => await prompter.text(config.COMMIT_DESCRIPTION),
-// 				commit: async ({ results }) => {
-// 					const { changes, scopes, commitShort } = results;
-// 					const commit = (): string => {
-// 						const scopesFormat = scopes ? `(${scopes})` : "";
-// 						return `${changes}${scopesFormat}: ${commitShort}`;
-// 					};
-// 					prompter.note(commit());
-// 					let agree = await prompter.confirm({ message: "Commit message is correct?" });
-// 					if (prompter.isCancel(agree) || !agree) {
-// 						prompter.cancel("Commit message is canceled!");
-// 						process.exit(0);
-// 					}
-// 					return commit;
-// 				}
-// 			},
-// 			{
-// 				onCancel: () => {
-// 					prompter.cancel("Operation cancelled.");
-// 					process.exit(0);
-// 				}
-// 			}
-// 		);
-// 		console.log(Answers.commit);
-// 		// logging.info(
-// 		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`
-// 		// );
-// 		// spawnSync(
-// 		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`,
-// 		// 	{
-// 		// 		shell: true,
-// 		// 		stdio: "inherit"
-// 		// 	}
-// 		// );
-
-// 		return process.exit(0);
-// 	});
 
 // program
 // 	.command("init")
