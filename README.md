@@ -59,10 +59,10 @@ If Path:
 - do not include filename it will use standard process to find.
 - include - will just check this file (faster way)
 
-<!-- ### Init config
+### Init config
 
-to init config we use optional paremeter `--init`:
+to init config we use `init`:
 
 ```bash copy
-npm run commitSmile --init
-``` -->
+npm run commitSmile init
+```

@@ -41,3 +41,7 @@ export const UserConfigSchema = z.object({
 	COMMIT_DESCRIPTION: TOptionTextZod.default(defaultConfig.COMMIT_DESCRIPTION)
 });
 export type UserConfig = z.input<typeof UserConfigSchema>;
+
+/**
+ * @typedef {TConfig} JSConfig
+ */

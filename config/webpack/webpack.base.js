@@ -1,6 +1,8 @@
+import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 
 const __dirname = path.resolve();
+const PATHOUT = path.resolve(__dirname, "lib");
 
 export default {
 	entry: {
@@ -36,5 +38,10 @@ export default {
 			"@": path.resolve(__dirname, "src/")
 		}
 	},
+	plugins: [
+		new CopyPlugin({
+			patterns: [{ from: path.resolve(__dirname, "./src/templates"), to: path.join(PATHOUT, "templates") }]
+		})
+	],
 	target: "node"
 };

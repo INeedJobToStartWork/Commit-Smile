@@ -1,6 +1,6 @@
 {
 	"name": "commitsmile",
-	"version": "0.3.10",
+	"version": "0.4.0",
 	"description": "Make smile on your commits",
 	"keywords": [],
 	"homepage": "",
@@ -66,6 +66,7 @@
 		"eslint-plugin-sort-keys-fix": "^1.1.2",
 		"globals": "^13.24.0",
 		"husky": "^8.0.3",
+		"jsdoc": "^4.0.2",
 		"lint-staged": "^15.2.0",
 		"prettier": "^3.1.1",
 		"prettier-plugin-packagejson": "^2.4.8",

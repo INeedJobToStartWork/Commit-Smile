@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.4.0
+
+### Minor Changes
+
+- Add `init` command function!
+
 ## 0.3.10
 
 ### Patch Changes

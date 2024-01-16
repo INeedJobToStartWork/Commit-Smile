@@ -29,7 +29,8 @@ export default merge(webpackBaseConfig, {
 		new CopyPlugin({
 			patterns: [
 				{ from: path.resolve(__dirname, "README.md"), to: PATHOUT },
-				{ from: path.resolve(__dirname, "package.json"), to: PATHOUT }
+				{ from: path.resolve(__dirname, "package.json"), to: PATHOUT },
+				{ from: path.resolve(__dirname, "./src/templates"), to: path.join(PATHOUT, "templates") }
 			]
 		})
 	],
