@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.5.0
+
+### Minor Changes
+
+- FEAT: Add Breaking Changes stage in commiting.
+
 ## 0.4.0
 
 ### Minor Changes

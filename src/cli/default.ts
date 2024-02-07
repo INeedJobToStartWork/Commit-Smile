@@ -22,13 +22,15 @@ program
 			{
 				changes: async () => select(config.CHANGES),
 				scopes: async () => select(config.SCOPES),
+				breakingChanges: async () => prompter.confirm(config.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.COMMIT_SHORT),
 				commitDescription: async () => prompter.text(config.COMMIT_DESCRIPTION),
 				commit: async ({ results }) => {
-					const { changes, scopes, commitShort } = results;
+					const { changes, scopes, commitShort, breakingChanges } = results;
 					const commit = (): string => {
 						const scopesFormat = scopes ? `(${scopes})` : "";
-						return `${changes}${scopesFormat}: ${commitShort}`;
+						const breakingChangesFormat = breakingChanges ? "!" : "";
+						return `${changes}${scopesFormat}${breakingChangesFormat}: ${commitShort}`;
 					};
 					prompter.note(commit());
 					let agree = await prompter.confirm({ message: "Commit message is correct?" });

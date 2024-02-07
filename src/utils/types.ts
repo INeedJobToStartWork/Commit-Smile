@@ -1,10 +1,13 @@
 import defaultConfig from "@/defaultConfig";
-import type { multiselect, text } from "@clack/prompts";
+import type { multiselect, text, confirm } from "@clack/prompts";
 import z from "zod";
 
 export type flatMultipleClack = FlatArray<Parameters<typeof multiselect>, 0>;
 
 const flatMultipleClackZod = z.custom<flatMultipleClack>(() => true);
+
+export type TConfirmFlat = FlatArray<Parameters<typeof confirm>, 0>;
+export const TConfirmScheme = z.custom<TConfirmFlat>(() => true);
 
 export const TSelectScheme = z
 	.object({
@@ -30,6 +33,7 @@ export type TStages = "CHANGES" | "COMMIT_DESCRIPTION" | "COMMIT_SHORT" | "SCOPE
 export const configSchema = z.object({
 	CHANGES: TSelectScheme,
 	SCOPES: TSelectScheme,
+	BREAKING_CHANGES: TConfirmScheme,
 	COMMIT_SHORT: TOptionTextZod,
 	COMMIT_DESCRIPTION: TOptionTextZod
 }) satisfies TStagesZod;
@@ -37,6 +41,7 @@ export const configSchema = z.object({
 export const UserConfigSchema = z.object({
 	CHANGES: TSelectScheme.default(defaultConfig.CHANGES),
 	SCOPES: TSelectScheme.default(defaultConfig.SCOPES),
+	BREAKING_CHANGES: TConfirmScheme.default(defaultConfig.BREAKING_CHANGES),
 	COMMIT_SHORT: TOptionTextZod.default(defaultConfig.COMMIT_SHORT),
 	COMMIT_DESCRIPTION: TOptionTextZod.default(defaultConfig.COMMIT_DESCRIPTION)
 });

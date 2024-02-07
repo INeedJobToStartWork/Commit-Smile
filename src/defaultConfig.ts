@@ -70,6 +70,12 @@ export const defaultConfig: z.infer<typeof configSchema> = {
 			{ label: "🍃 API", value: "api" }
 		]
 	},
+	BREAKING_CHANGES: {
+		message: "Are there any breaking changes?",
+		active: "Yes",
+		inactive: "No",
+		initialValue: false
+	},
 	COMMIT_SHORT: {
 		message: "Write short description of commit",
 		validate(input: string) {
