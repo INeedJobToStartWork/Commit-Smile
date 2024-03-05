@@ -34,7 +34,9 @@ export default merge(webpackBaseConfig, {
 			patterns: [
 				{ from: path.resolve(__dirname, "README.md"), to: PATHOUT },
 				{ from: path.resolve(__dirname, "package.json"), to: PATHOUT },
-				{ from: path.resolve(__dirname, "./src/templates"), to: path.join(PATHOUT, "templates") }
+				{ from: path.resolve(__dirname, "./src/templates"), to: path.join(PATHOUT, "templates") },
+				{ from: path.resolve(__dirname, ".npmrc"), to: PATHOUT },
+				{ from: path.resolve(__dirname, ".npmignore"), to: PATHOUT }
 			]
 		})
 	],

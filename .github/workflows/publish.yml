@@ -1,0 +1,31 @@
+name: Publish Package to npmjs
+on:
+  release:
+    types: [created]
+jobs:
+  release:
+    name: 📦 Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: 📚 Checkout
+        uses: actions/checkout@v4
+      - name: 🟢 Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "^20"
+          registry-url: "https://registry.npmjs.org"
+      - name: 🚀 Setup pnpm
+        uses: pnpm/action-setup@v2.4.0
+      - name: ↘️ Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: 🏗️ Build Package
+        run: pnpm build:npm
+      - name: 📦 Publish to npm
+        working-directory: ./dist
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
