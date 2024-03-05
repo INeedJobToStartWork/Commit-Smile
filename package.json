@@ -2,13 +2,17 @@
 	"name": "commitsmile",
 	"version": "0.5.0",
 	"description": "Make smile on your commits",
-	"keywords": [],
-	"homepage": "",
+	"keywords": [
+		"commit",
+		"lint"
+	],
+	"homepage": "https://github.com/INeedJobToStartWork/Commit-Smile",
+	"bugs": "https://github.com/INeedJobToStartWork/Commit-Smile/issues/new/choose",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/INeedJobToStartWork/Commit-Smile"
 	},
-	"license": "ISC",
+	"license": "MIT",
 	"author": "ineedjobtostartwork",
 	"type": "module",
 	"main": "index.cjs",
