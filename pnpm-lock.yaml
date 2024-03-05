@@ -40,6 +40,9 @@ devDependencies:
   clean-package:
     specifier: ^2.2.0
     version: 2.2.0
+  commitsmile:
+    specifier: ^0.5.0
+    version: 0.5.0
   dts-bundle-generator:
     specifier: ^9.3.1
     version: 9.3.1
@@ -1933,6 +1936,13 @@ packages:
     resolution:
       { integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA== }
     engines: { node: ">= 6" }
+    dev: true
+
+  /commitsmile@0.5.0:
+    resolution:
+      { integrity: sha512-jAYAWbJfb0bcEOK3CnhxEOxwT6cdm39KKnTGfm2ijJvNaKi9+muFjnq4c6Vvb1j4YdDxJtvYqsVQQxNuho8gWA== }
+    engines: { node: ">=18" }
+    hasBin: true
     dev: true
 
   /concat-map@0.0.1:

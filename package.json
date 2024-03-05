@@ -1,6 +1,6 @@
 {
 	"name": "commitsmile",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "Make smile on your commits",
 	"keywords": [
 		"commit",
@@ -59,6 +59,7 @@
 		"@typescript-eslint/eslint-plugin": "^6.16.0",
 		"chalk": "^5.3.0",
 		"clean-package": "^2.2.0",
+		"commitsmile": "^0.5.0",
 		"dts-bundle-generator": "^9.3.1",
 		"esbuild": "^0.20.1",
 		"esbuild-plugin-copy": "^2.1.1",
