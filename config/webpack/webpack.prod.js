@@ -19,10 +19,14 @@ export default merge(webpackBaseConfig, {
 	plugins: [
 		new bundle.BundleDeclarationsWebpackPlugin({
 			entry: {
-				filePath: "./src/utils/typesExp.ts"
+				filePath: "./src/utils/typesExp.ts",
+				libraries: {
+					inlinedLibraries: ["@clack/prompts", "zod"]
+				}
 			},
 			outFile: "index.d.ts",
 			compilationOptions: {},
+
 			removeEmptyLines: false,
 			removeEmptyExports: false
 		}),
