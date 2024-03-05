@@ -7,7 +7,7 @@
 			"npm:postpack": "clean-package restore"
 		},
 		"bin": {
-			"commitsmile": "index.cjs"
+			"commitsmile": "index.js"
 		}
 	}
 }

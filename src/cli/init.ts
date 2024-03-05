@@ -14,7 +14,7 @@ program
 
 		console.log(path.join(EXECUTEFILEPATH));
 
-		const Answers = await prompter.group(
+		await prompter.group(
 			{
 				intro: () => {
 					prompter.intro(chalk.bgMagenta("Init your config file!"));
