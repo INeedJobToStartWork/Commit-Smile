@@ -79,6 +79,9 @@ devDependencies:
   lint-staged:
     specifier: ^15.2.0
     version: 15.2.0
+  oh-my-error:
+    specifier: ^1.0.0
+    version: 1.0.0
   prettier:
     specifier: ^3.1.1
     version: 3.2.2
@@ -3757,6 +3760,12 @@ packages:
       define-properties: 1.2.1
       has-symbols: 1.0.3
       object-keys: 1.1.1
+    dev: true
+
+  /oh-my-error@1.0.0:
+    resolution:
+      { integrity: sha512-TLz8M8WXDuEiCBcZls8JXvHX0+Ovxf35mD0VeBH+XHSTddfhFw8Xt0bCtbfiJdyQmJOCKDdLADzyK1dG0nQ59Q== }
+    engines: { node: ">=18" }
     dev: true
 
   /once@1.4.0:

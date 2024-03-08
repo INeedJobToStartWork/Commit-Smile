@@ -1,16 +1,15 @@
 import { select } from "@/components";
 import { getConfiguration } from "@/functions";
+import { optionDebugger, optionConfig } from "@/helpers";
 import { logging } from "@/utils";
 import * as prompter from "@clack/prompts";
 import { spawnSync } from "child_process";
 import { program } from "commander";
-import path from "path";
 
-const EXECUTED_PATH = path.join(path.resolve());
 program
 	.description("Execute Commit Smile application")
-	.option("-C, --config <relativePath>", "path to config", EXECUTED_PATH)
-	.option("-D, --debugger", "Debugger mode", false)
+	.addOption(optionConfig)
+	.addOption(optionDebugger)
 	.action(async (options: { debugger: boolean; config: string }) => {
 		process.env.DEBUG = options.debugger ? "TRUE" : "FALSE";
 
