@@ -1,5 +1,19 @@
-import type { TSelectInput } from "@/utils/types";
+import { flatMultipleClackZod } from "@/types";
 import { multiselect, select as cSelect, text, confirm } from "@clack/prompts";
+import * as z from "zod";
+
+export const TSelectScheme = z
+	.object({
+		custom: z.object({
+			value: z.boolean(),
+			amount: z.number().min(1) // Ask how many times can ask for custom value
+		}),
+		multiple: z.boolean().default(false)
+	})
+	.and(flatMultipleClackZod);
+
+export type TSelectInput = z.input<typeof TSelectScheme>;
+export type TSelectOutput = z.infer<typeof TSelectScheme>;
 
 export const select = async (props: TSelectInput): Promise<unknown> => {
 	const LABEL_FOR_CUSTOM = "Write your custom value:";

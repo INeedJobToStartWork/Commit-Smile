@@ -1,7 +1,7 @@
-import type { configSchema } from "@/utils/types";
+import type { configSchema, promptsSchema } from "@/schema";
 import type z from "zod";
 
-export const defaultConfig: z.infer<typeof configSchema> = {
+export const defaultConfig: z.infer<typeof promptsSchema> = {
 	CHANGES: {
 		multiple: false,
 		custom: {

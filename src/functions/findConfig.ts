@@ -36,30 +36,5 @@ export function findConfig(configPath: string): string | undefined {
 	// If no config file is found, return undefined
 	return undefined;
 }
-// export function findConfig(configPath: string): [undefined, false] | [string, true] {
-// 	// Check if the configPath has an extension
-// 	if (path.parse(configPath).ext !== "") {
-// 		// Check if the file exists
-// 		if (!existsSync(configPath)) {
-// 			logging.warn("Config file does not exist - check the path");
-// 			return [undefined, false];
-// 		}
-// 		logging.debug("Path to file found");
-// 		return [configPath, true];
-// 	}
-
-// 	// If the configPath is a directory, search for config files
-// 	const files = readdirSync(configPath);
-// 	for (const file of files) {
-// 		logging.debug(`File: ${file}`);
-// 		if (/commitsmile.*\.(json|mjs|cjs|js|mts|cts|ts)/iu.exec(file)) {
-// 			logging.debug("Config found");
-// 			return [path.join(configPath, file), true];
-// 		}
-// 	}
-
-// 	// If no config file is found, return undefined
-// 	return [undefined, false];
-// }
 
 export default findConfig;

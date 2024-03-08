@@ -4,7 +4,8 @@ import * as prompter from "@clack/prompts";
 import chalk from "chalk";
 import { program } from "commander";
 import { copyFile, existsSync } from "fs";
-import path from "path";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 
 program
 	.command("init")
@@ -99,7 +100,10 @@ program
 				outro: async ({ results }) => {
 					const { finalname, ext } = results;
 					const destination = `${process.cwd()}/${finalname}`;
-					const templatePath = path.resolve(__dirname, `./templates/configs/config.${ext}.hbs`);
+					const templatePath = path.resolve(
+						dirname(fileURLToPath(import.meta.url)),
+						`./templates/configs/config.${ext}.hbs`
+					);
 
 					if (existsSync(destination)) {
 						logging.warn("File already exists!");

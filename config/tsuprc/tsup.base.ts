@@ -3,8 +3,8 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
 	entry: ["src/index.ts"],
-
+	target: "es2020",
 	clean: true,
-	format: ["cjs", "esm"],
+	format: ["esm"],
 	esbuildPlugins: [copy({ assets: [{ from: "./src/templates/configs/*", to: "./templates/configs" }] })]
 });
