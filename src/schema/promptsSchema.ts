@@ -17,9 +17,9 @@ export const promptsSchema = z.object({
 }) satisfies TStagesZod;
 
 export const UserPromptsSchema = z.object({
-	CHANGES: TSelectScheme.default(defaultConfig.CHANGES),
-	SCOPES: TSelectScheme.default(defaultConfig.SCOPES),
-	BREAKING_CHANGES: TConfirmScheme.default(defaultConfig.BREAKING_CHANGES),
-	COMMIT_SHORT: TOptionTextZod.default(defaultConfig.COMMIT_SHORT),
-	COMMIT_DESCRIPTION: TOptionTextZod.default(defaultConfig.COMMIT_DESCRIPTION)
+	CHANGES: promptsSchema.shape.CHANGES.default(defaultConfig.prompts.CHANGES),
+	SCOPES: promptsSchema.shape.SCOPES.default(defaultConfig.prompts.SCOPES),
+	BREAKING_CHANGES: promptsSchema.shape.BREAKING_CHANGES.default(defaultConfig.prompts.BREAKING_CHANGES),
+	COMMIT_SHORT: promptsSchema.shape.COMMIT_SHORT.default(defaultConfig.prompts.COMMIT_SHORT),
+	COMMIT_DESCRIPTION: promptsSchema.shape.COMMIT_DESCRIPTION.default(defaultConfig.prompts.COMMIT_DESCRIPTION)
 });

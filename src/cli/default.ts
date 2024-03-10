@@ -19,25 +19,27 @@ program
 		const config = await getConfiguration(options.config);
 		const Answers = await prompter.group(
 			{
-				changes: async () => select(config.CHANGES),
-				scopes: async () => select(config.SCOPES),
-				breakingChanges: async () => prompter.confirm(config.BREAKING_CHANGES),
-				commitShort: async () => prompter.text(config.COMMIT_SHORT),
-				commitDescription: async () => prompter.text(config.COMMIT_DESCRIPTION),
+				changes: async () => select(config.prompts.CHANGES),
+				scopes: async () => select(config.prompts.SCOPES),
+				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
+				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),
+				commitDescription: async () => prompter.text(config.prompts.COMMIT_DESCRIPTION),
 				commit: async ({ results }) => {
 					const { changes, scopes, commitShort, breakingChanges } = results;
-					const commit = (): string => {
-						const scopesFormat = scopes ? `(${scopes})` : "";
-						const breakingChangesFormat = breakingChanges ? "!" : "";
-						return `${changes}${scopesFormat}${breakingChangesFormat}: ${commitShort}`;
-					};
-					prompter.note(commit());
+
+					const commit = config.formatter.format({
+						CHANGES: config.formatter.formatter.CHANGES.value(changes as string),
+						SCOPES: config.formatter.formatter.SCOPES.value(scopes as string[] | string),
+						BREAKING_CHANGES: config.formatter.formatter.BREAKING_CHANGES.value(breakingChanges ?? false),
+						COMMIT_SHORT: config.formatter.formatter.COMMIT_SHORT.value(commitShort ?? "")
+					});
+					prompter.note(commit);
 					let agree = await prompter.confirm({ message: "Commit message is correct?" });
 					if (prompter.isCancel(agree) || !agree) {
 						prompter.cancel("Commit message is canceled!");
 						process.exit(0);
 					}
-					return commit();
+					return commit;
 				}
 			},
 			{
