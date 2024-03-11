@@ -49,7 +49,6 @@ body:
     attributes:
       label: How it should be implemented?
       description: What do you expect, how it should be implemented? Which props?
-      placeholder: |
 
     validations:
       required: true
