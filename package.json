@@ -59,7 +59,7 @@
 		"@typescript-eslint/eslint-plugin": "^6.21.0",
 		"chalk": "^5.3.0",
 		"clean-package": "^2.2.0",
-		"commitsmile": "^0.6.0",
+		"commitsmile": "^0.5.2",
 		"dts-bundle-generator": "^9.3.1",
 		"esbuild": "^0.20.1",
 		"esbuild-plugin-copy": "^2.1.1",
