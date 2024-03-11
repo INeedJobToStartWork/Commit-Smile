@@ -15,19 +15,19 @@
 NPM
 
 ```bash copy
-npm install -D commitSmile
+npm install -D commitsmile
 ```
 
 PNPM
 
 ```bash copy
-pnpm add -D commitSmile
+pnpm add -D commitsmile
 ```
 
 Yarn
 
 ```bash copy
-yarn add -D commitSmile
+yarn add -D commitsmile
 ```
 
 ### How to start
@@ -53,7 +53,7 @@ To set custom path to config we can use optional parameter `-C,--config` where `
 path:
 
 ```bash copy
-npm run commitSmile -C <PATH>
+npm run commitsmile -C <PATH>
 ```
 
 If Path:
@@ -66,7 +66,7 @@ If Path:
 to init config we use `init`:
 
 ```bash copy
-npm run commitSmile init
+npm run commitsmile init
 ```
 
 ### Formatter
