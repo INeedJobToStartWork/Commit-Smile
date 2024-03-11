@@ -1,5 +1,12 @@
 # commitsmile
 
+## 0.6.0
+
+### Minor Changes
+
+- feat: add possibility to add own formatter
+- fix: add default values for prompts.x.custom.count
+
 ## 0.5.1
 
 ### Patch Changes

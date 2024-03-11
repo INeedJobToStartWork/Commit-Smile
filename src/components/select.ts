@@ -5,8 +5,8 @@ import * as z from "zod";
 export const TSelectScheme = z
 	.object({
 		custom: z.object({
-			value: z.boolean(),
-			amount: z.number().min(1) // Ask how many times can ask for custom value
+			value: z.boolean().default(false),
+			amount: z.number().min(1).default(1) // Ask how many times can ask for custom value
 		}),
 		multiple: z.boolean().default(false)
 	})

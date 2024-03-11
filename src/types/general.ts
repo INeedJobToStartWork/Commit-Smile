@@ -1,4 +1,4 @@
-import type { configSchema } from "@/schema";
+import type { UserConfigSchema } from "@/schema";
 import type * as z from "zod";
 
 // Global types
@@ -10,7 +10,7 @@ export type TStages = "BREAKING_CHANGES" | "CHANGES" | "COMMIT_DESCRIPTION" | "C
 
 // prompts config
 
-export type UserConfig = z.input<typeof configSchema>;
+export type UserConfig = z.input<typeof UserConfigSchema>;
 
 /**
  * @typedef {TConfig} JSConfig

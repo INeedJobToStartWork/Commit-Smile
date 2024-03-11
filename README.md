@@ -7,6 +7,8 @@
 - [Config](#config)
   - [Custom file path](#custom-file-path)
   - [Init config](#init-config)
+  - [Formatter](#formatter)
+  - [Prompts](#prompts)
 
 ## Install
 
@@ -66,3 +68,7 @@ to init config we use `init`:
 ```bash copy
 npm run commitSmile init
 ```
+
+### Formatter
+
+You format your commit message at your rules!
