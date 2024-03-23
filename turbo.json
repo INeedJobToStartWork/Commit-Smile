@@ -1,0 +1,22 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "pre": {},
+    "build": {},
+    "build:npm": {},
+    "lint": {},
+    "lint:fix": {},
+    "link-cli": {},
+    "link-cli:dev": {},
+    "unlink-cli": {},
+    "unlink-cli:dev": {},
+    "format": {},
+    "npm:prepack": {},
+    "npm:postpack": {},
+    "npm:publish": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

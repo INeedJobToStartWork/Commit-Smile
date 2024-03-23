@@ -8,5 +8,5 @@
 		}
 	},
 	// "include": ["src"],
-	"extends": "./config/tsconfig/base.json"
+	"extends": "tsconfig/base.json"
 }

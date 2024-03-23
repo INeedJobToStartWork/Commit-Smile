@@ -1,0 +1,21 @@
+{
+  "name": "eslintrc",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Add dev script here'",
+    "build": "echo 'Add build script here'",
+    "test": "echo 'Add test script here'",
+    "lint": "echo 'Add lint script here'"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "eslint-plugin-optimize-regex": "^1.2.1",
+    "eslint-plugin-pii": "^1.0.2",
+    "eslint-plugin-security": "^2.1.1",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "globals": "^14.0.0"
+  }
+}

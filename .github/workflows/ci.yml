@@ -1,11 +1,9 @@
 name: CI/CD
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
 jobs:
   Deploy:
     runs-on: ubuntu-latest
@@ -17,11 +15,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Setup pnpm
+      - name: 🚀 Setup pnpm
         uses: pnpm/action-setup@v2.4.0
-      - name: Install dependencies
+      - name: ↘️ Install dependencies
         run: pnpm install --no-frozen-lockfile
-      - name: Lint
+      - name: 📝 Lint
         run: pnpm lint
-      - name: Format
+      - name: ♻️ Format
         run: pnpm format
+      - name: 🏗️ Build Package
+        run: pnpm build:npm
