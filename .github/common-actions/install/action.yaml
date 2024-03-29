@@ -12,6 +12,12 @@ runs:
         node-version-file: ".nvmrc"
         registry-url: "https://registry.npmjs.org"
         cache: "pnpm"
+
+    - name: 🤖 Setup Git User
+      shell: bash
+      run: |
+        git config --global user.email "ineedjobtostartwork@gmail.com"
+        git config --global user.name "INEEDJ"
     - name: ↘️ Install dependencies
       shell: bash
       run: pnpm install --no-frozen-lockfile
