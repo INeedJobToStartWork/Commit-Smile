@@ -13,7 +13,8 @@
     "clean": "turbo clean",
     "npm:prepack": "turbo npm:prepack",
     "npm:postpack": "turbo npm:postpack",
-    "npm:publish": "turbo npm:publish",
+    "npm:version": "changesets version",
+    "npm:publish": "changesets publish",
     "preinstall": "husky init",
     "pre": "turbo pre",
     "pre:husky": "git add . && npx lint-staged",
@@ -28,7 +29,7 @@
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "packageManager": "pnpm@8.14.0"
 }

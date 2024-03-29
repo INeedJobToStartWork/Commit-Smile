@@ -3,7 +3,9 @@
   "pipeline": {
     "pre": {},
     "build": {},
-    "build:npm": {},
+    "build:npm": {
+      "inputs": ["*", "!dist"]
+    },
     "lint": {},
     "lint:fix": {},
     "link-cli": {},
@@ -13,7 +15,7 @@
     "format": {},
     "npm:prepack": {},
     "npm:postpack": {},
-    "npm:publish": {},
+    "prepublishOnly": {},
     "dev": {
       "cache": false,
       "persistent": true

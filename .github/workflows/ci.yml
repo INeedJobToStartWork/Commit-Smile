@@ -10,15 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 20
-
-      - name: 🚀 Setup pnpm
-        uses: pnpm/action-setup@v2.4.0
-      - name: ↘️ Install dependencies
-        run: pnpm install --no-frozen-lockfile
+      - name: 🟢 Setup
+        uses: ./.github/common-actions/install
       - name: 📝 Lint
         run: pnpm lint
       - name: ♻️ Format

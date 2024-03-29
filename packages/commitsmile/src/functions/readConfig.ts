@@ -1,4 +1,5 @@
-import { configSchema } from "@/schema";
+import type { configSchema } from "@/schema";
+import { UserConfigSchema } from "@/schema";
 import jiti from "jiti";
 import type * as z from "zod";
 
@@ -10,7 +11,7 @@ export const readConfig = async (configPath: string): Promise<z.infer<object & t
 
 	let parsed = Object.hasOwn(result, "default") ? result.default : result;
 
-	return configSchema.parse(parsed);
+	return UserConfigSchema.parse(parsed);
 };
 
 export default readConfig;
