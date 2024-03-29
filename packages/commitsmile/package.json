@@ -82,6 +82,7 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"directory": "dist"
+		"directory": "dist",
+		"tag": "latest"
 	}
 }
