@@ -1,5 +1,11 @@
 # commitsmile
 
+## 0.6.1
+
+### Patch Changes
+
+- 74c8d45: user config requirements
+
 ## 0.6.0
 
 ### Minor Changes
