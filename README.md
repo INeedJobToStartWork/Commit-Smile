@@ -1,1 +1,1 @@
-D:/INEEDJ/Commit-Smile/packages/commitsmile/README.md
+packages/commitsmile/README.md
