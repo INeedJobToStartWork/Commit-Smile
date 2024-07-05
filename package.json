@@ -22,10 +22,10 @@
     "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
+    "@changesets/cli": "^2.27.7",
     "commitsmile": "workspace:^",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
+    "lint-staged": "^15.2.7",
     "turbo": "latest"
   },
   "engines": {
