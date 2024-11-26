@@ -1,4 +1,4 @@
-import type { configSchema } from "@/schema";
+import type { configSchema } from "./schema";
 import type z from "zod";
 
 export const defaultConfig: z.infer<typeof configSchema> = {

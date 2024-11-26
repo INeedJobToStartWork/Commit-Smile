@@ -1,4 +1,4 @@
-import { logging } from "@/utils";
+import { logging } from "../utils";
 import { existsSync, readdirSync } from "fs";
 import path from "path";
 

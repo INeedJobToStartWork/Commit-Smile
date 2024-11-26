@@ -1,5 +1,5 @@
-import defaultConfig from "@/defaultConfig";
-import type { TStages } from "@/types";
+import defaultConfig from "../defaultConfig";
+import type { TStages } from "../types";
 import * as z from "zod";
 
 type formatProps = {

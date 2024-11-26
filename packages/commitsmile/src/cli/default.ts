@@ -1,7 +1,7 @@
-import { select } from "@/components";
-import { getConfiguration } from "@/functions";
-import { optionDebugger, optionConfig } from "@/helpers";
-import { logging } from "@/utils";
+import { select } from "../components";
+import { getConfiguration } from "../functions";
+import { optionDebugger, optionConfig } from "../helpers";
+import { logging } from "../utils";
 import * as prompter from "@clack/prompts";
 import { spawnSync } from "child_process";
 import { program } from "commander";

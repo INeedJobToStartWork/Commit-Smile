@@ -1,5 +1,5 @@
-import type { configSchema } from "@/schema";
-import { UserConfigSchema } from "@/schema";
+import type { configSchema } from "../schema";
+import { UserConfigSchema } from "../schema";
 import jiti from "jiti";
 import type * as z from "zod";
 

@@ -1,7 +1,7 @@
-import { TSelectScheme } from "@/components";
-import defaultConfig from "@/defaultConfig";
-import type { TStages } from "@/types";
-import { TConfirmScheme, TOptionTextZod } from "@/types";
+import { TSelectScheme } from "../components";
+import defaultConfig from "../defaultConfig";
+import type { TStages } from "../types";
+import { TConfirmScheme, TOptionTextZod } from "../types";
 import * as z from "zod";
 
 export type TStagesZod = z.ZodType<{

@@ -7,6 +7,17 @@ export default defineConfig({
 	splitting: true,
 	minify: true,
 	shims: true,
+
+	bundle: true,
+	
+
+	minifyIdentifiers: true,
+	minifySyntax: true,
+	minifyWhitespace: true,
+
+	metafile: false,
+	treeshake: true,
+
 	outDir: "dist",
 
 	format: ["cjs"],

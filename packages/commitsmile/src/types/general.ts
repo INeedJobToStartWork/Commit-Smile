@@ -1,4 +1,4 @@
-import type { UserConfigSchema } from "@/schema";
+import type { UserConfigSchema } from "../schema";
 import type * as z from "zod";
 
 // Global types

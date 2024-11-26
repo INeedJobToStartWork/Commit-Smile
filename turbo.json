@@ -6,7 +6,9 @@
     "build:npm": {
       "inputs": ["*", "!dist"]
     },
-    "lint": {},
+    "lint": {
+      "cache": true
+    },
     "lint:fix": {},
     "link-cli": {},
     "link-cli:dev": {},

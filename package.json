@@ -22,16 +22,16 @@
     "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.7",
+    "@changesets/cli": "^2.27.10",
     "commitsmile": "workspace:^",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.7",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "pnpm@8.14.0",
+  "packageManager": "pnpm@9.14.2",
   "dependencies": {
     "@changesets/types": "^6.0.0"
   }

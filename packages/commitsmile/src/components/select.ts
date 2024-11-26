@@ -1,4 +1,4 @@
-import { flatMultipleClackZod } from "@/types";
+import { flatMultipleClackZod } from "../types";
 import { multiselect, select as cSelect, text, confirm } from "@clack/prompts";
 import * as z from "zod";
 

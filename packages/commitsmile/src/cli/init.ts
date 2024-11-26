@@ -1,5 +1,5 @@
-import { select } from "@/components";
-import { logging } from "@/utils";
+import { select } from "../components";
+import { logging } from "../utils";
 import * as prompter from "@clack/prompts";
 import chalk from "chalk";
 import { program } from "commander";

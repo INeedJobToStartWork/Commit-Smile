@@ -1,6 +1,6 @@
 import { findConfig, readConfig } from ".";
-import type { configSchema } from "@/schema";
-import { UserConfigSchema } from "@/schema";
+import type { configSchema } from "../schema";
+import { UserConfigSchema } from "../schema";
 import type z from "zod";
 
 export const getConfiguration = async (configPath: string): Promise<Object & z.output<typeof configSchema>> => {
