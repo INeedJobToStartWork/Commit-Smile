@@ -1,33 +1,22 @@
-import { select } from "@/components";
-import { getConfiguration } from "@/functions";
-import type { TOptionsConfig, TOptionsDebugger } from "@/helpers";
-import { optionConfig, optionDebugger } from "@/helpers";
-import { logging } from "@/utils";
-import { program } from "commander";
+import { select } from "../components";
+import { getConfiguration } from "../functions";
+import { optionDebugger, optionConfig } from "../helpers";
+import { logging } from "../utils";
 import * as prompter from "@clack/prompts";
-import { exit } from "node:process";
+import { spawnSync } from "child_process";
+import { program } from "commander";
 
-//----------------------
-// Types
-//----------------------
-/** @internal @dontexport */
-type TOptions = TOptionsConfig & TOptionsDebugger;
-
-//----------------------
-// CLI APP
-//----------------------
 program
 	.description("Execute Commit Smile application")
 	.addOption(optionConfig)
 	.addOption(optionDebugger)
-	.action(async (options: TOptions) => {
+	.action(async (options: { debugger: boolean; config: string }) => {
 		process.env.DEBUG = options.debugger ? "TRUE" : "FALSE";
 
 		logging.debug("Debug mode enabled");
 		logging.debug("Options: ", options);
 
 		const config = await getConfiguration(options.config);
-
 		const Answers = await prompter.group(
 			{
 				changes: async () => select(config.prompts.CHANGES),
@@ -39,16 +28,16 @@ program
 					const { changes, scopes, commitShort, breakingChanges } = results;
 
 					const commit = config.formatter.format({
-						CHANGES: config.formatter.formatter.CHANGES(changes as string),
-						SCOPES: config.formatter.formatter.SCOPES(scopes as string[] | string),
-						BREAKING_CHANGES: config.formatter.formatter.BREAKING_CHANGES(breakingChanges ?? false),
-						COMMIT_SHORT: config.formatter.formatter.COMMIT_SHORT(commitShort ?? "")
+						CHANGES: config.formatter.formatter.CHANGES.value(changes as string),
+						SCOPES: config.formatter.formatter.SCOPES.value(scopes as string[] | string),
+						BREAKING_CHANGES: config.formatter.formatter.BREAKING_CHANGES.value(breakingChanges ?? false),
+						COMMIT_SHORT: config.formatter.formatter.COMMIT_SHORT.value(commitShort ?? "")
 					});
-					// prompter.note(commit);
+					prompter.note(commit);
 					let agree = await prompter.confirm({ message: "Commit message is correct?" });
 					if (prompter.isCancel(agree) || !agree) {
 						prompter.cancel("Commit message is canceled!");
-						exit(0);
+						process.exit(0);
 					}
 					return commit;
 				}
@@ -56,12 +45,18 @@ program
 			{
 				onCancel: () => {
 					prompter.cancel("Operation cancelled.");
-					exit(0);
+					process.exit(0);
 				}
 			}
 		);
+		logging.debug(Answers.commit);
+		spawnSync(
+			`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`,
+			{
+				shell: true,
+				stdio: "inherit"
+			}
+		);
+
+		return process.exit(0);
 	});
-
-program.parse();
-
-// Inicjatywa

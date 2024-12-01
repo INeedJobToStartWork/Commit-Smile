@@ -29,5 +29,6 @@ export default ineedj({
 	"@typescript-eslint/no-throw-literal" /** Use custom Error */,
 	"@EslintSecurity/detect-object-injection",
 	"MD010/no-hard-tabs",
-	"@EslintTSDocs/syntax"
+	"@EslintTSDocs/syntax",
+	"@EslintNode/no-process-env"
 );

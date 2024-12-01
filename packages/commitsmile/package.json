@@ -1,89 +1,43 @@
 {
-	"name": "commitsmile",
-	"version": "0.6.1",
-	"description": "Make smile on your commits",
-	"keywords": [
-		"commit",
-		"lint"
-	],
-	"homepage": "https://github.com/INeedJobToStartWork/Commit-Smile",
-	"bugs": "https://github.com/INeedJobToStartWork/Commit-Smile/issues/new/choose",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/INeedJobToStartWork/Commit-Smile",
-		"directory": "packages/commitsmile"
-	},
-	"license": "MIT",
-	"author": "ineedjobtostartwork",
-	"type": "module",
-	"main": "index.js",
-	"types": "index.d.ts",
-	"bin": {
-		"commitsmileBuild": "./dist/index.cjs",
-		"commitsmileDev": "./lib/index.js"
-	},
-	"scripts": {
-		"build": "pnpm tsup --config ./config/tsuprc/tsup.prod.ts",
-		"build:npm": "pnpm npm:prepack && pnpm tsup --config ./config/tsuprc/tsup.prod.ts && pnpm dts-bundle-generator --config ./config/dts-bundle-generator/dts-bundle-generator.cjs && pnpm npm:postpack",
-		"dev": "pnpm tsup --config ./config/tsuprc/tsup.dev.ts",
-		"format": "pnpm prettier . --write && pnpm prettier . --check",
-		"link-cli": "pnpm unlink --global && pnpm link --global",
-		"link-cli:dev": "cd lib && pnpm unlink --global && pnpm link --global",
-		"lint": "eslint .",
-		"lint:fix": "eslint . --fix",
-		"npm:postpack": "clean-package restore",
-		"npm:prepack": "clean-package",
-		"pre": "git add . && npx lint-staged",
-		"prepublishOnly": "pnpm build:npm && cd ./dist",
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"unlink-cli:dev": "cd lib && pnpm unlink --global"
-	},
-	"lint-staged": {
-		"*": [
-			"git add .",
-			"pnpm format",
-			"pnpm lint:fix",
-			"pnpm lint"
-		]
-	},
-	"dependencies": {
-		"@clack/prompts": "^0.8.2",
-		"commander": "^12.1.0",
-		"jiti": "^2.4.0",
-		"oh-my-error": "^2.0.1",
-		"zod": "^3.23.8"
-	},
-	"devDependencies": {
-		"@ineedj/eslintrc": "^1.2.3",
-		"@ineedj/prettierrc": "^2.0.0",
-		"@ineedj/tsconfig": "^1.0.0",
-		"@types/node": "^22.10.0",
-		"chalk": "^5.3.0",
-		"clean-package": "^2.2.0",
-		"dts-bundle-generator": "^9.5.1",
-		"esbuild": "^0.24.0",
-		"esbuild-plugin-copy": "^2.1.1",
-		"eslint": "^8.57.1",
-		"jsdoc": "^4.0.4",
-		"lint-staged": "^15.2.10",
-		"prettier": "^3.4.1",
-		"tsup": "^8.3.5",
-		"typescript": "^5.7.2"
-	},
-	"bundledDependencies": [
-		"@clack/prompts",
-		"commander",
-		"jiti",
-		"zod"
-	],
-	"packageManager": "pnpm@9.14.2",
-	"engines": {
-		"node": ">=20"
-	},
-	"publishConfig": {
-		"access": "public",
-		"directory": "dist",
-		"provenance": true,
-		"tag": "latest"
-	}
+    "name": "commitsmile",
+    "version": "0.6.1",
+    "description": "Make smile on your commits",
+    "keywords": [
+        "commit",
+        "lint"
+    ],
+    "homepage": "https://github.com/INeedJobToStartWork/Commit-Smile",
+    "bugs": "https://github.com/INeedJobToStartWork/Commit-Smile/issues/new/choose",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/INeedJobToStartWork/Commit-Smile",
+        "directory": "packages/commitsmile"
+    },
+    "license": "MIT",
+    "author": "ineedjobtostartwork",
+    "type": "commonjs",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "scripts": {
+        "npm:postpack": "clean-package restore"
+    },
+    "bundledDependencies": [
+        "@clack/prompts",
+        "commander",
+        "jiti",
+        "zod"
+    ],
+    "packageManager": "pnpm@9.14.2",
+    "engines": {
+        "node": ">=20"
+    },
+    "publishConfig": {
+        "access": "public",
+        "directory": "dist",
+        "provenance": true,
+        "tag": "latest"
+    },
+    "bin": {
+        "commitsmile": "index.js"
+    }
 }

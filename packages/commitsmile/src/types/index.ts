@@ -1,2 +1,1 @@
-export * from "./clackPrompts";
-export * from "./general";
+export * from "./tConfig";

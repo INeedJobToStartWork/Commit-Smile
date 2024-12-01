@@ -4,12 +4,13 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
 	...config,
+
+	dts: true,
 	splitting: true,
 	minify: true,
 	shims: true,
 
 	bundle: true,
-	
 
 	minifyIdentifiers: true,
 	minifySyntax: true,
