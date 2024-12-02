@@ -1,9 +1,22 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable require-atomic-updates */
 import { multiselect, select as cSelect, text, confirm } from "@clack/prompts";
-import type { tags } from "typia";
 
 
+//----------------------
+// Types
+//----------------------
+type TisZeroOrNegative<T extends string | number | undefined> = `${T}` extends "0" | `-${number}` ? true : false;
+type TisRequired<T> = T extends true ? true : false;
+type TisMultiple<T> = T extends true ? true : false;
+type TResult<T extends TSelectInput> = 
+(TisRequired<T["required"]> extends true 
+	? (TisMultiple<T["multiple"]> extends true 
+		? (TisZeroOrNegative<T["custom"]> extends true ? T["options"][number]["value"] : T["options"][number]["value"] | string)[] 
+		: (TisZeroOrNegative<T["custom"]> extends true ? T["options"][number]["value"] : T["options"][number]["value"] | string)) 
+	: (TisMultiple<T["multiple"]> extends true 
+		? (TisZeroOrNegative<T["custom"]> extends true ? T["options"][number]["value"] : T["options"][number]["value"] | string)[] | undefined
+		: (TisZeroOrNegative<T["custom"]> extends true ? T["options"][number]["value"] : T["options"][number]["value"] | string) | undefined )) 
 
 //----------------------
 // Functions
@@ -14,11 +27,11 @@ export type TSelectInput = FlatArray<Parameters<typeof multiselect>, 0> & {
 	 *  How many custom values can be choosed?
 	 *  @default undefined
 	 */
-	custom: number | undefined;
+	custom?: number;
 	/**
 	 * Allow to have multiple choice.
 	 */
-	multiple: boolean;
+	multiple?: boolean;
 };
 
 /**
@@ -41,7 +54,7 @@ export type TSelectInput = FlatArray<Parameters<typeof multiselect>, 0> & {
 * });
 * ```
 */
-export const select = async (props: TSelectInput) => {
+export const select = async <T extends TSelectInput>(props: T) => {
 	const LABEL_FOR_CUSTOM = "Write your custom value:";
 	const compo = props.multiple ? multiselect : cSelect;
 
@@ -51,22 +64,23 @@ export const select = async (props: TSelectInput) => {
 		...props,
 		message: props.message,
 		options
-	});
+	}) ;
 
-	
 
-	// const customHandler = async (): Promise<void> => {
-	// 	if (Array.isArray(result)) {
-	// 		const index = result.findIndex(item => item == "custom");
-	// 		if (index >= 0) result[index] = await text({ message: LABEL_FOR_CUSTOM });
-	// 		while (await confirm({ message: "Do you want to add more custom values?" })) {
-	// 			result.push(await text({ message: LABEL_FOR_CUSTOM }));
-	// 		}
-	// 	} else result = await text({ message: LABEL_FOR_CUSTOM });
-	// };
-	// if (result === "custom" || (Array.isArray(result) && result.includes("custom"))) await customHandler();
+	const handleCustomValues = async () => {
+		if (!Array.isArray(result)) result = await text({ message: LABEL_FOR_CUSTOM }) as string
+		else {
+			// [...,"custom"]
+			const index = result.findIndex(item => item == "custom");
+			if (index >= 0) result[index] = await text({ message: LABEL_FOR_CUSTOM });
+			while (await confirm({ message: "Do you want to add more custom values?" })) {
+				result.push(await text({ message: LABEL_FOR_CUSTOM }));
+			}
+		}
+	}
+	if (result === "custom" || (Array.isArray(result) && result.includes("custom"))) await handleCustomValues();
 
-	// return result;
+	return result as TResult<T>;
 };
 
 export default select;

@@ -66,10 +66,6 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 		prompts: {
 			CHANGES: {
 				multiple: false,
-				custom: {
-					value: false,
-					amount: 1
-				},
 				message: "What type of changes are you making?",
 				required: true,
 				options: [
@@ -97,17 +93,17 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 					{
 						hint: "Changes that affect the build system or external dependencies",
 						label: `${configOptions.emoji && "♻️  "}Refactor`,
-						value: `${configOptions.emoji && "♻️"}Refactor`
+						value: `${configOptions.emoji && "♻️  "}Refactor`
 					},
 					{
 						hint: "A code change that improves performance",
 						label: `${configOptions.emoji && "🏎️  "}Perf`,
-						value: `${configOptions.emoji && "🏎️"}Perf`
+						value: `${configOptions.emoji && "🏎️  "}Perf`
 					},
 					{
 						hint: "Adding missing tests or correcting existing tests",
 						label: `${configOptions.emoji && "🧪 "}Test`,
-						value: `${configOptions.emoji && "🧪"}Test`
+						value: `${configOptions.emoji && "🧪 "}Test`
 					},
 					{
 						hint: "Changes to the build process or auxiliary tools and libraries such as documentation generation",
@@ -117,10 +113,7 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				]
 			},
 			SCOPES: {
-				custom: {
-					value: true,
-					amount: 99
-				},
+				custom: 99,
 				message: "What is the scope of this change (e.g. component or file name)?",
 				multiple: true,
 				required: true,

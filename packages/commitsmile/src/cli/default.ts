@@ -44,7 +44,7 @@ program
 						BREAKING_CHANGES: config.formatter.formatter.BREAKING_CHANGES(breakingChanges ?? false),
 						COMMIT_SHORT: config.formatter.formatter.COMMIT_SHORT(commitShort ?? "")
 					});
-					// prompter.note(commit);
+					prompter.note(commit);
 					let agree = await prompter.confirm({ message: "Commit message is correct?" });
 					if (prompter.isCancel(agree) || !agree) {
 						prompter.cancel("Commit message is canceled!");
@@ -64,4 +64,6 @@ program
 
 program.parse();
 
-// Inicjatywa
+
+
+
