@@ -27,7 +27,6 @@ program
 		logging.debug("Options: ", options);
 
 		const config = await getConfiguration(options.config);
-		console.log(config);
 
 		const Answers = await prompter.group(
 			{
@@ -61,7 +60,14 @@ program
 				}
 			}
 		);
-		Answers;
+		logging.debug(Answers.commit);
+		// spawnSync(
+		// 	`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`,
+		// 	{
+		// 		shell: true,
+		// 		stdio: "inherit"
+		// 	}
+		// );
 	});
 
 program.parse();
