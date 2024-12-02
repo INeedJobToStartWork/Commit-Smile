@@ -1,5 +1,5 @@
 import { Option } from "commander";
-import path from "path";
+import path from "node:path";
 
 //----------------------
 // Types

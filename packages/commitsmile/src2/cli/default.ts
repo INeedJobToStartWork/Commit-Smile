@@ -1,16 +1,16 @@
 import { select } from "../components";
 import { getConfiguration } from "../functions";
-import { optionDebugger, optionConfig } from "../helpers";
+import { optionDebugger } from "../helpers";
 import { logging } from "../utils";
 import * as prompter from "@clack/prompts";
-import { spawnSync } from "child_process";
+import { spawnSync } from "node:child_process";
 import { program } from "commander";
 
 program
 	.description("Execute Commit Smile application")
-	.addOption(optionConfig)
+	// .addOption(optionConfig)
 	.addOption(optionDebugger)
-	.action(async (options: { debugger: boolean; config: string }) => {
+	.action(async (options: { config: string; debugger: boolean }) => {
 		process.env.DEBUG = options.debugger ? "TRUE" : "FALSE";
 
 		logging.debug("Debug mode enabled");

@@ -1,10 +1,25 @@
-
 /* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import type { TConfig } from "@/types";
-import { deepMerge } from "@/utils";
+import { deepMerge, logging } from "@/utils";
+import { myError, myErrorWrapper } from "oh-my-error";
+import type { IMyError, TMyErrorList } from "oh-my-error";
+import { is } from "typia";
+
+//----------------------
+// MyError
+//----------------------
+
+const MyErrorList = {
+	WRONG_CONFIG: {
+		name: "Wrong Config",
+		code: "WRONG_CONFIG",
+		message: "Configuration is incorrect",
+		hint: "Please check your configuration settings."
+	}
+} as const satisfies TMyErrorList<IMyError>;
 
 //----------------------
 // Types
@@ -17,17 +32,28 @@ type TDefaultConfigProps = {
 	 * If false, emojis are removed from the default config
 	 * @defaultValue true
 	 */
-	emoji: boolean | { label: boolean; value: boolean };
+	emoji:
+		| boolean
+		| {
+				/**
+				 * If false, emojis are removed from labels at prompts.
+				 * @defaultValue true
+				 */
+				label: boolean;
+				/**
+				 * If false, emojis are removed from passed values.
+				 * @defaultValue true
+				 */
+				value: boolean;
+		  };
 };
 
 //----------------------
 // Functions
 //----------------------
 
-class ConfigPromise extends Promise {
-	// eslint-disable-next-line no-undef
-	[x: string]: any;
-	deepMerge(obj: TConfig) {
+class ConfigPromise<T extends TConfig> extends Promise<T> {
+	async deepMerge(obj: TConfig) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 		return this.then((data: TConfig) => deepMerge<Partial<TConfig>>(obj, data));
 	}
@@ -38,7 +64,8 @@ class ConfigPromise extends Promise {
  * @param configOptions
  * @returns
  */
-export const defaultConfig = (configOptions: TDefaultConfigProps) =>
+// eslint-disable-next-line @typescript-eslint/promise-function-async, @typescript-eslint/explicit-module-boundary-types
+export const defaultConfig = (configOptions?: TDefaultConfigProps) =>
 	new ConfigPromise((resolve: any) => {
 		const defaultData = configData(configOptions);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -52,8 +79,19 @@ export default defaultConfig;
 //----------------------
 
 /** @dontexport */
-const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConfig =>
-	({
+const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConfig => {
+	logging.debug(configOptions);
+	const validatedConfigOptions = myErrorWrapper(() => {
+		let result: TDefaultConfigProps = configOptions;
+		if (typeof configOptions.emoji == "boolean") {
+			result = { emoji: { label: configOptions.emoji, value: configOptions.emoji } };
+		}
+		type toParse = { emoji: { label: boolean; value: boolean } };
+		if (!is<toParse>(result)) logging.error(`Not this type! ${result}`);
+		return result as toParse;
+	}, myError(MyErrorList.WRONG_CONFIG))();
+
+	return {
 		formatter: {
 			format: props => `${props.CHANGES}${props.SCOPES}${props.BREAKING_CHANGES}: ${props.COMMIT_SHORT}`,
 			formatter: {
@@ -71,44 +109,44 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				options: [
 					{
 						hint: "A new feature for the user, not a new feature for build script",
-						label: `${configOptions.emoji && "🎉 "}Feat`,
-						value: `${configOptions.emoji && "🎉 "}Feat`
+						label: `${validatedConfigOptions.emoji.label && "🎉 "}Feat`,
+						value: `${validatedConfigOptions.emoji.value && "🎉 "}Feat`
 					},
 					{
 						hint: "A bug fix",
-						label: `${configOptions.emoji && "🐛 "}Fix`,
-						value: `${configOptions.emoji && "🐛 "}Fix`
+						label: `${validatedConfigOptions.emoji.label && "🐛 "}Fix`,
+						value: `${validatedConfigOptions.emoji.value && "🐛 "}Fix`
 					},
 
 					{
 						hint: "Documentation only changes",
-						label: `${configOptions.emoji && "📖 "}Docs`,
-						value: `${configOptions.emoji && "📖 "}Docs`
+						label: `${validatedConfigOptions.emoji.label && "📖 "}Docs`,
+						value: `${validatedConfigOptions.emoji.value && "📖 "}Docs`
 					},
 					{
 						hint: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
-						label: `${configOptions.emoji && "🎨 "}Style`,
-						value: `${configOptions.emoji && "🎨 "}Style`
+						label: `${validatedConfigOptions.emoji.label && "🎨 "}Style`,
+						value: `${validatedConfigOptions.emoji.value && "🎨 "}Style`
 					},
 					{
 						hint: "Changes that affect the build system or external dependencies",
-						label: `${configOptions.emoji && "♻️  "}Refactor`,
-						value: `${configOptions.emoji && "♻️  "}Refactor`
+						label: `${validatedConfigOptions.emoji.label && "♻️  "}Refactor`,
+						value: `${validatedConfigOptions.emoji.value && "♻️  "}Refactor`
 					},
 					{
 						hint: "A code change that improves performance",
-						label: `${configOptions.emoji && "🏎️  "}Perf`,
-						value: `${configOptions.emoji && "🏎️  "}Perf`
+						label: `${validatedConfigOptions.emoji.label && "🏎️  "}Perf`,
+						value: `${validatedConfigOptions.emoji.value && "🏎️  "}Perf`
 					},
 					{
 						hint: "Adding missing tests or correcting existing tests",
-						label: `${configOptions.emoji && "🧪 "}Test`,
-						value: `${configOptions.emoji && "🧪 "}Test`
+						label: `${validatedConfigOptions.emoji.label && "🧪 "}Test`,
+						value: `${validatedConfigOptions.emoji.value && "🧪 "}Test`
 					},
 					{
 						hint: "Changes to the build process or auxiliary tools and libraries such as documentation generation",
-						label: `${configOptions.emoji && "⚙️  "}Chore`,
-						value: `${configOptions.emoji && "⚙️  "}Chore`
+						label: `${validatedConfigOptions.emoji.label && "⚙️  "}Chore`,
+						value: `${validatedConfigOptions.emoji.value && "⚙️  "}Chore`
 					}
 				]
 			},
@@ -118,11 +156,11 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				multiple: true,
 				required: true,
 				options: [
-					{ label: `${configOptions.emoji && "🌍"}  Enviroment`, value: "enviroment" },
-					{ label: `${configOptions.emoji && "📖"}  Docs`, value: "docs" },
-					{ label: `${configOptions.emoji && "🌐"}  Website`, value: "web" },
-					{ label: `${configOptions.emoji && "📱"}  Mobile`, value: "mobile" },
-					{ label: `${configOptions.emoji && "🍃"} API`, value: "api" }
+					{ label: `${validatedConfigOptions.emoji.label && "🌍"}  Enviroment`, value: "enviroment" },
+					{ label: `${validatedConfigOptions.emoji.label && "📖"}  Docs`, value: "docs" },
+					{ label: `${validatedConfigOptions.emoji.label && "🌐"}  Website`, value: "web" },
+					{ label: `${validatedConfigOptions.emoji.label && "📱"}  Mobile`, value: "mobile" },
+					{ label: `${validatedConfigOptions.emoji.label && "🍃"} API`, value: "api" }
 				]
 			},
 			BREAKING_CHANGES: {
@@ -142,4 +180,5 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				message: "Write longer description of commit (optional)"
 			}
 		}
-	}) as const;
+	} as const;
+};

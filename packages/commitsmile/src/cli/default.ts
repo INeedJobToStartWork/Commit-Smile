@@ -1,12 +1,12 @@
-import { select } from "@/components";
+/* eslint-disable new-cap */
 import { getConfiguration } from "@/functions";
 import type { TOptionsConfig, TOptionsDebugger } from "@/helpers";
 import { optionConfig, optionDebugger } from "@/helpers";
 import { logging } from "@/utils";
 import { program } from "commander";
-import * as prompter from "@clack/prompts";
 import { exit } from "node:process";
-
+import * as prompter from "@clack/prompts";
+import { select } from "@/components";
 //----------------------
 // Types
 //----------------------
@@ -27,6 +27,7 @@ program
 		logging.debug("Options: ", options);
 
 		const config = await getConfiguration(options.config);
+		console.log(config);
 
 		const Answers = await prompter.group(
 			{
@@ -60,10 +61,7 @@ program
 				}
 			}
 		);
+		Answers;
 	});
 
 program.parse();
-
-
-
-
