@@ -91,6 +91,8 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 		return result as toParse;
 	}, myError(MyErrorList.WRONG_CONFIG))();
 
+	const getStringIfTrue = (condition: boolean, str: string) => (condition ? str : "");
+
 	return {
 		formatter: {
 			format: props => `${props.CHANGES}${props.SCOPES}${props.BREAKING_CHANGES}: ${props.COMMIT_SHORT}`,
@@ -98,7 +100,7 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				CHANGES: v => v,
 				SCOPES: v => `(${v})`,
 				COMMIT_SHORT: v => v,
-				BREAKING_CHANGES: v => `${v && "!"}`
+				BREAKING_CHANGES: v => (v ? "!" : "")
 			}
 		},
 		prompts: {
@@ -109,44 +111,44 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				options: [
 					{
 						hint: "A new feature for the user, not a new feature for build script",
-						label: `${validatedConfigOptions.emoji.label && "🎉 "}Feat`,
-						value: `${validatedConfigOptions.emoji.value && "🎉 "}Feat`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🎉 ")}Feat`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🎉 ")}Feat`
 					},
 					{
 						hint: "A bug fix",
-						label: `${validatedConfigOptions.emoji.label && "🐛 "}Fix`,
-						value: `${validatedConfigOptions.emoji.value && "🐛 "}Fix`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🐛 ")}Fix`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🐛 ")}Fix`
 					},
 
 					{
 						hint: "Documentation only changes",
-						label: `${validatedConfigOptions.emoji.label && "📖 "}Docs`,
-						value: `${validatedConfigOptions.emoji.value && "📖 "}Docs`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "📖 ")}Docs`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "📖 ")}Docs`
 					},
 					{
 						hint: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
-						label: `${validatedConfigOptions.emoji.label && "🎨 "}Style`,
-						value: `${validatedConfigOptions.emoji.value && "🎨 "}Style`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🎨 ")}Style`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🎨 ")}Style`
 					},
 					{
 						hint: "Changes that affect the build system or external dependencies",
-						label: `${validatedConfigOptions.emoji.label && "♻️  "}Refactor`,
-						value: `${validatedConfigOptions.emoji.value && "♻️  "}Refactor`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "♻️  ")}Refactor`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "♻️  ")}Refactor`
 					},
 					{
 						hint: "A code change that improves performance",
-						label: `${validatedConfigOptions.emoji.label && "🏎️  "}Perf`,
-						value: `${validatedConfigOptions.emoji.value && "🏎️  "}Perf`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🏎️  ")}Perf`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🏎️  ")}Perf`
 					},
 					{
 						hint: "Adding missing tests or correcting existing tests",
-						label: `${validatedConfigOptions.emoji.label && "🧪 "}Test`,
-						value: `${validatedConfigOptions.emoji.value && "🧪 "}Test`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🧪 ")}Test`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🧪 ")}Test`
 					},
 					{
 						hint: "Changes to the build process or auxiliary tools and libraries such as documentation generation",
-						label: `${validatedConfigOptions.emoji.label && "⚙️  "}Chore`,
-						value: `${validatedConfigOptions.emoji.value && "⚙️  "}Chore`
+						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "⚙️  ")}Chore`,
+						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "⚙️  ")}Chore`
 					}
 				]
 			},
@@ -156,11 +158,11 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				multiple: true,
 				required: true,
 				options: [
-					{ label: `${validatedConfigOptions.emoji.label && "🌍"}  Enviroment`, value: "enviroment" },
-					{ label: `${validatedConfigOptions.emoji.label && "📖"}  Docs`, value: "docs" },
-					{ label: `${validatedConfigOptions.emoji.label && "🌐"}  Website`, value: "web" },
-					{ label: `${validatedConfigOptions.emoji.label && "📱"}  Mobile`, value: "mobile" },
-					{ label: `${validatedConfigOptions.emoji.label && "🍃"} API`, value: "api" }
+					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🌍")}  Enviroment`, value: "enviroment" },
+					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "📖")}  Docs`, value: "docs" },
+					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🌐")}  Website`, value: "web" },
+					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "📱")}  Mobile`, value: "mobile" },
+					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🍃")} API`, value: "api" }
 				]
 			},
 			BREAKING_CHANGES: {
