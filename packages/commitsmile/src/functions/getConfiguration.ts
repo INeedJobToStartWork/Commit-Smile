@@ -1,10 +1,11 @@
 import { findConfig } from "@/functions";
 import type { TConfig } from "@/types";
-import { loadConfig } from "c12";
 import { logging } from "@/utils";
 import type { IMyError, TDetails, TMyErrorList } from "oh-my-error";
 import { is, validate } from "typia";
 import { exit } from "node:process";
+import type { ConfigLayerMeta, LoadConfigOptions, UserInputConfig } from "c12";
+import { loadConfig } from "c12";
 import defaultConfig from "@/defaultConfig";
 
 //----------------------
@@ -40,15 +41,11 @@ export const getConfiguration = async (pathInput = "./"): Promise<TConfig> => {
 	const configPath = findConfig(pathInput);
 	const nameFile = "commitsmile";
 
-	const config = await (async () => {
-		let { config } = await loadConfig<TConfig>({
-			name: nameFile,
-			configFile: configPath ?? undefined,
-			packageJson: true
-		});
-
-		return Object.keys(config).length == 0 ? defaultConfig() : config;
-	})();
+	const config = await loadConfigProxy<TConfig>({
+		name: nameFile,
+		configFile: configPath ?? undefined,
+		packageJson: true
+	});
 
 	if (!is<TConfig>(config)) {
 		logging.error(`${MyErrorList.WRONG_FORMAT.name}: ${MyErrorList.WRONG_FORMAT.message}`);
@@ -63,3 +60,14 @@ export const getConfiguration = async (pathInput = "./"): Promise<TConfig> => {
 };
 
 export default getConfiguration;
+
+//----------------------
+// Helpers
+//----------------------
+
+const loadConfigProxy = async <T extends UserInputConfig>(props: LoadConfigOptions<T, ConfigLayerMeta>) => {
+	let { config } = await loadConfig<T>(props);
+
+	// eslint-disable-next-line @typescript-eslint/return-await
+	return Object.keys(config).length == 0 ? await defaultConfig() : config;
+};

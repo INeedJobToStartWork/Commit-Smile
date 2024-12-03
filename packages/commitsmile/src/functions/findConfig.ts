@@ -1,6 +1,6 @@
 import { logging } from "@/utils";
-import { existsSync, readdirSync } from "fs";
-import path from "path";
+import { existsSync, readdirSync } from "node:fs";
+import path from "node:path";
 
 //----------------------
 // Functions
@@ -11,7 +11,7 @@ import path from "path";
  *
  * @param configPath Path to config
  * @returns Path to config if found
- * @internal @dontexport 
+ * @internal @dontexport
  */
 export function findConfig(configPath: string): string | undefined {
 	if (!existsSync(configPath)) return undefined;
@@ -24,7 +24,7 @@ export function findConfig(configPath: string): string | undefined {
 	const files = readdirSync(configPath);
 	for (const file of files) {
 		logging.debug(`File: ${file}`);
-		if (/commitsmile(\.[^.]+)*\.(js|ts|mjs|cjs|mts|ts|json|jsonc|json5|yaml|yml|toml)/iu.exec(file)) {
+		if (/commitsmile(\.[^.]+)*\.(js|ts|mjs|cjs|mts|json|jsonc|json5|yaml|yml|toml)/iu.test(file)) {
 			logging.debug("Config found");
 			return path.join(configPath, file);
 		}
