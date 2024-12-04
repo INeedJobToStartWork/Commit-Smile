@@ -56,13 +56,13 @@
 		"lodash.merge": "^4.6.2",
 		"oh-my-error": "^2.0.1",
 		"react": "^18.3.1",
-		"typia": "^6.12.2"
+		"typia": "6.12.2"
 	},
 	"devDependencies": {
 		"@ineedj/eslintrc": "^1.2.3",
 		"@ineedj/prettierrc": "^2.0.0",
 		"@ineedj/tsconfig": "^1.0.0",
-		"@ryoppippi/unplugin-typia": "^1.0.7",
+		"@ryoppippi/unplugin-typia": "1.0.7",
 		"@types/lodash.merge": "^4.6.9",
 		"@types/node": "^22.10.0",
 		"@types/react": "^18.3.12",
@@ -76,7 +76,9 @@
 		"lint-staged": "^15.2.10",
 		"prettier": "^3.4.1",
 		"ts-patch": "^3.2.1",
+		"ts-toolbelt": "^9.6.0",
 		"tsup": "^8.3.5",
+		"type-fest": "^4.30.0",
 		"typescript": "^5.6.3"
 	},
 	"bundledDependencies": [

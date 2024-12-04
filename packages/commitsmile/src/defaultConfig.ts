@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import type { TConfig } from "@/types";
+import type { TConfig, TConfigInput } from "@/types";
 import { deepMerge, logging } from "@/utils";
 import { myError, myErrorWrapper } from "oh-my-error";
 import type { IMyError, TMyErrorList } from "oh-my-error";
@@ -53,9 +53,9 @@ type TDefaultConfigProps = {
 //----------------------
 
 class ConfigPromise<T extends TConfig> extends Promise<T> {
-	async deepMerge(obj: TConfig) {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-		return this.then((data: TConfig) => deepMerge<Partial<TConfig>>(obj, data));
+	async deepMerge(obj: TConfigInput) {
+		// TODO: remove that as, but before that fix deepMerge
+		return this.then((data: TConfig) => deepMerge<TConfigInput>(obj, data as TConfigInput));
 	}
 }
 
@@ -182,5 +182,5 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				message: "Write longer description of commit (optional)"
 			}
 		}
-	} as const;
+	} as const satisfies TConfig;
 };

@@ -20,7 +20,7 @@
     "npm:publish": "changeset publish",
     "preinstall": "husky init",
     "pre": "turbo pre",
-    "pre:husky": "git add . && npx lint-staged",
+    "pre:husky": "husky && git add . && npx lint-staged",
     "prepare": "husky",
     "test": "echo \"Error: no test specified\""
   },

@@ -31,6 +31,9 @@ program
 		const Answers = await prompter.group(
 			{
 				changes: async () => select(config.prompts.CHANGES),
+				scopes2: async ({ results }) => {
+					console.log(results.changes);
+				},
 				scopes: async () => select(config.prompts.SCOPES),
 				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),

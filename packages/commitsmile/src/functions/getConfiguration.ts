@@ -1,8 +1,9 @@
-import { findConfig } from "@/functions";
+import { findConfig, parseConfig } from "@/functions";
 import type { TConfig } from "@/types";
 import { logging } from "@/utils";
 import type { IMyError, TDetails, TMyErrorList } from "oh-my-error";
-import { is, validate } from "typia";
+import { validate, is } from "typia";
+
 import { exit } from "node:process";
 import type { ConfigLayerMeta, LoadConfigOptions, UserInputConfig } from "c12";
 import { loadConfig } from "c12";
@@ -41,11 +42,13 @@ export const getConfiguration = async (pathInput = "./"): Promise<TConfig> => {
 	const configPath = findConfig(pathInput);
 	const nameFile = "commitsmile";
 
-	const config = await loadConfigProxy<TConfig>({
-		name: nameFile,
-		configFile: configPath ?? undefined,
-		packageJson: true
-	});
+	const config = parseConfig(
+		await loadConfigProxy<TConfig>({
+			name: nameFile,
+			configFile: configPath ?? undefined,
+			packageJson: true
+		})
+	);
 
 	if (!is<TConfig>(config)) {
 		logging.error(`${MyErrorList.WRONG_FORMAT.name}: ${MyErrorList.WRONG_FORMAT.message}`);

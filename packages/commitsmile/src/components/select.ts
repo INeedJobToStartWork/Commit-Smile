@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable require-atomic-updates */
 import { multiselect, select as cSelect, text, confirm } from "@clack/prompts";
-
 //----------------------
 // Types
 //----------------------
@@ -37,6 +36,7 @@ type TResult<T extends TSelectInput> =
 // Functions
 //----------------------
 
+/** @dontexport  TODO: TS-TOOLBELT COMPUTE WORK*/
 export type TSelectInput = FlatArray<Parameters<typeof multiselect>, 0> & {
 	/**
 	 *  How many custom values can be choosed?
@@ -69,6 +69,7 @@ export type TSelectInput = FlatArray<Parameters<typeof multiselect>, 0> & {
  * });
  * ```
  */
+
 export const select = async <T extends TSelectInput>(props: T) => {
 	const LABEL_FOR_CUSTOM = "Write your custom value:";
 	const compo = props.multiple ? multiselect : cSelect;

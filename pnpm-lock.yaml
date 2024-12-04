@@ -55,7 +55,7 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
       typia:
-        specifier: ^6.12.2
+        specifier: 6.12.2
         version: 6.12.2(@samchon/openapi@1.2.4)(typescript@5.7.2)
     devDependencies:
       '@ineedj/eslintrc':
@@ -68,7 +68,7 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       '@ryoppippi/unplugin-typia':
-        specifier: ^1.0.7
+        specifier: 1.0.7
         version: 1.0.7(@samchon/openapi@1.2.4)(@types/node@22.10.0)(rollup@4.27.4)
       '@types/lodash.merge':
         specifier: ^4.6.9
@@ -109,9 +109,15 @@ importers:
       ts-patch:
         specifier: ^3.2.1
         version: 3.2.1
+      ts-toolbelt:
+        specifier: ^9.6.0
+        version: 9.6.0
       tsup:
         specifier: ^8.3.5
         version: 8.3.5(jiti@2.4.0)(postcss@8.4.49)(typescript@5.7.2)(yaml@2.5.1)
+      type-fest:
+        specifier: ^4.30.0
+        version: 4.30.0
       typescript:
         specifier: ^5.6.3
         version: 5.7.2
@@ -3958,6 +3964,9 @@ packages:
     resolution: {integrity: sha512-hlR43v+GUIUy8/ZGFP1DquEqPh7PFKQdDMTAmYt671kCCA6AkDQMoeFaFmZ7ObPLYOmpMgyKUqL1C+coFMf30w==}
     hasBin: true
 
+  ts-toolbelt@9.6.0:
+    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
+
   tsconfig-paths@3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
 
@@ -4050,8 +4059,8 @@ packages:
     resolution: {integrity: sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==}
     engines: {node: '>=14.16'}
 
-  type-fest@4.28.1:
-    resolution: {integrity: sha512-LO/+yb3mf46YqfUC7QkkoAlpa7CTYh//V1Xy9+NQ+pKqDqXIq0NTfPfQRwFfCt+if4Qkwb9gzZfsl6E5TkXZGw==}
+  type-fest@4.30.0:
+    resolution: {integrity: sha512-G6zXWS1dLj6eagy6sVhOMQiLtJdxQBHIA9Z6HFUNLOlr6MFOgzV8wvmidtPONfPtEUv0uZsy77XJNzTAfwPDaA==}
     engines: {node: '>=16'}
 
   typed-array-buffer@1.0.2:
@@ -5020,7 +5029,7 @@ snapshots:
       magic-string: 0.30.14
       pathe: 1.1.2
       pkg-types: 1.2.1
-      type-fest: 4.28.1
+      type-fest: 4.30.0
       typescript: 5.5.4
       typia: 6.12.2(@samchon/openapi@1.2.4)(typescript@5.5.4)
       unplugin: 1.16.0
@@ -7064,7 +7073,7 @@ snapshots:
       slice-ansi: 7.1.0
       stack-utils: 2.0.6
       string-width: 7.2.0
-      type-fest: 4.28.1
+      type-fest: 4.30.0
       widest-line: 5.0.0
       wrap-ansi: 9.0.0
       ws: 8.18.0
@@ -8831,6 +8840,8 @@ snapshots:
       semver: 7.6.3
       strip-ansi: 6.0.1
 
+  ts-toolbelt@9.6.0: {}
+
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -8915,7 +8926,7 @@ snapshots:
 
   type-fest@3.13.1: {}
 
-  type-fest@4.28.1: {}
+  type-fest@4.30.0: {}
 
   typed-array-buffer@1.0.2:
     dependencies:

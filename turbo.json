@@ -18,6 +18,9 @@
     "npm:prepack": {},
     "npm:postpack": {},
     "prepublishOnly": {},
+    "prepare": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true

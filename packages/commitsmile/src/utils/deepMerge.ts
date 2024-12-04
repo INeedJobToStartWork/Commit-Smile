@@ -5,21 +5,22 @@
 //----------------------
 
 /**
-* Deep merge two objects recursively.
-* @description Combines two objects, with primary object taking precedence. Handles nested objects but not arrays.
-* 
-* @param primaryObject - The main object whose values take precedence
-* @param defaultObject - The fallback object with default values
-* @returns A new merged object combining both inputs
-* 
-* @example
-* ```typescript
-* const primary = { a: 1, b: { x: 2 } };
-* const defaults = { a: 0, b: { y: 3 }, c: 4 };
-* deepMerge(primary, defaults); 
-* // Result: { a: 1, b: { x: 2, y: 3 }, c: 4 }
-* ```
-*/
+ * Deep merge two objects recursively.
+ * @description Combines two objects, with primary object taking precedence. Handles nested objects but not arrays.
+ *
+ * @param primaryObject - The main object whose values take precedence
+ * @param defaultObject - The fallback object with default values
+ * @returns A new merged object combining both inputs
+ *
+ * @example
+ * ```typescript
+ * const primary = { a: 1, b: { x: 2 } };
+ * const defaults = { a: 0, b: { y: 3 }, c: 4 };
+ * deepMerge(primary, defaults);
+ * // Result: { a: 1, b: { x: 2, y: 3 }, c: 4 }
+ * ```
+ */
+//TODO: Fix that types
 export const deepMerge = <T>(primaryObject: T, defaultObject: T): T => {
 	if (primaryObject == undefined) return defaultObject;
 	if (defaultObject == undefined) return primaryObject;

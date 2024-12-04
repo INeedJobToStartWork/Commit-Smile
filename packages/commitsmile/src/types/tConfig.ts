@@ -1,5 +1,8 @@
 import type { TSelectInput } from "@/components";
+import type { TparseSelectOptionsAccept } from "@/functions";
 import type { text, confirm } from "@clack/prompts";
+import type { A } from "ts-toolbelt";
+import type { OmitDeep, PartialDeep } from "type-fest";
 
 export type TOptionText = FlatArray<Parameters<typeof text>, 0>;
 export type TConfirmFlat = FlatArray<Parameters<typeof confirm>, 0>;
@@ -17,7 +20,7 @@ type formatProps = {
 	CHANGES: string;
 	COMMIT_SHORT: string;
 	SCOPES: string[] | string;
-}
+};
 
 type formatter<T extends Exclude<TStages, "COMMIT_DESCRIPTION"> = Exclude<TStages, "COMMIT_DESCRIPTION">> = {
 	[P in T]: (value: formatterProps[P]) => string;
@@ -25,7 +28,7 @@ type formatter<T extends Exclude<TStages, "COMMIT_DESCRIPTION"> = Exclude<TStage
 
 /**
  * Configuration type definition for the `commitsmile` package.
- * 
+ *
  * Defines the structure and formatting rules for commit messages.
  * @author commitsmile
  */
@@ -36,13 +39,13 @@ export type TConfig = {
 		 * Final format of commit.
 		 * @param props - Object containing all formatted commit parts (changes, scopes, breaking changes, etc.)
 		 * @returns A formatted commit message string
-		 * 
+		 *
 		 * @example
 		 * ```typescript
 		 * format: props => `${props.CHANGES}${props.SCOPES}${props.BREAKING_CHANGES}: ${props.COMMIT_SHORT}`,
 		 * ```
 		 */
-		format: (props: formatProps ) => string;
+		format: (props: formatProps) => string;
 		/** Formatters responsible to transform input for every stage */
 		formatter: formatter;
 	};
@@ -56,3 +59,16 @@ export type TConfig = {
 	};
 };
 
+/**
+ * Pre-Parse Configuration type definition for the `commitsmile` package.
+ *
+ * Defines the structure and formatting rules for commit messages.
+ * @author commitsmile
+ */
+export type TConfigInput = OmitDeep<PartialDeep<TConfig>, "prompts.CHANGES.options" | "prompts.SCOPES.options"> & {
+	/** Part of Config responsible for Commit Stages. */
+	prompts: {
+		CHANGES?: { options: Array<A.Compute<TparseSelectOptionsAccept, "deep">> };
+		SCOPES?: { options: Array<A.Compute<TparseSelectOptionsAccept, "deep">> };
+	};
+};
