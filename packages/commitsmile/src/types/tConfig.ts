@@ -33,6 +33,28 @@ type formatter<T extends Exclude<TStages, "COMMIT_DESCRIPTION"> = Exclude<TStage
  * @author commitsmile
  */
 export type TConfig = {
+	/**
+	 * Final commands to execute after the 'isCorrect' stage, in the order of object keys.
+	 *
+	 *
+	 * Accepts strings or functions.
+	 * @example @default
+	 * {
+	 *   gitAdd: "git add .",
+	 *   commit: (results) => "git commit -m '${results.format()}' ${results.commitDescription ? '-m "${results.commitDescription}"' : ''}"
+	 * }
+	 */
+	finalCommands: Record<
+		string,
+		| string
+		| ((results: {
+				BREAKING_CHANGES: string;
+				CHANGES: string;
+				COMMIT_SHORT: string;
+				SCOPES: string;
+				format: () => string;
+		  }) => string)
+	>;
 	/** Part of Config responsible for commit format. */
 	formatter: {
 		/**

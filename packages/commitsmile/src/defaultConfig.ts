@@ -11,7 +11,7 @@ import { is } from "typia";
 //----------------------
 // MyError
 //----------------------
-
+/** @internal @dontexport */
 const MyErrorList = {
 	WRONG_CONFIG: {
 		name: "Wrong Config",
@@ -25,7 +25,7 @@ const MyErrorList = {
 // Types
 //----------------------
 /**
- *
+ * Props Type for `defaultConfig`
  */
 type TDefaultConfigProps = {
 	/**
@@ -181,6 +181,11 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 			COMMIT_DESCRIPTION: {
 				message: "Write longer description of commit (optional)"
 			}
+		},
+		finalCommands: {
+			gitAdd: "git add .",
+			commit: Answers =>
+				`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`
 		}
 	} as const satisfies TConfig;
 };

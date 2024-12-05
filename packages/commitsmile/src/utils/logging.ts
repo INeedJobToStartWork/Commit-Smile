@@ -12,7 +12,7 @@ import chalk from "chalk";
  * @internal
  * @dontexport
  * */
-export  class logging {
+export class logging {
 	static log(...data: unknown[]): void {
 		console.log(...data);
 	}
@@ -32,4 +32,4 @@ export  class logging {
 		console.warn(chalk.bgYellow(" WARN "), ...data);
 	}
 }
-export default logging
+export default logging;
