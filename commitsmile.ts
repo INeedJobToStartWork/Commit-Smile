@@ -1,6 +1,5 @@
 import { defaultConfig } from "./packages/commitsmile/lib/index";
 
-// export default defaultConfig().deepMerge({});
 // export default defaultConfig().deepMerge({
 //   prompts: {
 //     CHANGES: {

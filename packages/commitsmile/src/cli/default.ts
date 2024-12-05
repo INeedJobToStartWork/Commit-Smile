@@ -57,13 +57,14 @@ program
 				commitDescription: async () => prompter.text(config.prompts.COMMIT_DESCRIPTION),
 				// eslint-disable-next-line @typescript-eslint/require-await
 				commit: async ({ results }) => {
-					const { changes, scopes, commitShort, breakingChanges } = results;
+					const { changes, scopes, commitShort, commitDescription, breakingChanges } = results;
 
 					return {
 						CHANGES: config.formatter.formatter.CHANGES(changes as string),
 						SCOPES: config.formatter.formatter.SCOPES(scopes as string[] | string),
 						BREAKING_CHANGES: config.formatter.formatter.BREAKING_CHANGES(breakingChanges ?? false),
 						COMMIT_SHORT: config.formatter.formatter.COMMIT_SHORT(commitShort ?? ""),
+						COMMIT_DESCRIPTION: commitDescription,
 						format: function () {
 							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @EslintUnusedImports/no-unused-vars, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 							const { format, ...rest } = this as any;
@@ -86,7 +87,7 @@ program
 					return result;
 				},
 				after: async ({ results }): Promise<void> => {
-					if (!results.isCorrect) return void 0;
+					if (!results.isCorrect || !config.finalCommands) return void 0;
 					for (const [index, value] of Object.values(config.finalCommands).entries()) {
 						myErrorWrapper(
 							() => {

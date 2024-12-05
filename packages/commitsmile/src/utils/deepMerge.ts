@@ -3,7 +3,7 @@
 //----------------------
 // Functions
 //----------------------
-
+// export const deepMerge = <T extends U & object, U extends object>(primaryObject?: T, defaultObject?: U) => {
 /**
  * Deep merge two objects recursively.
  * @description Combines two objects, with primary object taking precedence. Handles nested objects but not arrays.
@@ -20,10 +20,10 @@
  * // Result: { a: 1, b: { x: 2, y: 3 }, c: 4 }
  * ```
  */
-//TODO: Fix that types
+
 export const deepMerge = <T>(primaryObject: T, defaultObject: T): T => {
-	if (primaryObject == undefined) return defaultObject;
-	if (defaultObject == undefined) return primaryObject;
+	if (primaryObject == void 0) return defaultObject;
+	if (defaultObject == void 0) return primaryObject;
 	if (typeof primaryObject !== "object" || typeof defaultObject !== "object") return primaryObject;
 
 	const result = { ...primaryObject };

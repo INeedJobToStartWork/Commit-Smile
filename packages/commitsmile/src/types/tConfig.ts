@@ -44,12 +44,13 @@ export type TConfig = {
 	 *   commit: (results) => "git commit -m '${results.format()}' ${results.commitDescription ? '-m "${results.commitDescription}"' : ''}"
 	 * }
 	 */
-	finalCommands: Record<
+	finalCommands?: Record<
 		string,
 		| string
 		| ((results: {
 				BREAKING_CHANGES: string;
 				CHANGES: string;
+				COMMIT_DESCRIPTION: string;
 				COMMIT_SHORT: string;
 				SCOPES: string;
 				format: () => string;

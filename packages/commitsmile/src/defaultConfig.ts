@@ -6,7 +6,6 @@ import type { TConfig, TConfigInput } from "@/types";
 import { deepMerge, logging } from "@/utils";
 import { myError, myErrorWrapper } from "oh-my-error";
 import type { IMyError, TMyErrorList } from "oh-my-error";
-import { is } from "typia";
 
 //----------------------
 // MyError
@@ -22,30 +21,42 @@ const MyErrorList = {
 } as const satisfies TMyErrorList<IMyError>;
 
 //----------------------
-// Types
+// Types (Molecular &Organism)
 //----------------------
+
 /**
  * Props Type for `defaultConfig`
  */
-type TDefaultConfigProps = {
+type TDefaultConfigProps<Parsed extends boolean = false> = {
 	/**
 	 * If false, emojis are removed from the default config
 	 * @defaultValue true
 	 */
-	emoji:
+	emoji: Parsed extends true ? Temoji : Temoji | boolean;
+	/** If false, final commands are removed from config. @defaultValue true */
+	finalCommands:
 		| boolean
 		| {
-				/**
-				 * If false, emojis are removed from labels at prompts.
-				 * @defaultValue true
-				 */
-				label: boolean;
-				/**
-				 * If false, emojis are removed from passed values.
-				 * @defaultValue true
-				 */
-				value: boolean;
+				//TODO: Change that in future for better Typed but still full flexible
+				/** Remove object keys from finalCommands default config  @defaultValue []*/
+				remove: string[];
 		  };
+};
+//----------------------
+// Types (Atoms)
+//----------------------
+/** @dontexport */
+type Temoji = {
+	/**
+	 * If false, emojis are removed from labels at prompts.
+	 * @defaultValue true
+	 */
+	label: boolean;
+	/**
+	 * If false, emojis are removed from passed values.
+	 * @defaultValue true
+	 */
+	value: boolean;
 };
 
 //----------------------
@@ -79,20 +90,23 @@ export default defaultConfig;
 //----------------------
 
 /** @dontexport */
-const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConfig => {
+const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 	logging.debug(configOptions);
-	const validatedConfigOptions = myErrorWrapper(() => {
-		let result: TDefaultConfigProps = configOptions;
-		if (typeof configOptions.emoji == "boolean") {
-			result = { emoji: { label: configOptions.emoji, value: configOptions.emoji } };
-		}
-		type toParse = { emoji: { label: boolean; value: boolean } };
-		if (!is<toParse>(result)) logging.error(`Not this type! ${result}`);
-		return result as toParse;
-	}, myError(MyErrorList.WRONG_CONFIG))();
+	const validatedConfigOptions = myErrorWrapper(parseConfigOptions, myError(MyErrorList.WRONG_CONFIG))(configOptions);
 
 	const getStringIfTrue = (condition: boolean, str: string) => (condition ? str : "");
+	const getFinalCommands = (defaultSettings: TConfig["finalCommands"]): TConfig["finalCommands"] => {
+		if (defaultSettings == void 0) return {};
+		if (typeof validatedConfigOptions.finalCommands == "boolean") {
+			return validatedConfigOptions.finalCommands ? defaultSettings : {};
+		}
 
+		let result = defaultSettings;
+
+		for (const el of validatedConfigOptions.finalCommands.remove) delete result[el];
+
+		return result;
+	};
 	return {
 		formatter: {
 			format: props => `${props.CHANGES}${props.SCOPES}${props.BREAKING_CHANGES}: ${props.COMMIT_SHORT}`,
@@ -182,10 +196,32 @@ const configData = (configOptions: TDefaultConfigProps = { emoji: true }): TConf
 				message: "Write longer description of commit (optional)"
 			}
 		},
-		finalCommands: {
+		finalCommands: getFinalCommands({
 			gitAdd: "git add .",
 			commit: Answers =>
-				`git commit -m "${Answers.commit}" ${Answers.commitDescription ? `-m "${Answers.commitDescription}"` : ""}`
-		}
+				// eslint-disable-next-line @EslintSonar/no-nested-template-literals
+				`git commit -m "${Answers.format()}" ${getStringIfTrue(Boolean(Answers.COMMIT_DESCRIPTION), `-m "${Answers.COMMIT_DESCRIPTION}"`)}`
+		})
 	} as const satisfies TConfig;
+};
+
+//----------------------
+// Config Helper
+//----------------------
+
+/**
+ * Parser of `configOptions` at `configData`
+ * @internal @dontexport
+ */
+const parseConfigOptions = (
+	configOptions: Parameters<typeof configData>[0] = { emoji: true, finalCommands: true }
+): TDefaultConfigProps<true> => {
+	let result = deepMerge(configOptions, { emoji: true, finalCommands: true });
+
+	// Parse Emoji
+	if (typeof result.emoji == "boolean") {
+		result.emoji = { label: result.emoji, value: result.emoji };
+	}
+	// TODO: Fix it - remove as
+	return result as unknown as TDefaultConfigProps<true>;
 };
