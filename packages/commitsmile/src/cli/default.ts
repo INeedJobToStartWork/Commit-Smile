@@ -10,6 +10,7 @@ import { select } from "@/components";
 import type { IMyError, TMyErrorList } from "oh-my-error";
 import { myError, myErrorWrapper } from "oh-my-error";
 import { spawnSync } from "node:child_process";
+import getWorkspaces from "@/functions/getWorkspaces";
 
 //----------------------
 // MyError
@@ -45,31 +46,83 @@ program
 
 		const config = await getConfiguration(options.config);
 
+		logging.debug("ALL WORKSPACES: ", getWorkspaces(options.config));
+
 		// Cli Prompt Stages
 		// TODO: Own group component with better typing
 		// TODO: Remove Eslint/TS ignores comments cuz of wrong component Typing.
 		const Answers = await prompter.group(
 			{
 				changes: async () => select(config.prompts.CHANGES),
-				scopes: async () => select(config.prompts.SCOPES),
+				scopes: async () =>
+					// TODO: Option To Show Packages from monoerpos
+					// TODO: Option To Show only changed packages,
+					// const test = Object.keys(getWorkspaces(options.config));
+					// const optionsToAdd = test.map(el => ({
+					// 	label: `📦 ${String(el[0]).toUpperCase() + String(el).slice(1)}`,
+					// 	value: el,
+					// 	hint: "Repo"
+					// }));
+
+					// return select({ ...config.prompts.SCOPES, options: [...optionsToAdd, ...config.prompts.SCOPES.options] });
+					select(config.prompts.SCOPES),
 				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),
+				// commitDescription: async () => {
+				// 	// TODO:
+				// 	// Option to skip this stage totally
+				// 	const choice =
+				// 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				// 		config.prompts.COMMIT_DESCRIPTION.always ||
+				// 		(await select({
+				// 			message: "What do you want to do?",
+				// 			required: true,
+				// 			options: [
+				// 				{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
+				// 				{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
+				// 				{ label: "Skip", value: "skip" }
+				// 			]
+				// 		}));
+
+				// 	if (choice == "skip") return void 0;
+				// 	if (choice == "editor") {
+				// 		return "editor";
+				// 	}
+				// 	if (choice == "inline") {
+				// 		return prompter.text(config.prompts.COMMIT_DESCRIPTION);
+				// 	}
+				// },
 				commitDescription: async () => {
 					// TODO:
 					// Option to skip this stage totally
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+					// const choice =
+					// 	"always" in config.prompts.COMMIT_DESCRIPTION
+					// 		? config.prompts.COMMIT_DESCRIPTION.always
+					// 		: await select({
+					// 				message: "What do you want to do?",
+					// 				required: true,
+					// 				options: [
+					// 					{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
+					// 					{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
+					// 					{ label: "Skip", value: "skip" }
+					// 				]
+					// 			});
+					const choice =
+						config.prompts.COMMIT_DESCRIPTION.always ??
+						(await select({
+							message: "What do you want to do?",
+							required: true,
+							options: [
+								{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
+								{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
+								{ label: "Skip", value: "skip" }
+							]
+						}));
 
-					const choice = await select({
-						message: "What do you want to do?",
-						required: true,
-						options: [
-							{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
-							{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
-							{ label: "Skip", value: "skip" }
-						]
-					});
-					if (choice == "skip") return void 0;
 					if (choice == "inline") return prompter.text(config.prompts.COMMIT_DESCRIPTION);
-					return "editor";
+					if (choice == "editor") return "editor";
+					if (choice == "skip") return void 0;
 				},
 				// eslint-disable-next-line @typescript-eslint/require-await
 				commit: async ({ results }) => {

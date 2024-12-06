@@ -77,7 +77,11 @@ export type TConfig = {
 	prompts: {
 		BREAKING_CHANGES: TConfirmFlat;
 		CHANGES: TSelectInput;
-		COMMIT_DESCRIPTION: TOptionText;
+		COMMIT_DESCRIPTION:
+			| { always: "editor" | "skip" }
+			| (TOptionText & { always: "inline" })
+			| (TOptionText & { always?: "editor" | "inline" | "skip" });
+
 		COMMIT_SHORT: TOptionText;
 		SCOPES: TSelectInput;
 	};
