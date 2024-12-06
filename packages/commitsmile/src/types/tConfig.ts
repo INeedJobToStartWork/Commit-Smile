@@ -50,7 +50,8 @@ export type TConfig = {
 		| ((results: {
 				BREAKING_CHANGES: string;
 				CHANGES: string;
-				COMMIT_DESCRIPTION: string;
+				// eslint-disable-next-line @typescript-eslint/ban-types
+				COMMIT_DESCRIPTION: "editor" | (string & {}) | undefined;
 				COMMIT_SHORT: string;
 				SCOPES: string;
 				format: () => string;

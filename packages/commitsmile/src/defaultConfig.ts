@@ -198,9 +198,13 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 		},
 		finalCommands: getFinalCommands({
 			gitAdd: "git add .",
-			commit: Answers =>
+			commit: Answers => {
+				if (Answers.COMMIT_DESCRIPTION == "editor") {
+					return `git commit ${getStringIfTrue(Boolean(Answers.COMMIT_DESCRIPTION), "-e")} -m "${Answers.format()}"`;
+				}
 				// eslint-disable-next-line @EslintSonar/no-nested-template-literals
-				`git commit -m "${Answers.format()}" ${getStringIfTrue(Boolean(Answers.COMMIT_DESCRIPTION), `-m "${Answers.COMMIT_DESCRIPTION}"`)}`
+				return `git commit -m "${Answers.format()}" ${getStringIfTrue(Boolean(Answers.COMMIT_DESCRIPTION), `-m "${Answers.COMMIT_DESCRIPTION}"`)}`;
+			}
 		})
 	} as const satisfies TConfig;
 };

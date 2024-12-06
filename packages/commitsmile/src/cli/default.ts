@@ -54,7 +54,23 @@ program
 				scopes: async () => select(config.prompts.SCOPES),
 				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),
-				commitDescription: async () => prompter.text(config.prompts.COMMIT_DESCRIPTION),
+				commitDescription: async () => {
+					// TODO:
+					// Option to skip this stage totally
+
+					const choice = await select({
+						message: "What do you want to do?",
+						required: true,
+						options: [
+							{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
+							{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
+							{ label: "Skip", value: "skip" }
+						]
+					});
+					if (choice == "skip") return void 0;
+					if (choice == "inline") return prompter.text(config.prompts.COMMIT_DESCRIPTION);
+					return "editor";
+				},
 				// eslint-disable-next-line @typescript-eslint/require-await
 				commit: async ({ results }) => {
 					const { changes, scopes, commitShort, commitDescription, breakingChanges } = results;
