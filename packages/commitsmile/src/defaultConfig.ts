@@ -218,10 +218,9 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
  * Parser of `configOptions` at `configData`
  * @internal @dontexport
  */
-const parseConfigOptions = (
-	configOptions: Parameters<typeof configData>[0] = { emoji: true, finalCommands: true }
-): TDefaultConfigProps<true> => {
-	let result = deepMerge(configOptions, { emoji: true, finalCommands: { remove: ["gitPush"] } });
+const parseConfigOptions = (configOptions?: Parameters<typeof configData>[0]): TDefaultConfigProps<true> => {
+	const defaultOptions = { emoji: true, finalCommands: { remove: ["gitPush"] } };
+	let result = configOptions ? deepMerge(configOptions, defaultOptions) : defaultOptions;
 
 	// Parse Emoji
 	if (typeof result.emoji == "boolean") {
