@@ -30,15 +30,15 @@ const MyErrorList = {
 type TDefaultConfigProps<Parsed extends boolean = false> = {
 	/**
 	 * If false, emojis are removed from the default config
-	 * @defaultValue true
+	 * @default true
 	 */
 	emoji: Parsed extends true ? Temoji : Temoji | boolean;
-	/** If false, final commands are removed from config. @defaultValue true */
+	/** If false, final commands are removed from config. @default { remove:["gitPush"]}  */
 	finalCommands:
 		| boolean
 		| {
 				//TODO: Change that in future for better Typed but still full flexible
-				/** Remove object keys from finalCommands default config  @defaultValue []*/
+				/** Remove object keys from finalCommands default config  @default ["gitPush"]*/
 				remove: string[];
 		  };
 };
@@ -49,12 +49,12 @@ type TDefaultConfigProps<Parsed extends boolean = false> = {
 type Temoji = {
 	/**
 	 * If false, emojis are removed from labels at prompts.
-	 * @defaultValue true
+	 * @default true
 	 */
 	label: boolean;
 	/**
 	 * If false, emojis are removed from passed values.
-	 * @defaultValue true
+	 * @default true
 	 */
 	value: boolean;
 };
@@ -204,7 +204,8 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 				}
 				// eslint-disable-next-line @EslintSonar/no-nested-template-literals
 				return `git commit -m "${Answers.format()}" ${getStringIfTrue(Boolean(Answers.COMMIT_DESCRIPTION), `-m "${Answers.COMMIT_DESCRIPTION}"`)}`;
-			}
+			},
+			gitPush: "git push"
 		})
 	} as const satisfies TConfig;
 };
@@ -220,12 +221,13 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 const parseConfigOptions = (
 	configOptions: Parameters<typeof configData>[0] = { emoji: true, finalCommands: true }
 ): TDefaultConfigProps<true> => {
-	let result = deepMerge(configOptions, { emoji: true, finalCommands: true });
+	let result = deepMerge(configOptions, { emoji: true, finalCommands: { remove: ["gitPush"] } });
 
 	// Parse Emoji
 	if (typeof result.emoji == "boolean") {
 		result.emoji = { label: result.emoji, value: result.emoji };
 	}
+
 	// TODO: Fix it - remove as
 	return result as unknown as TDefaultConfigProps<true>;
 };

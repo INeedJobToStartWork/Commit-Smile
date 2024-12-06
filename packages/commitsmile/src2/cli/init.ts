@@ -70,7 +70,7 @@ program
 					prompter.text({
 						message: "Enter filename (without ext):",
 						initialValue: "commitSmile",
-						defaultValue: "commitSmile",
+						default: "commitSmile",
 						validate(text) {
 							if (/\.(ts|cts|mts|js|cjs|mjs|json)$/.exec(text)) {
 								return "Remove Extention from filename (one of : ts|cts|mts|js|cjs|mjs|json)!";
