@@ -69,6 +69,7 @@ program
 				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),
 				commitDescription: async () => {
+<<<<<<< HEAD
 					// const choice =
 					// 	config.prompts.COMMIT_DESCRIPTION.always ??
 					// 	(await select({
@@ -95,6 +96,20 @@ program
 								});
 
 					// @ts-expect-error - Wrong Type checking. if choice == "inline" it have to be filled cuz configParser would crush
+=======
+					// TODO:
+					// Option to skip this stage totally
+					const choice = await select({
+						message: "What do you want to do?",
+						required: true,
+						options: [
+							{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
+							{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
+							{ label: "Skip", value: "skip" }
+						]
+					});
+					if (choice == "skip") return void 0;
+>>>>>>> origin/main
 					if (choice == "inline") return prompter.text(config.prompts.COMMIT_DESCRIPTION);
 					if (choice == "editor") return "editor";
 					return void 0;
