@@ -68,61 +68,36 @@ program
 					select(config.prompts.SCOPES),
 				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),
-				// commitDescription: async () => {
-				// 	// TODO:
-				// 	// Option to skip this stage totally
-				// 	const choice =
-				// 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-				// 		config.prompts.COMMIT_DESCRIPTION.always ||
-				// 		(await select({
-				// 			message: "What do you want to do?",
-				// 			required: true,
-				// 			options: [
-				// 				{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
-				// 				{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
-				// 				{ label: "Skip", value: "skip" }
-				// 			]
-				// 		}));
-
-				// 	if (choice == "skip") return void 0;
-				// 	if (choice == "editor") {
-				// 		return "editor";
-				// 	}
-				// 	if (choice == "inline") {
-				// 		return prompter.text(config.prompts.COMMIT_DESCRIPTION);
-				// 	}
-				// },
 				commitDescription: async () => {
-					// TODO:
-					// Option to skip this stage totally
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 					// const choice =
-					// 	"always" in config.prompts.COMMIT_DESCRIPTION
-					// 		? config.prompts.COMMIT_DESCRIPTION.always
-					// 		: await select({
-					// 				message: "What do you want to do?",
-					// 				required: true,
-					// 				options: [
-					// 					{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
-					// 					{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
-					// 					{ label: "Skip", value: "skip" }
-					// 				]
-					// 			});
-					const choice =
-						config.prompts.COMMIT_DESCRIPTION.always ??
-						(await select({
-							message: "What do you want to do?",
-							required: true,
-							options: [
-								{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
-								{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
-								{ label: "Skip", value: "skip" }
-							]
-						}));
+					// 	config.prompts.COMMIT_DESCRIPTION.always ??
+					// 	(await select({
+					// 		message: "What do you want to do?",
+					// 		required: true,
+					// 		options: [
+					// 			{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
+					// 			{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
+					// 			{ label: "Skip", value: "skip" }
+					// 		]
+					// 	}));
 
+					const choice =
+						"always" in config.prompts.COMMIT_DESCRIPTION
+							? config.prompts.COMMIT_DESCRIPTION.always
+							: await select({
+									message: "What do you want to do?",
+									required: true,
+									options: [
+										{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
+										{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
+										{ label: "Skip", value: "skip" }
+									]
+								});
+
+					// @ts-expect-error - Wrong Type checking. if choice == "inline" it have to be filled cuz configParser would crush
 					if (choice == "inline") return prompter.text(config.prompts.COMMIT_DESCRIPTION);
 					if (choice == "editor") return "editor";
-					if (choice == "skip") return void 0;
+					return void 0;
 				},
 				// eslint-disable-next-line @typescript-eslint/require-await
 				commit: async ({ results }) => {

@@ -192,10 +192,9 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 					return void 0;
 				}
 			},
-			COMMIT_DESCRIPTION: { always: "editor" }
-			// COMMIT_DESCRIPTION: {
-			// 	message: "Write longer description of commit (optional)"
-			// }
+			COMMIT_DESCRIPTION: {
+				message: "Write longer description of commit (optional)"
+			}
 		},
 		finalCommands: getFinalCommands({
 			gitAdd: "git add .",
