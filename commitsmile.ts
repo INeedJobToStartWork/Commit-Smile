@@ -1,5 +1,10 @@
 import { defaultConfig } from "./packages/commitsmile/lib/index";
 
+export default defaultConfig().deepMerge({
+  prompts: {
+    COMMIT_DESCRIPTION: { always: "skip" },
+  },
+});
 // export default defaultConfig().deepMerge({
 //   prompts: {
 //     CHANGES: {

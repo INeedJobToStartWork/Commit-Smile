@@ -9,7 +9,7 @@ export default defineConfig({
 	format: ["esm"],
 	noExternal: ["typia"],
 
-	esbuildPlugins: [typiaPlug({ tsconfig: "./tsconfig.json" })],
+	esbuildPlugins: [typiaPlug({ tsconfig: "./tsconfig.json", cache: true })],
 	banner: ({ format }) => {
 		if (format === "esm") {
 			const banner = `

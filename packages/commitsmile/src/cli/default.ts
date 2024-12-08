@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable new-cap */
-import { getConfiguration } from "@/functions";
+import { getConfiguration, stageGroup } from "@/functions";
 import type { TOptionsConfig, TOptionsDebugger } from "@/helpers";
 import { optionConfig, optionDebugger } from "@/helpers";
 import { logging } from "@/utils";
@@ -51,7 +52,7 @@ program
 		// Cli Prompt Stages
 		// TODO: Own group component with better typing
 		// TODO: Remove Eslint/TS ignores comments cuz of wrong component Typing.
-		const Answers = await prompter.group(
+		const Answers = await stageGroup(
 			{
 				changes: async () => select(config.prompts.CHANGES),
 				scopes: async () =>
@@ -66,21 +67,10 @@ program
 
 					// return select({ ...config.prompts.SCOPES, options: [...optionsToAdd, ...config.prompts.SCOPES.options] });
 					select(config.prompts.SCOPES),
+
 				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),
 				commitDescription: async () => {
-					// const choice =
-					// 	config.prompts.COMMIT_DESCRIPTION.always ??
-					// 	(await select({
-					// 		message: "What do you want to do?",
-					// 		required: true,
-					// 		options: [
-					// 			{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
-					// 			{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
-					// 			{ label: "Skip", value: "skip" }
-					// 		]
-					// 	}));
-
 					const choice =
 						"always" in config.prompts.COMMIT_DESCRIPTION
 							? config.prompts.COMMIT_DESCRIPTION.always
@@ -92,43 +82,59 @@ program
 										{ label: "Inline description", hint: "Go to text prompt", value: "inline" },
 										{ label: "Skip", value: "skip" }
 									]
-								});
+								} as const);
 
 					// @ts-expect-error - Wrong Type checking. if choice == "inline" it have to be filled cuz configParser would crush
 					if (choice == "inline") return prompter.text(config.prompts.COMMIT_DESCRIPTION);
 					if (choice == "editor") return "editor";
 					return void 0;
 				},
-				// eslint-disable-next-line @typescript-eslint/require-await
-				commit: async ({ results }) => {
+
+				commit: ({ results }) => {
 					const { changes, scopes, commitShort, commitDescription, breakingChanges } = results;
 
 					return {
 						CHANGES: config.formatter.formatter.CHANGES(changes as string),
 						SCOPES: config.formatter.formatter.SCOPES(scopes as string[] | string),
-						BREAKING_CHANGES: config.formatter.formatter.BREAKING_CHANGES(breakingChanges ?? false),
-						COMMIT_SHORT: config.formatter.formatter.COMMIT_SHORT(commitShort ?? ""),
+						BREAKING_CHANGES: config.formatter.formatter.BREAKING_CHANGES((breakingChanges as boolean) ?? false),
+						COMMIT_SHORT: config.formatter.formatter.COMMIT_SHORT(commitShort as string),
 						COMMIT_DESCRIPTION: commitDescription,
 						format: function () {
 							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @EslintUnusedImports/no-unused-vars, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 							const { format, ...rest } = this as any;
 							return config.formatter.format(rest as Parameters<typeof config.formatter.format>[0]);
 						}
-					} as const;
+					};
 				},
-				isCorrect: async ({ results }) => {
+				isCorrect: async ({ results, order }) => {
 					const { commit } = results;
 
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-					prompter.note((commit as any).format());
-					const result = await prompter.confirm({ message: "Commit message is correct?" });
-					// TODO: Back to Stages if it's not like they wanted
+					prompter.note(commit.format());
 
-					if (prompter.isCancel(result) || !result) {
-						prompter.cancel("Commit message is canceled!");
-						exit(0);
+					const choice = await select({
+						message: "Commit message is correct?",
+						required: true,
+
+						options: [
+							{ label: "Yes", value: "Yes" },
+							{ label: "No, i want to change", value: "Change" },
+							{ label: "Cancel", value: "Cancel" }
+						]
+					} as const);
+
+					if (choice == "Change") {
+						const toChange = ["changes", "scopes", "breakingChanges", "commitShort"] as const;
+						const whatToChange = await select({
+							message: "Which Stage you want to change?",
+							required: true,
+							options: toChange.map(el => ({ label: el, value: el }))
+						});
+						order.push(whatToChange, "commit", "isCorrect");
+
+						return false;
 					}
-					return result;
+					if (choice == "Yes") return true;
+					return Symbol("clack:cancel");
 				},
 				after: async ({ results }): Promise<void> => {
 					if (!results.isCorrect || !config.finalCommands) return void 0;
