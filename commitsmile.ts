@@ -2,6 +2,7 @@ import { defaultConfig } from "./packages/commitsmile/lib/index";
 
 export default defaultConfig().deepMerge({
   prompts: {
+    SCOPES: { workspaces: true },
     COMMIT_DESCRIPTION: { always: "skip" },
   },
 });

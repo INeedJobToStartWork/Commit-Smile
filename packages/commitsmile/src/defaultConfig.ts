@@ -167,6 +167,7 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 				]
 			},
 			SCOPES: {
+				workspaces: false,
 				custom: 99,
 				message: "What is the scope of this change (e.g. component or file name)?",
 				multiple: true,

@@ -55,18 +55,23 @@ program
 		const Answers = await stageGroup(
 			{
 				changes: async () => select(config.prompts.CHANGES),
-				scopes: async () =>
-					// TODO: Option To Show Packages from monoerpos
-					// TODO: Option To Show only changed packages,
-					// const test = Object.keys(getWorkspaces(options.config));
-					// const optionsToAdd = test.map(el => ({
-					// 	label: `📦 ${String(el[0]).toUpperCase() + String(el).slice(1)}`,
-					// 	value: el,
-					// 	hint: "Repo"
-					// }));
+				scopes: async () => {
+					const { SCOPES } = config.prompts;
+					if ("skip" in SCOPES) return [];
 
-					// return select({ ...config.prompts.SCOPES, options: [...optionsToAdd, ...config.prompts.SCOPES.options] });
-					select(config.prompts.SCOPES),
+					let optionsToAdd: Parameters<typeof select>[0]["options"];
+
+					if ("workspaces" in SCOPES && SCOPES.workspaces) {
+						const foundWorkspaces = Object.keys(getWorkspaces(options.config));
+						optionsToAdd = foundWorkspaces.map(repo => ({
+							label: `📦 ${String(repo[0]).toUpperCase() + String(repo).slice(1)}`,
+							value: repo,
+							hint: "Repo"
+						}));
+					}
+
+					return select({ ...SCOPES, options: [...optionsToAdd, ...SCOPES.options] });
+				},
 
 				breakingChanges: async () => prompter.confirm(config.prompts.BREAKING_CHANGES),
 				commitShort: async () => prompter.text(config.prompts.COMMIT_SHORT),

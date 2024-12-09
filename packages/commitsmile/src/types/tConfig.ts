@@ -84,7 +84,21 @@ export type TConfig = {
 			| (TOptionText & { always?: "editor" | "inline" | "skip" });
 
 		COMMIT_SHORT: TOptionText;
-		SCOPES: TSelectInput;
+		//TODO: Do this later in normal way lol
+		SCOPES:
+			| TSelectInput
+			| {
+					/** If true, skip this part */
+					skip: true;
+			  }
+			| {
+					/** If true, will find workspaces and add as options to select */
+					workspaces: boolean;
+			  }
+			| (TSelectInput & {
+					/** If true, will find workspaces and add as options to select */
+					workspaces: boolean;
+			  });
 	};
 };
 
