@@ -9,17 +9,17 @@ export type TStagesZod = z.ZodType<{
 }>;
 
 export const promptsSchema = z.object({
-	CHANGES: TSelectScheme,
-	SCOPES: TSelectScheme,
-	BREAKING_CHANGES: TConfirmScheme,
-	COMMIT_SHORT: TOptionTextZod,
-	COMMIT_DESCRIPTION: TOptionTextZod
+	type: TSelectScheme,
+	scopes: TSelectScheme,
+	isBreaking: TConfirmScheme,
+	title: TOptionTextZod,
+	description: TOptionTextZod
 }) satisfies TStagesZod;
 
 export const UserPromptsSchema = z.object({
-	CHANGES: promptsSchema.shape.CHANGES.default(defaultConfig.prompts.CHANGES),
-	SCOPES: promptsSchema.shape.SCOPES.default(defaultConfig.prompts.SCOPES),
-	BREAKING_CHANGES: promptsSchema.shape.BREAKING_CHANGES.default(defaultConfig.prompts.BREAKING_CHANGES),
-	COMMIT_SHORT: promptsSchema.shape.COMMIT_SHORT.default(defaultConfig.prompts.COMMIT_SHORT),
-	COMMIT_DESCRIPTION: promptsSchema.shape.COMMIT_DESCRIPTION.default(defaultConfig.prompts.COMMIT_DESCRIPTION)
+	type: promptsSchema.shape.type.default(defaultConfig.prompts.type),
+	scopes: promptsSchema.shape.scopes.default(defaultConfig.prompts.scopes),
+	isBreaking: promptsSchema.shape.isBreaking.default(defaultConfig.prompts.isBreaking),
+	title: promptsSchema.shape.title.default(defaultConfig.prompts.title),
+	description: promptsSchema.shape.description.default(defaultConfig.prompts.description)
 });

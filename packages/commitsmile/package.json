@@ -51,11 +51,8 @@
 		"@clack/prompts": "^0.8.2",
 		"c12": "^2.0.1",
 		"commander": "^12.1.0",
-		"glob": "^11.0.0",
 		"jiti": "^2.4.0",
-		"minimatch": "^10.0.1",
 		"oh-my-error": "^2.0.1",
-		"react": "^18.3.1",
 		"typia": "6.12.2",
 		"yaml": "^2.6.1"
 	},
@@ -83,9 +80,12 @@
 	},
 	"bundledDependencies": [
 		"@clack/prompts",
+		"c12",
 		"commander",
 		"jiti",
-		"zod"
+		"oh-my-error",
+		"typia",
+		"yaml"
 	],
 	"packageManager": "pnpm@9.14.2",
 	"engines": {

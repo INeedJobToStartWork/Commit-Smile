@@ -52,6 +52,7 @@ export type TparseSelectOptionsAccept =
  *
  * @internal @dontexport
  */
+
 const parseSelectOptions = <T extends PartialDeep<TConfig>>(inputConfig: T): T => {
 	if (!inputConfig.prompts) return inputConfig;
 
@@ -60,7 +61,7 @@ const parseSelectOptions = <T extends PartialDeep<TConfig>>(inputConfig: T): T =
 		prompts: Object.fromEntries(
 			Object.entries(inputConfig.prompts).map(([key, element]) => [
 				key,
-				"options" in element
+				typeof element == "object" && "options" in element
 					? {
 							...element,
 							options: element.options?.map((option: string | { label?: string; value?: unknown }) =>
@@ -76,7 +77,30 @@ const parseSelectOptions = <T extends PartialDeep<TConfig>>(inputConfig: T): T =
 };
 
 /**
+ * Make `TConfig.prompts.stage` easier in config!
+ *
+ * @returns Config with parsed `stage`
+ * - If value is just a string, {message:value}
+ *
+ * @internal @dontexport
+ */
+
+const parseStringToDescription = <T extends PartialDeep<TConfig>>(inputConfig: T): T => {
+	if (!inputConfig.prompts) return inputConfig;
+
+	return {
+		...inputConfig,
+		prompts: Object.fromEntries(
+			Object.entries(inputConfig.prompts).map(([key, element]) => [
+				key,
+				typeof element == "string" ? { message: element } : element
+			])
+		)
+	};
+};
+
+/**
  * Array of Parsers run by `parseConfig`
  * @internal @dontexport
  */
-const parsers = [parseSelectOptions] as const;
+const parsers = [parseSelectOptions, parseStringToDescription] as const;

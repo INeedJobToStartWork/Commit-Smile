@@ -6,7 +6,7 @@ export type Prettify<T> = object & {
 	[K in keyof T]: T[K];
 };
 
-export type TStages = "BREAKING_CHANGES" | "CHANGES" | "COMMIT_DESCRIPTION" | "COMMIT_SHORT" | "SCOPES";
+export type TStages = "isBreaking" | "type" | "description" | "title" | "scopes";
 
 // prompts config
 

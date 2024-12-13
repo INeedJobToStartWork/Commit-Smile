@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import type { TConfig, TConfigInput } from "@/types";
-import { deepMerge, logging } from "@/utils";
+import { deepMerge, getValueIfTrue, logging } from "@/utils";
 import { myError, myErrorWrapper } from "oh-my-error";
 import type { IMyError, TMyErrorList } from "oh-my-error";
 
@@ -41,6 +41,7 @@ type TDefaultConfigProps<Parsed extends boolean = false> = {
 				/** Remove object keys from finalCommands default config  @default ["gitPush"]*/
 				remove: string[];
 		  };
+	prompts?: {};
 };
 //----------------------
 // Types (Atoms)
@@ -94,7 +95,7 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 	logging.debug(configOptions);
 	const validatedConfigOptions = myErrorWrapper(parseConfigOptions, myError(MyErrorList.WRONG_CONFIG))(configOptions);
 
-	const getStringIfTrue = (condition: boolean, str: string) => (condition ? str : "");
+	const getStrIfTrue = getValueIfTrue.bind(this, "");
 	const getFinalCommands = (defaultSettings: TConfig["finalCommands"]): TConfig["finalCommands"] => {
 		if (defaultSettings == void 0) return {};
 		if (typeof validatedConfigOptions.finalCommands == "boolean") {
@@ -109,102 +110,102 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 	};
 	return {
 		formatter: {
-			format: props => `${props.CHANGES}${props.SCOPES}${props.BREAKING_CHANGES}: ${props.COMMIT_SHORT}`,
+			format: props => `${props.type}${props.scopes}${props.isBreaking}: ${props.title}`,
 			formatter: {
-				CHANGES: v => v,
-				SCOPES: v => `(${v})`,
-				COMMIT_SHORT: v => v,
-				BREAKING_CHANGES: v => (v ? "!" : "")
+				type: v => v ?? "",
+				scopes: v => (v?.length ? `(${v})` : ""),
+				title: v => v ?? "",
+				isBreaking: v => (v ? "!" : "")
 			}
 		},
 		prompts: {
-			CHANGES: {
+			type: {
 				multiple: false,
 				message: "What type of changes are you making?",
 				required: true,
 				options: [
 					{
 						hint: "A new feature for the user, not a new feature for build script",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🎉 ")}Feat`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🎉 ")}Feat`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🎉 ")}Feat`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "🎉 ")}Feat`
 					},
 					{
 						hint: "A bug fix",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🐛 ")}Fix`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🐛 ")}Fix`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🐛 ")}Fix`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "🐛 ")}Fix`
 					},
 
 					{
 						hint: "Documentation only changes",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "📖 ")}Docs`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "📖 ")}Docs`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "📖 ")}Docs`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "📖 ")}Docs`
 					},
 					{
 						hint: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🎨 ")}Style`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🎨 ")}Style`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🎨 ")}Style`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "🎨 ")}Style`
 					},
 					{
 						hint: "Changes that affect the build system or external dependencies",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "♻️  ")}Refactor`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "♻️  ")}Refactor`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "♻️  ")}Refactor`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "♻️  ")}Refactor`
 					},
 					{
 						hint: "A code change that improves performance",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🏎️  ")}Perf`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🏎️  ")}Perf`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🏎️  ")}Perf`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "🏎️  ")}Perf`
 					},
 					{
 						hint: "Adding missing tests or correcting existing tests",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🧪 ")}Test`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "🧪 ")}Test`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🧪 ")}Test`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "🧪 ")}Test`
 					},
 					{
 						hint: "Changes to the build process or auxiliary tools and libraries such as documentation generation",
-						label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "⚙️  ")}Chore`,
-						value: `${getStringIfTrue(validatedConfigOptions.emoji.value, "⚙️  ")}Chore`
+						label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "⚙️  ")}Chore`,
+						value: `${getStrIfTrue(validatedConfigOptions.emoji.value, "⚙️  ")}Chore`
 					}
 				]
 			},
-			SCOPES: {
+			scopes: {
 				workspaces: false,
 				custom: 99,
 				message: "What is the scope of this change (e.g. component or file name)?",
 				multiple: true,
 				required: true,
 				options: [
-					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🌍")}  Enviroment`, value: "enviroment" },
-					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "📖")}  Docs`, value: "docs" },
-					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🌐")}  Website`, value: "web" },
-					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "📱")}  Mobile`, value: "mobile" },
-					{ label: `${getStringIfTrue(validatedConfigOptions.emoji.label, "🍃")} API`, value: "api" }
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🌍")}  Enviroment`, value: "enviroment" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "📖")}  Docs`, value: "docs" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🌐")}  Website`, value: "web" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "📱")}  Mobile`, value: "mobile" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🍃")} API`, value: "api" }
 				]
 			},
-			BREAKING_CHANGES: {
+			isBreaking: {
 				message: "Are there any breaking changes?",
 				active: "Yes",
 				inactive: "No",
 				initialValue: false
 			},
-			COMMIT_SHORT: {
+			title: {
 				message: "Write short description of commit",
 				validate(input: string) {
 					if (input.length === 0) return `Value is required!`;
 					return void 0;
 				}
 			},
-			COMMIT_DESCRIPTION: {
+			description: {
 				message: "Write longer description of commit (optional)"
 			}
 		},
 		finalCommands: getFinalCommands({
 			gitAdd: "git add .",
 			commit: Answers => {
-				if (Answers.COMMIT_DESCRIPTION == "editor") {
-					return `git commit ${getStringIfTrue(Boolean(Answers.COMMIT_DESCRIPTION), "-e")} -m "${Answers.format()}"`;
+				if (Answers.description == "editor") {
+					return `git commit ${getStrIfTrue(Boolean(Answers.description), "-e")} -m "${Answers.format()}"`;
 				}
 				// eslint-disable-next-line @EslintSonar/no-nested-template-literals
-				return `git commit -m "${Answers.format()}" ${getStringIfTrue(Boolean(Answers.COMMIT_DESCRIPTION), `-m "${Answers.COMMIT_DESCRIPTION}"`)}`;
+				return `git commit -m "${Answers.format()}" ${getStrIfTrue(Boolean(Answers.description), `-m "${Answers.description}"`)}`;
 			},
 			gitPush: "git push"
 		})

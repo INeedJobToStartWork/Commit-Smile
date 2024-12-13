@@ -100,21 +100,3 @@ export const select = async <T extends TSelectInput>(props: T): Promise<TResult<
 };
 
 export default select;
-
-const test = async () => {
-	const choice = await select({
-		message: "What is the scope of this change (e.g. component or file name)?",
-		// multiple: true,
-		required: true,
-		options: [
-			{ label: "🌍", value: "enviroment" },
-			{ label: "📖", value: "docs" },
-			{ label: "🌐", value: "web" },
-			{ label: "📱", value: "mobile" },
-			{ label: "🍃", value: "api" }
-		]
-	} as const);
-
-	// console.log(choice);
-};
-// console.log(test);

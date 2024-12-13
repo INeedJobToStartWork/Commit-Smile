@@ -3,24 +3,24 @@ import type z from "zod";
 
 export const defaultConfig: z.infer<typeof configSchema> = {
 	formatter: {
-		format: props => `${props.CHANGES}${props.SCOPES}${props.BREAKING_CHANGES}: ${props.COMMIT_SHORT}`,
+		format: props => `${props.type}${props.scopes}${props.isBreaking}: ${props.title}`,
 		formatter: {
-			CHANGES: {
+			type: {
 				value: v => v
 			},
-			SCOPES: {
+			scopes: {
 				value: v => `(${v})`
 			},
-			COMMIT_SHORT: {
+			title: {
 				value: v => v
 			},
-			BREAKING_CHANGES: {
+			isBreaking: {
 				value: v => (v ? "!" : "")
 			}
 		}
 	},
 	prompts: {
-		CHANGES: {
+		type: {
 			multiple: false,
 			custom: {
 				value: false,
@@ -72,7 +72,7 @@ export const defaultConfig: z.infer<typeof configSchema> = {
 				}
 			]
 		},
-		SCOPES: {
+		scopes: {
 			custom: {
 				value: true,
 				amount: 99
@@ -88,20 +88,20 @@ export const defaultConfig: z.infer<typeof configSchema> = {
 				{ label: "🍃 API", value: "api" }
 			]
 		},
-		BREAKING_CHANGES: {
+		isBreaking: {
 			message: "Are there any breaking changes?",
 			active: "Yes",
 			inactive: "No",
 			initialValue: false
 		},
-		COMMIT_SHORT: {
+		title: {
 			message: "Write short description of commit",
 			validate(input: string) {
 				if (input.length === 0) return `Value is required!`;
 				return void 0;
 			}
 		},
-		COMMIT_DESCRIPTION: {
+		description: {
 			message: "Write longer description of commit (optional)"
 		}
 	}

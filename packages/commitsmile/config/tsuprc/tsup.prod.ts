@@ -1,4 +1,5 @@
 import config from "./tsup.base";
+import typiaPlug from "@ryoppippi/unplugin-typia/esbuild";
 import { copy } from "esbuild-plugin-copy";
 import { defineConfig } from "tsup";
 
@@ -6,7 +7,7 @@ export default defineConfig({
 	...config,
 
 	dts: true,
-	splitting: true,
+	splitting: false,
 	minify: true,
 	shims: true,
 
@@ -21,6 +22,8 @@ export default defineConfig({
 
 	outDir: "dist",
 
+	noExternal: ["@clack/prompts", "c12", "commander", "jiti", "oh-my-error", "typia", "yaml"],
+
 	format: ["cjs"],
 	esbuildPlugins: [
 		copy({
@@ -31,6 +34,7 @@ export default defineConfig({
 				{ from: "./README.md", to: "./README.md" },
 				{ from: "./src/templates/configs/*", to: "./templates/configs" }
 			]
-		})
+		}),
+		typiaPlug({ tsconfig: "./tsconfig.json", cache: false })
 	]
 });

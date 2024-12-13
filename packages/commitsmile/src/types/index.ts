@@ -1,5 +1,13 @@
 export * from "./tConfig";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type TTodo = any;
+
+/** @dontexport */
+export type Prettify<T> = object & {
+	[K in keyof T]: T[K];
+};
+
 /**
  * Minimum one of property in Object must be defined
  * @dontexport

@@ -1,22 +1,8 @@
-import { defaultConfig } from "./packages/commitsmile/lib/index";
+import { defaultConfig } from "./packages/commitsmile/dist/index";
 
 export default defaultConfig().deepMerge({
   prompts: {
-    SCOPES: { workspaces: true },
-    COMMIT_DESCRIPTION: { always: "skip" },
+    scopes: { workspaces: true },
+    description: false,
   },
 });
-// export default defaultConfig().deepMerge({
-//   prompts: {
-//     CHANGES: {
-//       options: [
-//         "Test",
-//         "Test2",
-//         { value: 123 },
-//         { label: 123 },
-//         { label: "oh", value: 123 },
-//         { value: {test:"abc"} },
-//       ],
-//     },
-//   },
-// });

@@ -13,7 +13,7 @@
 				"transform": "typia/lib/transform"
 			}
 		],
-		"strictNullChecks": true,
+
 		"strict": true
 	},
 	"extends": "@ineedj/tsconfig/base.json"

@@ -6,23 +6,24 @@ import type { OmitDeep, PartialDeep } from "type-fest";
 
 export type TOptionText = FlatArray<Parameters<typeof text>, 0>;
 export type TConfirmFlat = FlatArray<Parameters<typeof confirm>, 0>;
-export type TStages = "BREAKING_CHANGES" | "CHANGES" | "COMMIT_DESCRIPTION" | "COMMIT_SHORT" | "SCOPES";
+export const Stages = ["description", "isBreaking", "scopes", "title", "type"] as const;
+export type TStages = (typeof Stages)[number];
 
 type formatterProps = {
-	BREAKING_CHANGES: boolean;
-	CHANGES: string;
-	COMMIT_SHORT: string;
-	SCOPES: string[] | string;
+	isBreaking?: boolean;
+	scopes?: string[] | string;
+	title?: string;
+	type?: string;
 };
 
 type formatProps = {
-	BREAKING_CHANGES: string;
-	CHANGES: string;
-	COMMIT_SHORT: string;
-	SCOPES: string[] | string;
+	isBreaking: string;
+	scopes: string[] | string;
+	title: string;
+	type: string;
 };
 
-type formatter<T extends Exclude<TStages, "COMMIT_DESCRIPTION"> = Exclude<TStages, "COMMIT_DESCRIPTION">> = {
+type formatter<T extends Exclude<TStages, "description"> = Exclude<TStages, "description">> = {
 	[P in T]: (value: formatterProps[P]) => string;
 };
 
@@ -43,18 +44,19 @@ export type TConfig = {
 	 *   gitAdd: "git add .",
 	 *   commit: (results) => "git commit -m '${results.format()}' ${results.commitDescription ? '-m "${results.commitDescription}"' : ''}"
 	 * }
+	 *
 	 */
 	finalCommands?: Record<
 		string,
 		| string
 		| ((results: {
-				BREAKING_CHANGES: string;
-				CHANGES: string;
 				// eslint-disable-next-line @typescript-eslint/ban-types
-				COMMIT_DESCRIPTION: "editor" | (string & {}) | undefined;
-				COMMIT_SHORT: string;
-				SCOPES: string;
+				description?: "editor" | (string & {});
 				format: () => string;
+				isBreaking?: string;
+				scopes?: string;
+				title?: string;
+				type?: string;
 		  }) => string)
 	>;
 	/** Part of Config responsible for commit format. */
@@ -66,7 +68,7 @@ export type TConfig = {
 		 *
 		 * @example
 		 * ```typescript
-		 * format: props => `${props.CHANGES}${props.SCOPES}${props.BREAKING_CHANGES}: ${props.COMMIT_SHORT}`,
+		 * format: props => `${props.type}${props.scopes}${props.isBreaking}: ${props.title}`,
 		 * ```
 		 */
 		format: (props: formatProps) => string;
@@ -75,31 +77,33 @@ export type TConfig = {
 	};
 	/** Part of Config responsible for Commit Stages. */
 	prompts: {
-		BREAKING_CHANGES: TConfirmFlat;
-		CHANGES: TSelectInput;
-		COMMIT_DESCRIPTION:
+		description?:
 			| TOptionText
-			| { always: "editor" | "skip" }
+			| string
+			| false
+			| { always: "editor" }
 			| (TOptionText & { always: "inline" })
-			| (TOptionText & { always?: "editor" | "inline" | "skip" });
-
-		COMMIT_SHORT: TOptionText;
-		//TODO: Do this later in normal way lol
-		SCOPES:
+			| (TOptionText & { always?: "editor" | "inline" });
+		isBreaking?: TConfirmFlat | false;
+		scopes?:
 			| TSelectInput
+			| false
 			| {
-					/** If true, skip this part */
-					skip: true;
-			  }
-			| {
+					message: TSelectInput["message"];
 					/** If true, will find workspaces and add as options to select */
-					workspaces: boolean;
+					workspaces: true;
 			  }
 			| (TSelectInput & {
 					/** If true, will find workspaces and add as options to select */
 					workspaces: boolean;
 			  });
+
+		title?: TOptionText | false;
+		type?: TSelectInput | false;
 	};
+	// settings?: {
+	// 	AI?: boolean;
+	// };
 };
 
 /**
@@ -108,10 +112,14 @@ export type TConfig = {
  * Defines the structure and formatting rules for commit messages.
  * @author commitsmile
  */
-export type TConfigInput = OmitDeep<PartialDeep<TConfig>, "prompts.CHANGES.options" | "prompts.SCOPES.options"> & {
+export type TparseOptionsCon = Array<A.Compute<TparseSelectOptionsAccept, "deep">>;
+export type TConfigInput = OmitDeep<PartialDeep<TConfig>, "prompts.scopes"> & {
 	/** Part of Config responsible for Commit Stages. */
 	prompts: {
-		CHANGES?: { options: Array<A.Compute<TparseSelectOptionsAccept, "deep">> };
-		SCOPES?: { options: Array<A.Compute<TparseSelectOptionsAccept, "deep">> };
+		description?: PartialDeep<TConfig["prompts"]["description"]> | string;
+		isBreaking?: PartialDeep<TConfig["prompts"]["isBreaking"]> | string;
+		scopes?: PartialDeep<TConfig["prompts"]["scopes"]> & { options: TparseOptionsCon };
+		title?: string | (PartialDeep<TConfig["prompts"]["title"]> & { options: TparseOptionsCon });
+		type?: PartialDeep<TConfig["prompts"]["type"]> & { options: TparseOptionsCon };
 	};
 };

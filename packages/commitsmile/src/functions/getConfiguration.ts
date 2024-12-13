@@ -6,6 +6,7 @@ import { validate, is } from "typia";
 
 import { exit } from "node:process";
 import type { ConfigLayerMeta, LoadConfigOptions, UserInputConfig } from "c12";
+// import { loadConfig } from "c12";
 import { loadConfig } from "c12";
 import defaultConfig from "@/defaultConfig";
 
@@ -47,7 +48,7 @@ export const getConfiguration = async (pathInput = "./"): Promise<TConfig> => {
 			name: nameFile,
 			configFile: configPath ?? undefined,
 			packageJson: true
-		})
+		} as const)
 	);
 
 	if (!is<TConfig>(config)) {

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import type { Prettify, TStages } from "@/types";
 // eslint-disable-next-line @EslintImports/no-unassigned-import
 import "@total-typescript/ts-reset";
 
@@ -10,17 +12,10 @@ import "@total-typescript/ts-reset";
 // Types
 //----------------------
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TTodo = any;
-
-export type Prettify<T> = object & {
-	[K in keyof T]: T[K];
-};
-
-type TFunctions<T extends object> = object & (TStages<T> & object);
+type TFunctions<T extends object> = object & (TStages2<T> & object);
 type TOrder<F extends object> = Prettify<Array<keyof F>>;
 
-type TStages<T extends object> = {
+type TStages2<T extends object> = {
 	[K in keyof T]: (arg: {
 		functions: Prettify<TFunctions<T>>;
 		order: TOrder<TFunctions<T>>;
@@ -28,42 +23,50 @@ type TStages<T extends object> = {
 	}) => Awaited<T[K]> | Promise<T[K]> | T[K];
 };
 
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+type ExtractReturnType<T> = T extends (...args: any[]) => any ? UnwrapPromise<ReturnType<T>> : never;
+
+type BaseContext<TResults> = {
+	instructions: Record<string, any>;
+	order: string[];
+	results: TResults;
+};
+
 //----------------------
 // Function
 //----------------------
 
-// TODO: Better Type Narrowing
-export const stageGroup = async <T extends object>(
-	stages: TStages<T>,
-	options?: { onCancel?: () => void; orderInp?: Array<keyof T> }
-) => {
-	let results: TTodo = {};
-	let functions: TFunctions<T> = { ...stages };
-	let order: TOrder<typeof functions> =
-		options!.orderInp == void 0 ? (Object.keys(stages) as Array<keyof T>) : options!.orderInp;
+export class StageGroup<TResults extends Record<string, any> = object> {
+	public results: TResults = {} as TResults;
+	public order: string[] = [];
+	public instructions: Record<string, (context: BaseContext<TResults>) => any> = {};
 
-	while (order.length) {
-		const element = order.shift();
+	addInstruction<TKey extends string, TFunc extends (context: BaseContext<TResults>) => any>(
+		instruction?: Record<TKey, TFunc>
+	): StageGroup<Record<TKey, ExtractReturnType<TFunc>> & TResults> {
+		if (instruction == void 0) return this as StageGroup<Record<TKey, ExtractReturnType<TFunc>> & TResults>;
+		const key = Object.keys(instruction)[0] as TKey;
 
-		results[element] = await functions[element]({ results, order, functions });
-		if (results[element]?.description == "clack:cancel" && options!.onCancel) options?.onCancel();
+		this.instructions[key] = instruction[key];
+		this.order.push(key);
+
+		return this as StageGroup<Record<TKey, ExtractReturnType<TFunc>> & TResults>;
 	}
 
-	return results;
-};
+	async execute(options?: { onCancel?: () => void }): Promise<TResults> {
+		while (this.order.length) {
+			const element = this.order.shift() as TStages;
+			const context: BaseContext<TResults> = {
+				results: this.results,
+				order: this.order,
+				instructions: this.instructions
+			};
 
-// export const test = async (): Promise<unknown> => {
-// 	const result = await stageGroup({
-// 		commitMessage: async () => "asd" as const,
-// 		useOrder: ({ order }) => order,
-// 		useResult: ({ results }) => results,
-// 		useFunctions: ({ functions }) => functions,
-// 		nextThing: () => "results",
-// 		nextThing2: ({ results }): string => `${results.nextThing} + as`,
-// 		nextThing3: () => "string",
-// 		nextThing4: () => "asd",
-// 		nextThing5: ({ functions }) => functions,
-// 		nextThing6: ({ results }) => results
-// 	});
-// 	return result as unknown;
-// };
+			(this.results as any)[element] = await this.instructions[element](context);
+
+			if (this.results[element]?.description == "clack:cancel" && options?.onCancel) options.onCancel();
+		}
+
+		return this.results;
+	}
+}
