@@ -6,6 +6,7 @@ import type { TConfig, TConfigInput } from "@/types";
 import { deepMerge, getValueIfTrue, logging } from "@/utils";
 import { myError, myErrorWrapper } from "oh-my-error";
 import type { IMyError, TMyErrorList } from "oh-my-error";
+import type { RequiredDeep } from "type-fest";
 
 //----------------------
 // MyError
@@ -32,16 +33,15 @@ type TDefaultConfigProps<Parsed extends boolean = false> = {
 	 * If false, emojis are removed from the default config
 	 * @default true
 	 */
-	emoji: Parsed extends true ? Temoji : Temoji | boolean;
+	emoji?: Parsed extends true ? Temoji : Temoji | boolean;
 	/** If false, final commands are removed from config. @default { remove:["gitPush"]}  */
-	finalCommands:
+	finalCommands?:
 		| boolean
 		| {
 				//TODO: Change that in future for better Typed but still full flexible
 				/** Remove object keys from finalCommands default config  @default ["gitPush"]*/
 				remove: string[];
 		  };
-	prompts?: object;
 };
 //----------------------
 // Types (Atoms)
@@ -52,12 +52,12 @@ type Temoji = {
 	 * If false, emojis are removed from labels at prompts.
 	 * @default true
 	 */
-	label: boolean;
+	label?: boolean;
 	/**
 	 * If false, emojis are removed from passed values.
 	 * @default true
 	 */
-	value: boolean;
+	value?: boolean;
 };
 
 //----------------------
@@ -229,7 +229,9 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
  * Parser of `configOptions` at `configData`
  * @internal @dontexport
  */
-const parseConfigOptions = (configOptions?: Parameters<typeof configData>[0]): TDefaultConfigProps<true> => {
+const parseConfigOptions = (
+	configOptions?: Parameters<typeof configData>[0]
+): RequiredDeep<TDefaultConfigProps<true>> => {
 	const defaultOptions = { emoji: true, finalCommands: { remove: ["gitPush"] } };
 	let result = configOptions ? deepMerge(configOptions, defaultOptions) : defaultOptions;
 
@@ -239,5 +241,5 @@ const parseConfigOptions = (configOptions?: Parameters<typeof configData>[0]): T
 	}
 
 	// TODO: Fix it - remove as
-	return result as unknown as TDefaultConfigProps<true>;
+	return result as unknown as RequiredDeep<TDefaultConfigProps<true>>;
 };

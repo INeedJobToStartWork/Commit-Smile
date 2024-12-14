@@ -10,19 +10,36 @@ export const Stages = ["description", "isBreaking", "scopes", "title", "type"] a
 export type TStages = (typeof Stages)[number];
 
 type formatterProps = {
+	/** Indicates if the commit contains breaking changes */
 	isBreaking?: boolean;
+	/** Affected scopes of the commit (e.g., components, modules) */
 	scopes?: string[] | string;
+	/** Main commit message title */
 	title?: string;
+	/** Type of the commit (e.g., feat, fix, chore) */
 	type?: string;
 };
 
+/**
+ * Required props for the final commit message format.
+ * All properties are required in the final formatting step.
+ */
 type formatProps = {
+	/** Formatted breaking change indicator */
 	isBreaking: string;
+	/** Formatted scope(s) of the changes */
 	scopes: string[] | string;
+	/** Formatted commit title */
 	title: string;
+	/** Formatted commit type */
 	type: string;
 };
 
+/**
+ * Formatter functions for each commit message component.
+ * Excludes description as it's handled separately.
+ * @template T - Stage type (excluding description)
+ */
 type formatter<T extends Exclude<TStages, "description"> = Exclude<TStages, "description">> = {
 	[P in T]: (value: formatterProps[P]) => string;
 };
@@ -77,6 +94,7 @@ export type TConfig = {
 	};
 	/** Part of Config responsible for Commit Stages. */
 	prompts: {
+		/** Prompt about longer description of commit */
 		description?:
 			| TOptionText
 			| string
@@ -84,7 +102,10 @@ export type TConfig = {
 			| { always: "editor" }
 			| (TOptionText & { always: "inline" })
 			| (TOptionText & { always?: "editor" | "inline" });
+
+		/** Prompt about "Changes is breaking backward compatibility?" */
 		isBreaking?: TConfirmFlat | false;
+		/** Prompt about scopes that changes affect */
 		scopes?:
 			| TSelectInput
 			| false
@@ -97,8 +118,9 @@ export type TConfig = {
 					/** If true, will find workspaces and add as options to select */
 					workspaces: boolean;
 			  });
-
+		/** Prompt about title of commit */
 		title?: TOptionText | false;
+		/** Prompt about type of changes */
 		type?: TSelectInput | false;
 	};
 	// settings?: {
@@ -113,13 +135,18 @@ export type TConfig = {
  * @author commitsmile
  */
 export type TparseOptionsCon = Array<A.Compute<TparseSelectOptionsAccept, "deep">>;
+
+/**
+ * Input configuration type with partial requirements.
+ * Allows for more flexible configuration input with optional properties.
+ */
 export type TConfigInput = OmitDeep<PartialDeep<TConfig>, "prompts.scopes"> & {
 	/** Part of Config responsible for Commit Stages. */
-	prompts: {
-		description?: PartialDeep<TConfig["prompts"]["description"]> | string;
-		isBreaking?: PartialDeep<TConfig["prompts"]["isBreaking"]> | string;
-		scopes?: PartialDeep<TConfig["prompts"]["scopes"]> & { options: TparseOptionsCon };
-		title?: string | (PartialDeep<TConfig["prompts"]["title"]> & { options: TparseOptionsCon });
-		type?: PartialDeep<TConfig["prompts"]["type"]> & { options: TparseOptionsCon };
+	prompts?: {
+		description?: PartialDeep<TConfig["prompts"]["description"] | string>;
+		isBreaking?: PartialDeep<TConfig["prompts"]["isBreaking"] | string>;
+		scopes?: PartialDeep<TConfig["prompts"]["scopes"] & { options: TparseOptionsCon }>;
+		title?: PartialDeep<TConfig["prompts"]["title"] & { options: TparseOptionsCon }> | string;
+		type?: PartialDeep<TConfig["prompts"]["type"] & { options: TparseOptionsCon }>;
 	};
 };

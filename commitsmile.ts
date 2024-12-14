@@ -1,8 +1,8 @@
-import { defaultConfig } from "./packages/commitsmile/lib/index";
+import { defaultConfig } from "./packages/commitsmile/lib";
 
-export default defaultConfig().deepMerge({
+export default defaultConfig({}).deepMerge({
   prompts: {
-    scopes: { workspaces: true },
+    scopes: { workspaces:true },
     description: false,
   },
 });
