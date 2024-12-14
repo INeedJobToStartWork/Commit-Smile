@@ -37,7 +37,7 @@ const MyErrorList = {
  * @returns config object (parsed)
  * @throws If file not found or wrong config format
  *
- * @internal @dontexport
+ * @dontexport
  */
 export const getConfiguration = async (pathInput = "./"): Promise<TConfig> => {
 	const configPath = findConfig(pathInput);

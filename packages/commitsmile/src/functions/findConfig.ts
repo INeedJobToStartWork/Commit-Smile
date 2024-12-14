@@ -11,7 +11,7 @@ import path from "node:path";
  *
  * @param configPath Path to config
  * @returns Path to config if found
- * @internal @dontexport
+ * @dontexport
  */
 export function findConfig(configPath: string): string | undefined {
 	if (!existsSync(configPath)) return undefined;

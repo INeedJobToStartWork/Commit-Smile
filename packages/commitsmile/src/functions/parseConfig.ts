@@ -14,7 +14,7 @@ import type { A } from "ts-toolbelt";
  * @param inputConfig
  * @returns parsedConfig (Not validated)
  *
- * @internal @dontexport
+ * @dontexport
  */
 export const parseConfig = <T extends PartialDeep<TConfig>>(inputConfig: T): T => {
 	let result = inputConfig;
