@@ -1,4 +1,3 @@
-import type { TConfig } from "commitsmile/index";
+import { defaultConfig } from "commitsmile";
 
-const config: TConfig = {};
-export default config;
+export default defaultConfig({}).deepMerge({});

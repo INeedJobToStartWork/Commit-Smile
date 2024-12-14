@@ -1,3 +1,4 @@
-/** @type {import("commitsmile/index").TConfig}  */
-const config = {};
-module.exports = config;
+import { defaultConfig } from "commitsmile";
+
+module.exports = defaultConfig({}).deepMerge({});;
+

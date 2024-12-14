@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { Prettify, TStages } from "@/types";
+import { logging } from "@/utils";
 // eslint-disable-next-line @EslintImports/no-unassigned-import
 import "@total-typescript/ts-reset";
 
@@ -67,6 +68,7 @@ export class StageRunner<TResults extends Record<string, any> = object> {
 		instruction?: Record<TKey, TFunc>
 	): StageRunner<Record<TKey, ExtractReturnType<TFunc>> & TResults> {
 		if (instruction == void 0) return this as StageRunner<Record<TKey, ExtractReturnType<TFunc>> & TResults>;
+		// const key = Object.keys(instruction)[0] as TKey;
 		const key = Object.keys(instruction)[0] as TKey;
 
 		this.steps[key] = instruction[key];
@@ -97,7 +99,7 @@ export class StageRunner<TResults extends Record<string, any> = object> {
 				order: this.order,
 				instructions: this.steps
 			};
-
+			logging.debug({ results: this.results, order: this.order });
 			(this.results as any)[element] = await this.steps[element](context);
 
 			if (this.results[element]?.description == "clack:cancel" && options?.onCancel) options.onCancel();

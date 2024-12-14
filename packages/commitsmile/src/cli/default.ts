@@ -137,13 +137,16 @@ program
 						]
 					} as const);
 
+					logging.debug("Choice", choice);
 					if (choice == "Change") {
 						const whatToChange = await select({
 							message: "Which Stage you want to change?",
 							required: true,
 							options: toChange.map(el => ({ label: el, value: el }))
 						});
-						order.push(whatToChange, "commit", "isCorrect");
+						logging.debug("Order", order);
+						order.unshift(whatToChange, "commit", "isCorrect");
+						logging.debug("Order", order);
 
 						return whatToChange;
 					}

@@ -1,4 +1,4 @@
-import { defaultConfig } from "./packages/commitsmile/dist/index";
+import { defaultConfig } from "./packages/commitsmile/lib/index";
 
 export default defaultConfig().deepMerge({
   prompts: {
