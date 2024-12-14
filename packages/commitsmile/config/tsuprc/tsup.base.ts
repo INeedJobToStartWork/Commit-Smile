@@ -9,7 +9,18 @@ export default defineConfig({
 	format: ["esm"],
 	noExternal: ["typia"],
 
-	esbuildPlugins: [typiaPlug({ tsconfig: "./tsconfig.json", cache: false })],
+	esbuildPlugins: [
+		typiaPlug({ tsconfig: "./tsconfig.json", cache: false }),
+		copy({
+			assets: [
+				{ from: "./package.json", to: "./package.json" },
+				{ from: "./.npmrc", to: "./.npmrc" },
+				{ from: "./.npmignore", to: "./.npmignore" },
+				{ from: "./README.md", to: "./README.md" },
+				{ from: "./src/templates/configs/*", to: "./templates/configs" }
+			]
+		})
+	],
 	banner: ({ format }) => {
 		if (format === "esm") {
 			const banner = `

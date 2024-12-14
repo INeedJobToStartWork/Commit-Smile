@@ -30,5 +30,7 @@ export default ineedj({
 	"@EslintSecurity/detect-object-injection",
 	"MD010/no-hard-tabs",
 	"@EslintTSDocs/syntax",
-	"@EslintNode/no-process-env"
+	"@EslintNode/no-process-env",
+	"@EslintNode/no-process-exit",
+	"@EslintUnicorn/no-process-exit"
 );

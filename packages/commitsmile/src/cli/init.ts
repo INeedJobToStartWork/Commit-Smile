@@ -1,31 +1,29 @@
-import { select } from "../components";
-import { logging } from "../utils";
+import { optionDebugger } from "@/helpers";
 import * as prompter from "@clack/prompts";
-import chalk from "chalk";
 import { program } from "commander";
-import { copyFile, existsSync } from "fs";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+import { StageRunner } from "@/functions";
+import { exit } from "node:process";
+import { logging } from "@/utils";
+import { select } from "@/components";
+import chalk from "chalk";
+import { copyFile, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path, { dirname } from "node:path";
 
 program
 	.command("init")
 	.description("Init configuration file")
+	.addOption(optionDebugger)
 	.action(async () => {
-		const EXECUTEFILEPATH = import.meta.url;
-
-		console.log(path.join(EXECUTEFILEPATH));
-
-		await prompter.group(
-			{
+		const test = await new StageRunner()
+			.addStep({
 				intro: () => {
 					prompter.intro(chalk.bgMagenta("Init your config file!"));
-				},
+				}
+			})
+			.addStep({
 				type: async () =>
 					select({
-						custom: {
-							value: false,
-							amount: 1
-						},
 						message: "Select config type:",
 						required: true,
 						options: [
@@ -42,15 +40,13 @@ program
 								value: "json"
 							}
 						]
-					}),
+					})
+			})
+			.addStep({
 				module: async ({ results }) =>
 					results.type === "json"
 						? void 0
 						: select({
-								custom: {
-									value: false,
-									amount: 1
-								},
 								message: "Select module type:",
 								initialValues: ["cjs"],
 								options: [
@@ -65,23 +61,27 @@ program
 										hint: "cjs"
 									}
 								]
-							}),
+							})
+			})
+			.addStep({
 				filename: async () =>
 					prompter.text({
 						message: "Enter filename (without ext):",
 						initialValue: "commitSmile",
-						default: "commitSmile",
+						defaultValue: "commitSmile",
 						validate(text) {
-							if (/\.(ts|cts|mts|js|cjs|mjs|json)$/.exec(text)) {
+							if (/\.(ts|cts|mts|js|cjs|mjs|json)$/u.test(text)) {
 								return "Remove Extention from filename (one of : ts|cts|mts|js|cjs|mjs|json)!";
 							}
-							if (/\.$/.exec(text)) {
+							if (text.endsWith(".")) {
 								return `Remove last dot. (e.g. '${text.slice(0, -1)}')`;
 							}
 							return void 0;
 						}
-					}),
-				ext: async ({ results }) => {
+					})
+			})
+			.addStep({
+				ext: ({ results }) => {
 					const { type, module } = results;
 					const extensionMap: Record<string, Record<string, unknown>> = {
 						ts: {
@@ -94,9 +94,11 @@ program
 						}
 					};
 
-					return type === "json" ? "json" : extensionMap[type as string][module as string];
-				},
-				finalname: async ({ results }) => `${results.filename}.${results.ext}`,
+					return type === "json" ? "json" : extensionMap[type][module!];
+				}
+			})
+			.addStep({ finalname: ({ results }) => `${results.filename as string}.${results.ext}` })
+			.addStep({
 				outro: async ({ results }) => {
 					const { finalname, ext } = results;
 					const destination = `${process.cwd()}/${finalname}`;
@@ -119,13 +121,14 @@ program
 					});
 					prompter.outro(chalk.bgGreen("File created successfully!"));
 				}
-			},
-			{
+			})
+			.execute({
 				onCancel: () => {
 					prompter.cancel("Operation cancelled.");
-					process.exit(0);
+					exit(0);
 				}
-			}
-		);
+			});
+		logging.debug(test);
+
 		process.exit(0);
 	});

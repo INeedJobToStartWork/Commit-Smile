@@ -2,7 +2,7 @@ import type { TOptionsConfig, TOptionsDebugger } from "@/helpers";
 import { optionConfig, optionDebugger } from "@/helpers";
 import { logging } from "@/utils";
 import { program } from "commander";
-import { getConfiguration, StageGroup } from "@/functions";
+import { getConfiguration, StageRunner } from "@/functions";
 import { select } from "@/components";
 import * as prompter from "@clack/prompts";
 import { exit } from "node:process";
@@ -47,9 +47,9 @@ program
 
 		const { type, scopes, isBreaking, title, description } = config.prompts;
 
-		const Answers = new StageGroup()
-			.addInstruction(type ? { type: async () => select(type) } : void 0)
-			.addInstruction(
+		const Answers = new StageRunner()
+			.addStep(type ? { type: async () => select(type) } : void 0)
+			.addStep(
 				scopes
 					? {
 							scopes: async () => {
@@ -72,9 +72,9 @@ program
 						}
 					: void 0
 			)
-			.addInstruction(isBreaking ? { isBreaking: async () => prompter.confirm(isBreaking) } : void 0)
-			.addInstruction(title ? { title: async () => prompter.text(title) } : void 0)
-			.addInstruction(
+			.addStep(isBreaking ? { isBreaking: async () => prompter.confirm(isBreaking) } : void 0)
+			.addStep(title ? { title: async () => prompter.text(title) } : void 0)
+			.addStep(
 				description
 					? {
 							description: async () => {
@@ -99,7 +99,7 @@ program
 						}
 					: void 0
 			)
-			.addInstruction({
+			.addStep({
 				commit: ({ results }) => {
 					const { type, scopes, isBreaking, title, description } = results;
 
@@ -117,7 +117,7 @@ program
 					};
 				}
 			})
-			.addInstruction({
+			.addStep({
 				isCorrect: async ({ results, order }) => {
 					const { commit } = results;
 					prompter.note(commit.format());
@@ -151,7 +151,7 @@ program
 					return Symbol("clack:cancel");
 				}
 			})
-			.addInstruction({
+			.addStep({
 				after: ({ results }): void => {
 					if (!results.isCorrect || !config.finalCommands) return;
 					for (const [index, value] of Object.values(config.finalCommands).entries()) {

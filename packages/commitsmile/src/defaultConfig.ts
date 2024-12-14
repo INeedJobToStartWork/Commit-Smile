@@ -41,7 +41,7 @@ type TDefaultConfigProps<Parsed extends boolean = false> = {
 				/** Remove object keys from finalCommands default config  @default ["gitPush"]*/
 				remove: string[];
 		  };
-	prompts?: {};
+	prompts?: object;
 };
 //----------------------
 // Types (Atoms)
@@ -65,6 +65,10 @@ type Temoji = {
 //----------------------
 
 class ConfigPromise<T extends TConfig> extends Promise<T> {
+	/**
+	 * deepMerge
+	 * @description Fill unused Config Keys (using defaultConfig)
+	 */
 	async deepMerge(obj: TConfigInput) {
 		// TODO: remove that as, but before that fix deepMerge
 		return this.then((data: TConfig) => deepMerge<TConfigInput>(obj, data as TConfigInput));
@@ -90,7 +94,12 @@ export default defaultConfig;
 // Config
 //----------------------
 
-/** @dontexport */
+/**
+ * Return default config object
+ * @returns {TConfig} Default Config
+ *
+ * @dontexport
+ */
 const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 	logging.debug(configOptions);
 	const validatedConfigOptions = myErrorWrapper(parseConfigOptions, myError(MyErrorList.WRONG_CONFIG))(configOptions);

@@ -1,3 +1,4 @@
+**/*.hbs
 *.hbs
 dist/*
 lib/*
