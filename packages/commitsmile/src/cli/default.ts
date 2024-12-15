@@ -104,10 +104,10 @@ program
 					const { type, scopes, isBreaking, title, description } = results;
 
 					return {
-						type: config.formatter.formatter.type(type as string),
-						scopes: config.formatter.formatter.scopes(scopes as string[] | string),
-						isBreaking: config.formatter.formatter.isBreaking(isBreaking as boolean),
-						title: config.formatter.formatter.title(title as string),
+						type: config.formatter.type(type as string),
+						scopes: config.formatter.scopes(scopes as string[] | string),
+						isBreaking: config.formatter.isBreaking(isBreaking as boolean),
+						title: config.formatter.title(title as string),
 						description: description,
 						format: function () {
 							// eslint-disable-next-line @EslintUnusedImports/no-unused-vars, @typescript-eslint/no-unused-vars

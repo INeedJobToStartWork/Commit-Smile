@@ -2,13 +2,18 @@
 
 # 📜 List of Contest
 
-- [Install](#-list-of-contest)
-- [How to start](#how-to-start)
-- [Config](#config)
-  - [Custom file path](#custom-file-path)
-  - [Init config](#init-config)
-  - [Formatter](#formatter)
-  - [Prompts](#prompts)
+- [📜 List of Contest](#-list-of-contest)
+  - [Install](#install)
+    - [How to start](#how-to-start)
+    - [Config](#config)
+      - [Location / Naming](#location--naming)
+        - [Package.json](#packagejson)
+        - [Dedicated file](#dedicated-file)
+      - [Config Type](#config-type)
+      - [Config Builder (defaultConfig)](#config-builder-defaultconfig)
+    - [Custom file path](#custom-file-path)
+    - [Init config](#init-config)
+    - [Formatter](#formatter)
 
 ## Install
 
@@ -34,18 +39,34 @@ yarn add -D commitsmile
 
 👋Hello! Glad to see you! There is order task to setup:
 
+| Command | Description | Link |
+| ------- | ----------- | ---- |
+
 ### Config
 
-In Default execute app is looking for files names match `/commitsmile.*\.(json|mjs|cjs|js|mts|cts|ts)/iu`
+#### Location / Naming
 
-- Name: commitsmile (letters can be uppercase or lowercase or mixed)
+##### Package.json
+
+Add "commitsmile" property to `package.json` file
+
+##### Dedicated file
+
+In Default execute app is looking for files names match
+`/commitsmile.*\.(js|ts|mjs|cjs|mts|json|jsonc|json5|yaml|yml|toml)/iu`
+
+- Name: commitsmile (lette rs can be uppercase or lowercase or mixed)
 - pre ext (optional)
-- Ext: `json|mjs|cjs|js|mts|cts|ts`
+- Ext: `js|ts|mjs|cjs|mts|json|jsonc|json5|yaml|yml|toml`
 
 examples:
 
 - `commitsmile.discord.ts`
 - `coMMitSmile.json`
+
+#### Config Type
+
+#### Config Builder (defaultConfig)
 
 ### Custom file path
 

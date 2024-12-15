@@ -77,7 +77,7 @@ export type TConfig = {
 		  }) => string)
 	>;
 	/** Part of Config responsible for commit format. */
-	formatter: {
+	formatter: formatter & {
 		/**
 		 * Final format of commit.
 		 * @param props - Object containing all formatted commit parts (changes, scopes, breaking changes, etc.)
@@ -89,8 +89,6 @@ export type TConfig = {
 		 * ```
 		 */
 		format: (props: formatProps) => string;
-		/** Formatters responsible to transform input for every stage */
-		formatter: formatter;
 	};
 	/** Part of Config responsible for Commit Stages. */
 	prompts: {
