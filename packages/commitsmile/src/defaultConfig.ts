@@ -120,12 +120,11 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 	return {
 		formatter: {
 			format: props => `${props.type}${props.scopes}${props.isBreaking}: ${props.title}`,
-			formatter: {
-				type: v => v ?? "",
-				scopes: v => (v?.length ? `(${v})` : ""),
-				title: v => v ?? "",
-				isBreaking: v => (v ? "!" : "")
-			}
+
+			type: v => v ?? "",
+			scopes: v => (v?.length ? `(${v})` : ""),
+			title: v => v ?? "",
+			isBreaking: v => (v ? "!" : "")
 		},
 		prompts: {
 			type: {
