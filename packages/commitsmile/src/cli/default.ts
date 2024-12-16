@@ -82,7 +82,7 @@ program
 									typeof description == "object" && "always" in description
 										? description.always
 										: await select({
-												message: "What do you want to do?",
+												message: "Add description by:",
 												required: true,
 												options: [
 													{ label: "Open Editor", hint: "git config core.editor", value: "editor" },
