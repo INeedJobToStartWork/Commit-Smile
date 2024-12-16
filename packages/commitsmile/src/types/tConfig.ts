@@ -59,7 +59,7 @@ export type TConfig = {
 	 * @example @default
 	 * {
 	 *   gitAdd: "git add .",
-	 *   commit: (results) => "git commit -m '${results.format()}' ${results.commitDescription ? '-m "${results.commitDescription}"' : ''}"
+	 *   commit: (results) => `git commit -m '${results.format()}' ${results.commitDescription ? `-m "${results.commitDescription}"` : ''}`
 	 * }
 	 *
 	 */

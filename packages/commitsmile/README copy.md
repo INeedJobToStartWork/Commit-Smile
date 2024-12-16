@@ -1,22 +1,54 @@
 ![CommitSmileBanner](https://github.com/INeedJobToStartWork/Commit-Smile/assets/97305201/7b18af3e-7472-47f5-99e8-6f97574d2ea7)
 
+<h1 align="center">Commit-Smile</h1>
+<p align="center"><b>Simple Commit Handler!</b></p>
+<p align="center">Next MileStones</p>
+<!-- <div align="center">
+	<b>New Prompts</b> >
+	<b>Custom Prompts</b> >
+	<b>AI</b> >
+	<b>Custom CLI Look</b> >
+	<b>Website</b>
+</div> -->
+<hr/>
+
+What you get:
+
+- 🌈 Beautiful Commits
+- 📝 Standardized commit messages
+- 🎯 Simplified commit process
+
+About package:
+
+- 🚀 Install & Use
+- ⚙️ Easy in Configuring
+- 🔧 High Customizable (Prompts, Formatters)
+- 📦 Support Monorepo
+- 📖 TSDocs (Internal documentation)
+- ♻️ Minified & Compressed
+- ✅ Support JS/TS & CJS/ESM
+
 # 📜 List of Contest
 
 - [📜 List of Contest](#-list-of-contest)
   - [Install](#install)
   - [How to start](#how-to-start)
   - [Commands](#commands)
-    - [Blank (Default)](#blank-default)
-    - [init](#init)
-  - [Options](#options)
   - [Config](#config)
     - [Location / Naming](#location--naming)
       - [Dedicated File](#dedicated-file)
       - [package.json](#packagejson)
+    - [Default Config \& Types](#default-config--types)
     - [Explaination](#explaination)
       - [Formatters](#formatters)
       - [Prompts](#prompts)
+      - [finalCommands](#finalcommands)
     - [Short hands](#short-hands)
+  - [Questions and Answers](#questions-and-answers)
+    - [Can i Remove emojis? (Yes)](#can-i-remove-emojis-yes)
+      - [Removing All](#removing-all)
+      - [Removing From Label](#removing-from-label)
+      - [Removing From Value](#removing-from-value)
 
 ## Install
 
@@ -44,14 +76,16 @@ yarn add -D commitsmile
 
 | Command | Description | Link |
 | ------- | ----------- | ---- |
+| ------- | ----------- | ---- |
 
 ## Commands
 
-### Blank (Default)
+| Command   | Description                |
+| --------- | -------------------------- |
+| (default) | Commit Handler (CLI APP)   |
+| init      | Init config file (CLI APP) |
 
-### init
-
-## Options
+To get more information about commands, use `--help`
 
 ## Config
 
@@ -84,6 +118,12 @@ Supports to:
 
 With `commitsmile` property.
 
+### Default Config & Types
+
+Package export `defaultConfig` which can be configured and deep merge your config!
+
+More info in **internal Documentation** (Code)
+
 ### Explaination
 
 #### Formatters
@@ -102,15 +142,29 @@ There you can make your own formatters.
 
 Part of Config responsible for Commit Stages.
 
-| Stage name    | type of prompt |
-| ------------- | -------------- |
-| `type`        | multiselect    |
-| `scopes`      | multiselect    |
-| `isBreaking`  | select         |
-| `title`       | text           |
-| `description` | text           |
+| Stage name    | type of prompt | Special properties                               |
+| ------------- | -------------- | ------------------------------------------------ |
+| `type`        | multiselect    |                                                  |
+| `scopes`      | multiselect    | `workspaces` - Show found workspaces in monorepo |
+| `isBreaking`  | confirm        |                                                  |
+| `title`       | text           |                                                  |
+| `description` | select         | `always` - Always select that in select menu     |
 
 Every Step is Optional and can be skipped. To do it just use value `false` or `undefined` / `void 0`
+
+#### finalCommands
+
+Commands which will be executed at the end (In key order).
+
+example:
+
+```ts
+{
+  gitAdd: "git add .",
+  commit: (results) => `git commit -m '${results.format()}' ${results.commitDescription ? `-m "${results.commitDescription}"` : ''}`,
+  gitPush:"git push"
+}
+```
 
 ### Short hands
 
@@ -122,3 +176,43 @@ Every shorthand it's provided by our parser.
 | `Config.prompts.stage.options` | If option is just a string            | `["Option 1"]`                | `[{value:"Option 1"}]` and continue below logic |
 | `Config.prompts.stage.options` | If option has a value but not a label | `[{value:"Option 1"}]`        | `[{value:"Option 1", label:"Option 1"}]`        |
 | `Config.prompts.stage.options` | If option has a label but not a value | `[{label:"Option 1"}]`        | `[{value:"Option 1", label:"Option 1"}]`        |
+
+## Questions and Answers
+
+### Can i Remove emojis? (Yes)
+
+Yes, you can do this,this way:
+
+#### Removing All
+
+If you want to remove them totally in CLI view commit
+
+```ts
+{
+	emoji: false;
+}
+```
+
+#### Removing From Label
+
+If you want to remove them in CLI view but stay in commit
+
+```ts
+{
+	emoji: {
+		label: false;
+	}
+}
+```
+
+#### Removing From Value
+
+If you want to remove them in commit but stay in CLI view
+
+```ts
+{
+	emoji: {
+		value: false;
+	}
+}
+```
