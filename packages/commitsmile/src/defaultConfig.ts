@@ -182,11 +182,11 @@ const configData = (configOptions?: TDefaultConfigProps): TConfig => {
 				multiple: true,
 				required: true,
 				options: [
-					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🌍")}  Enviroment`, value: "enviroment" },
-					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "📖")}  Docs`, value: "docs" },
-					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🌐")}  Website`, value: "web" },
-					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "📱")}  Mobile`, value: "mobile" },
-					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🍃")} API`, value: "api" }
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🌍  ")}Enviroment`, value: "enviroment" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "📖  ")}Docs`, value: "docs" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🌐  ")}Website`, value: "web" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "📱  ")}Mobile`, value: "mobile" },
+					{ label: `${getStrIfTrue(validatedConfigOptions.emoji.label, "🍃 ")}API`, value: "api" }
 				]
 			},
 			isBreaking: {

@@ -7,7 +7,17 @@
 			"npm:postpack": "clean-package restore"
 		},
 		"bin": {
-			"commitsmile": "index.js"
+			"commitsmile": "./bin/app.js"
+		},
+		"exports": {
+			".": {
+				"types": {
+					"import": "./index.d.mts",
+					"require": "./index.d.ts"
+				},
+				"import": "./index.mjs",
+				"require": "./index.js"
+			}
 		}
 	}
 }

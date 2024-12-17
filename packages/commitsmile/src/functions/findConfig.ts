@@ -24,6 +24,7 @@ export function findConfig(configPath: string): string | undefined {
 	const files = readdirSync(configPath);
 	for (const file of files) {
 		logging.debug(`File: ${file}`);
+		// eslint-disable-next-line @EslintSecurity/detect-unsafe-regex
 		if (/commitsmile(\.[^.]+)*\.(js|ts|mjs|cjs|mts|json|jsonc|json5|yaml|yml|toml)/iu.test(file)) {
 			logging.debug("Config found");
 			return path.join(configPath, file);

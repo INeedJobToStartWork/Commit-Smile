@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 import typiaPlug from "@ryoppippi/unplugin-typia/esbuild";
 
 export default defineConfig({
-	entry: ["src/index.ts"],
+	entry: ["src/index.ts", "src/bin/app.ts"],
 	target: "es2020",
 	clean: true,
 	format: ["esm"],

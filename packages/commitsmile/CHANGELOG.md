@@ -1,5 +1,18 @@
 # commitsmile
 
+## 1.0.0
+
+### Major Changes
+
+- Loader (Refactor Config type)
+- Correcting values at the end
+- Monorepo support
+- Refactor config (Change structure, more parsers etc)
+- Refactor description commit
+- Final Commands Option
+- Changing defaultConfig
+- Skip Option
+
 ## 0.6.1
 
 ### Patch Changes

@@ -1,10 +1,23 @@
 {
 	"name": "commitsmile",
-	"version": "0.6.1",
+	"version": "1.0.0",
 	"description": "Make smile on your commits",
 	"keywords": [
 		"commit",
-		"lint"
+		"lint",
+		"git",
+		"conventional-commits",
+		"cli",
+		"tool",
+		"monorepo",
+		"commit-message",
+		"commit-formatter",
+		"commit-helper",
+		"commit-convention",
+		"commit-style",
+		"commit-linter",
+		"commit-validator",
+		"commit-standardization"
 	],
 	"homepage": "https://github.com/INeedJobToStartWork/Commit-Smile",
 	"bugs": "https://github.com/INeedJobToStartWork/Commit-Smile/issues/new/choose",
@@ -17,10 +30,9 @@
 	"author": "ineedjobtostartwork",
 	"type": "module",
 	"main": "index.js",
-	"types": "index.d.ts",
 	"bin": {
-		"commitsmileBuild": "./dist/index.cjs",
-		"commitsmileDev": "./lib/index.js"
+		"commitsmileBuild": "./dist/bin/app.mjs",
+		"commitsmileDev": "./lib/bin/app.js"
 	},
 	"scripts": {
 		"build": "pnpm tsup --config ./config/tsuprc/tsup.prod.ts",
@@ -51,7 +63,6 @@
 		"@clack/prompts": "^0.8.2",
 		"c12": "^2.0.1",
 		"commander": "^12.1.0",
-		"jiti": "^2.4.0",
 		"oh-my-error": "^2.0.1",
 		"typia": "6.12.2",
 		"yaml": "^2.6.1"
@@ -82,7 +93,6 @@
 		"@clack/prompts",
 		"c12",
 		"commander",
-		"jiti",
 		"oh-my-error",
 		"typia",
 		"yaml"

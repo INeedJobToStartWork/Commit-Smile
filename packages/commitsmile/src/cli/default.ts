@@ -10,6 +10,7 @@ import { myError, myErrorWrapper } from "oh-my-error";
 import type { IMyError, TMyErrorList } from "oh-my-error";
 import getWorkspaces from "@/functions/getWorkspaces";
 import { spawnSync } from "node:child_process";
+import path from "node:path";
 
 //----------------------
 // MyError
@@ -56,17 +57,29 @@ program
 								let optionsToAdd: Parameters<typeof select>[0]["options"] = [];
 
 								if ("workspaces" in scopes && scopes.workspaces) {
-									const foundWorkspaces = Object.keys(getWorkspaces(options.config));
-									optionsToAdd = foundWorkspaces.map(repo => ({
+									const foundWorkspaces = getWorkspaces(options.config);
+									const foundWorkspacesKeys = Object.keys(foundWorkspaces);
+
+									optionsToAdd = foundWorkspacesKeys.map(repo => ({
 										label: `📦 ${String(repo[0]).toUpperCase() + String(repo).slice(1)}`,
 										value: repo,
-										hint: "Repo"
+										hint: `Repo "${path.relative(process.cwd(), foundWorkspaces[repo as keyof typeof foundWorkspaces])}"`
 									}));
+								}
+
+								const optionsMerged = [...optionsToAdd, ...("options" in scopes ? scopes.options : [])];
+								if (!optionsMerged.length) {
+									prompter.outro("No scopes");
+									return void 0;
+								}
+								if (optionsMerged.length == 1 && "custom" in scopes && !scopes.custom && scopes.required) {
+									prompter.outro(optionsMerged[0].label);
+									return optionsMerged[0].value;
 								}
 
 								return select({
 									...scopes,
-									options: [...optionsToAdd, ...("options" in scopes ? scopes.options : [])]
+									options: optionsMerged
 								});
 							}
 						}
