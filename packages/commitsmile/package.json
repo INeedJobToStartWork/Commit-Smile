@@ -36,7 +36,7 @@
 	},
 	"scripts": {
 		"build": "pnpm tsup --config ./config/tsuprc/tsup.prod.ts",
-		"build:npm": "pnpm npm:prepack && pnpm tsup --config ./config/tsuprc/tsup.prod.ts && pnpm dts-bundle-generator --config ./config/dts-bundle-generator/dts-bundle-generator.cjs && pnpm npm:postpack",
+		"build:npm": "pnpm npm:prepack && pnpm tsup --config ./config/tsuprc/tsup.prod.ts && pnpm npm:postpack",
 		"dev": "pnpm tsup --config ./config/tsuprc/tsup.dev.ts",
 		"format": "pnpm prettier . --write && pnpm prettier . --check",
 		"link-cli": "pnpm unlink --global && pnpm link --global",
