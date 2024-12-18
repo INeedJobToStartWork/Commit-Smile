@@ -47,7 +47,7 @@
 		"npm:prepack": "clean-package",
 		"pre": "git add . && npx lint-staged",
 		"prepare": "ts-patch install && typia patch",
-		"prepublishOnly": "pnpm build:npm && cd ./dist",
+		"prepublishOnly": "pnpm build:npm",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"unlink-cli:dev": "cd lib && pnpm unlink --global"
 	},
@@ -103,7 +103,6 @@
 	},
 	"publishConfig": {
 		"access": "public",
-		"directory": "dist",
 		"provenance": true,
 		"tag": "latest"
 	}
