@@ -1,5 +1,11 @@
 # commitsmile
 
+## 1.0.2
+
+### Patch Changes
+
+- fix commit execution
+
 ## 1.0.0
 
 ### Major Changes

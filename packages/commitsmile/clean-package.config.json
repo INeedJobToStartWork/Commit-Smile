@@ -7,7 +7,7 @@
 			"npm:postpack": "clean-package restore"
 		},
 		"bin": {
-			"commitsmile": "./bin/app.js"
+			"commitsmile": "./bin/app.mjs"
 		},
 		"exports": {
 			".": {

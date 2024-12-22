@@ -32,5 +32,6 @@ export default ineedj({
 	"@EslintTSDocs/syntax",
 	"@EslintNode/no-process-env",
 	"@EslintNode/no-process-exit",
-	"@EslintUnicorn/no-process-exit"
+	"@EslintUnicorn/no-process-exit",
+	"@EslintNode/hashbang"
 );
