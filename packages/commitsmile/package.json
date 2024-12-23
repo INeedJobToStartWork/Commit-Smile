@@ -31,8 +31,8 @@
 	"type": "module",
 	"main": "index.js",
 	"bin": {
-		"commitsmileBuild": "./dist/bin/app.mjs",
-		"commitsmileDev": "./lib/bin/app.js"
+		"commitsmileBuild": "./bin/app.js",
+		"commitsmileDev": "./bin/app.js"
 	},
 	"scripts": {
 		"build": "pnpm tsup --config ./config/tsuprc/tsup.prod.ts",
