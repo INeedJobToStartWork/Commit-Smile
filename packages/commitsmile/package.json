@@ -1,6 +1,6 @@
 {
 	"name": "commitsmile",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Make smile on your commits",
 	"keywords": [
 		"commit",
@@ -32,7 +32,7 @@
 	"main": "index.js",
 	"bin": {
 		"commitsmileBuild": "./bin/app.js",
-		"commitsmileDev": "./bin/app.js"
+		"commitsmileDev2": "./bin/app.js"
 	},
 	"scripts": {
 		"build": "pnpm tsup --config ./config/tsuprc/tsup.prod.ts",

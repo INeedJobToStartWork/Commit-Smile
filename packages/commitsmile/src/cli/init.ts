@@ -1,3 +1,4 @@
+import type { TOptionsConfig, TOptionsDebugger } from "@/helpers";
 import { optionDebugger } from "@/helpers";
 import * as prompter from "@clack/prompts";
 import { program } from "commander";
@@ -10,11 +11,23 @@ import { copyFile, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path, { dirname } from "node:path";
 
+//----------------------
+// Types
+//----------------------
+/** @internal @dontexport */
+type TOptions = TOptionsConfig & TOptionsDebugger;
+
+//----------------------
+// CLI APP
+//----------------------
 program
 	.command("init")
+	.addOption(optionDebugger) //TODO: Fix to make it work (Only work in one command at time rn)
 	.description("Init configuration file")
-	.addOption(optionDebugger)
-	.action(async () => {
+	.action(async (options: TOptions) => {
+		process.env.DEBUG = options.debugger ? "TRUE" : "FALSE";
+		logging.debug("Test debug message");
+		logging.debug(options);
 		const test = await new StageRunner()
 			.addStep({
 				intro: () => {
@@ -104,8 +117,13 @@ program
 					const destination = `${process.cwd()}/${finalname}`;
 					const templatePath = path.resolve(
 						dirname(fileURLToPath(import.meta.url)),
-						`./templates/configs/config.${ext}.hbs`
+						`../templates/configs/config.${ext}.hbs`
 					);
+
+					logging.debug(`Template Path: ${templatePath}`);
+
+					//TODO: Error if it do not exist
+					logging.debug(`Template Path Exist: ${existsSync(templatePath)}`);
 
 					if (existsSync(destination)) {
 						logging.warn("File already exists!");
@@ -119,6 +137,7 @@ program
 					copyFile(templatePath, destination, (err: unknown): void => {
 						if (err) logging.error(err);
 					});
+
 					prompter.outro(chalk.bgGreen("File created successfully!"));
 				}
 			})
@@ -132,3 +151,5 @@ program
 
 		process.exit(0);
 	});
+
+// program.parse(process.argv);
