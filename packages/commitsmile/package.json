@@ -48,7 +48,7 @@
 		"pre": "git add . && npx lint-staged",
 		"prepare": "ts-patch install && typia patch",
 		"prepublishOnly": "pnpm build:npm",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "echo \"Error: no test specified\"",
 		"unlink-cli:dev": "cd lib && pnpm unlink --global"
 	},
 	"lint-staged": {

@@ -2,28 +2,51 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "pre": {},
+    "start": {
+      "outputs": []
+    },
+    "start:dev": {
+      "outputs": []
+    },
+    "start:prod": {
+      "outputs": []
+    },
+    "bench": {},
     "build": {},
+    "build:dev": {
+      "outputs": ["dist/**"]
+    },
+    "build:prod": {
+      "outputs": ["dist/**"]
+    },
     "build:npm": {
       "inputs": ["*", "!dist"]
     },
-    "lint": {
-      "cache": true
-    },
+    "test": {},
+    "lint": {},
     "lint:fix": {},
+    "lint:test": {},
+    "lint:next": {},
     "link-cli": {},
     "link-cli:dev": {},
     "unlink-cli": {},
     "unlink-cli:dev": {},
     "format": {},
+    "clean": {
+      "cache": false
+    },
     "npm:prepack": {},
     "npm:postpack": {},
     "prepublishOnly": {},
-    "prepare": {
-      "cache": false
-    },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "commands:dev": {
+      "outputs": []
+    },
+    "commands:prod": {
+      "outputs": []
     }
   }
 }

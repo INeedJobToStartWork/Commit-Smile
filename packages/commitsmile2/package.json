@@ -4,7 +4,35 @@
   "private": true,
 
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "------------------------INSTALLATION-------------------": "",
+    "preinstall":"",
+    "prepare":"",
+    "pre":"",
+    "pre:husky":"",
+    "------------------------UTILS--------------------------":"",
+    "lint":"",
+    "lint:fix":"",
+    "lint:next":"",
+    "lint:test":"",
+    "format":"",
+    "clean":"",
+    "link-cli":"",
+    "link-cli:dev":"",
+    "unlink-cli:dev":"",
+    "------------------------BUILDS-------------------------":"",
+    "dev":"",
+    "build":"",
+    "build:dev":"",
+    "build:prod":"",
+    "build:npm":"",
+    "------------------------DEPLOYS------------------------":"",
+    "start:dev":"",
+    "start:prod":"",
+    "npm:prepack":"",
+    "npm:postpack":"",
+    "npm:version":"",
+    "npm:publish":"",
+    "------------------------TESTS--------------------------":"",
+    "test":"echo \"Error: no test specified\""
   }
-  
 }
