@@ -112,19 +112,29 @@ importers:
     publishDirectory: dist
 
   packages/commitsmile2:
+    dependencies:
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
     devDependencies:
       '@ineedj/eslintrc':
         specifier: 1.2.3
         version: 1.2.3(@typescript-eslint/parser@8.31.0(eslint@8.57.1)(typescript@5.8.3))(tailwindcss@3.4.17)(typescript@5.8.3)
       '@ineedj/prettierrc':
-        specifier: ^2.0.0
-        version: 2.0.0(prettier-plugin-packagejson@2.5.10(prettier@3.5.3))(prettier@3.5.3)
+        specifier: 3.0.0
+        version: 3.0.0(prettier@3.5.3)
       '@ineedj/tsconfig':
         specifier: ^1.0.0
         version: 1.0.0
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.15.2
       clean-package:
         specifier: ^2.2.0
         version: 2.2.0
+      esbuild-plugin-copy:
+        specifier: ^2.1.1
+        version: 2.1.1(esbuild@0.25.3)
       eslint:
         specifier: ^8.57.1
         version: 8.57.1
@@ -776,6 +786,11 @@ packages:
     peerDependencies:
       prettier: ^3.1.1
       prettier-plugin-packagejson: ^2.4.8
+
+  '@ineedj/prettierrc@3.0.0':
+    resolution: {integrity: sha512-PgkC/U4e/t/fXm8E1PJrVZ70919Ric5Jv3dP7awLBg8W45MCm0yO0LG3h9YEpVLfQWKxI1EqQaPsKFQf9hYRjA==}
+    peerDependencies:
+      prettier: ^3.1.1
 
   '@ineedj/tsconfig@1.0.0':
     resolution: {integrity: sha512-usPCmbipgVH8tDLp4XiTF0nPa7cGENEp98Aforhgks0M5+ZvbTYJjXPBdg7DQ75sz7/A+9Ffk9l+IOeVpcb6Ww==}
@@ -5492,6 +5507,10 @@ snapshots:
       prettier: 3.5.3
       prettier-plugin-packagejson: 2.5.10(prettier@3.5.3)
 
+  '@ineedj/prettierrc@3.0.0(prettier@3.5.3)':
+    dependencies:
+      prettier: 3.5.3
+
   '@ineedj/tsconfig@1.0.0': {}
 
   '@isaacs/cliui@8.0.2':
@@ -6898,6 +6917,14 @@ snapshots:
       chalk: 4.1.2
       chokidar: 3.6.0
       esbuild: 0.24.2
+      fs-extra: 10.1.0
+      globby: 11.1.0
+
+  esbuild-plugin-copy@2.1.1(esbuild@0.25.3):
+    dependencies:
+      chalk: 4.1.2
+      chokidar: 3.6.0
+      esbuild: 0.25.3
       fs-extra: 10.1.0
       globby: 11.1.0
 

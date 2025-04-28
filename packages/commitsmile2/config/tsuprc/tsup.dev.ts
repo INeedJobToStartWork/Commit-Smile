@@ -1,8 +1,8 @@
-import config from "./tsup.base";
 import { defineConfig } from "tsup";
+import { devConfigs } from "./tsup.base";
 
-export default defineConfig({
-	...config,
-	outDir: "lib",
-	watch: ["src"]
-});
+//----------------------
+// Functions
+//----------------------
+
+export default defineConfig(Object.values(devConfigs));

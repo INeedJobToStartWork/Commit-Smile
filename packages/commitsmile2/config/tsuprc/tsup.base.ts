@@ -1,35 +1,50 @@
-// import { copy } from "esbuild-plugin-copy";
 import { defineConfig } from "tsup";
-// import typiaPlug from "@ryoppippi/unplugin-typia/esbuild";
+import copy from "esbuild-plugin-copy";
+import { addNodeRequireShim } from "./internals";
 
-export default defineConfig({
-	// entry: ["src/index.ts", "src/bin/app.ts"],
-	entry: ["src/index.ts"],
-	target: "es2020",
-	clean: true,
-	format: ["esm"],
-	// noExternal: ["typia"],
+//----------------------
+// Functions
+//----------------------
 
-	// esbuildPlugins: [
-	// 	typiaPlug({ tsconfig: "./tsconfig.json", cache: false }),
-	// 	copy({
-	// 		assets: [
-	// 			{ from: "./package.json", to: "./package.json" },
-	// 			{ from: "./.npmrc", to: "./.npmrc" },
-	// 			{ from: "./.npmignore", to: "./.npmignore" },
-	// 			{ from: "./README.md", to: "./README.md" },
-	// 			{ from: "./src/templates/configs/*", to: "./templates/configs" }
-	// 		]
-	// 	})
-	// ],
-	banner: ({ format }) => {
-		if (format === "esm") {
-			const banner = `
-import { createRequire } from "node:module";
-const require = createRequire(import.meta.url);
-      `;
-
-			return { js: banner };
+/** @internal */
+export const BasicConfig = (isDev: boolean) =>
+	({
+		METAFILES_TO_COPY: isDev
+			? {}
+			: {
+					entry: ["src/index.ts"],
+					plugins: [
+						copy({
+							assets: [
+								{ from: "./package.json", to: "./package.json" },
+								{ from: "./.npmrc", to: "./.npmrc" },
+								{ from: "./.npmignore", to: "./.npmignore" },
+								{ from: "./README.md", to: "./README.md" }
+								// { from: "./src/templates/configs/*", to: "./templates/configs" }
+							]
+						})
+					]
+				},
+		CLI_APP: {
+			entry: ["src/bin/app.ts"],
+			outDir: `${isDev ? "lib" : "dist"}/bin`,
+			target: "esnext",
+			banner: addNodeRequireShim,
+			watch: isDev ? ["src"] : false
+		},
+		PACKAGE: {
+			entry: ["src/index.ts"],
+			outDir: isDev ? "lib" : "dist",
+			target: "es2020",
+			banner: addNodeRequireShim,
+			watch: isDev ? ["src"] : false
 		}
-	}
-});
+	}) as const satisfies Record<string, Parameters<typeof defineConfig>[number]>;
+
+/** @internal */
+export const devConfigs = BasicConfig(true);
+
+/** @internal */
+export const prodConfigs = BasicConfig(false);
+
+export default BasicConfig;
