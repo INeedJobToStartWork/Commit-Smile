@@ -8,11 +8,11 @@
 			"@/*": ["*", "*/index.ts", "*.ts"]
 		},
 		"stripInternal": true,
-		"plugins": [
-			{
-				"transform": "typia/lib/transform"
-			}
-		],
+		// "plugins": [
+		// 	{
+		// 		"transform": "typia/lib/transform"
+		// 	}
+		// ],
 		"preserveSymlinks": true,
 		"strict": true
 	},

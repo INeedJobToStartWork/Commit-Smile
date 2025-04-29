@@ -23,7 +23,7 @@ export default ineedj({
 		typescript: true,
 		toml: false,
 		yaml: false,
-		ignoreGlobalFiles: { gitIgnore: true, basicIgnores: true, ignoreFiles: ["**/src2/*", "**/src2/**/*"] }
+		ignoreGlobalFiles: { gitIgnore: true, basicIgnores: true }
 	}
 }).removeRules(
 	"@typescript-eslint/no-throw-literal" /** Use custom Error */,
