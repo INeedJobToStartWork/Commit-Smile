@@ -13,7 +13,7 @@ export const BasicConfig = (isDev: boolean) =>
 			? {}
 			: {
 					entry: ["src/index.ts"],
-					plugins: [
+					esbuildPlugins: [
 						copy({
 							assets: [
 								{ from: "./package.json", to: "./package.json" },

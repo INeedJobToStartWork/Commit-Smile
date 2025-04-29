@@ -3,17 +3,20 @@
 	"version": "2.0.0",
 	"private": true,
 	"type": "module",
+	"bin": {
+		"commitsmile-dev": "./lib/bin/app.cjs",
+		"commitsmile-prod": "./dist/bin/app.cjs"
+	},
 	"scripts": {
 		"------------------------INSTALLATION-------------------": "",
 		"prepare": "",
 		"pre": "git add . && npx lint-staged",
+		"link-cli": "pnpm link --global",
 		"------------------------UTILS--------------------------": "",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "pnpm prettier . --write && pnpm prettier . --check",
 		"clean": "",
-		"link-cli": "pnpm unlink --global && pnpm link --global",
-		"link-cli:dev": "cd lib && pnpm unlink --global && pnpm link --global",
 		"------------------------BUILDS-------------------------": "",
 		"build:dev": "pnpm tsup --config ./config/tsuprc/tsup.dev.ts",
 		"build:prod": "pnpm tsup --config ./config/tsuprc/tsup.prod.ts",

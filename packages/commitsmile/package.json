@@ -32,7 +32,7 @@
 	"main": "index.js",
 	"bin": {
 		"commitsmileBuild": "./bin/app.js",
-		"commitsmileDev2": "./bin/app.js"
+		"commitsmileDev": "./bin/app.js"
 	},
 	"scripts": {
 		"build": "pnpm tsup --config ./config/tsuprc/tsup.prod.ts",

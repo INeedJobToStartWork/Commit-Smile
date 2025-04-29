@@ -37,10 +37,10 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.10",
+    "commitsmile": "^1.0.3",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
-    "turbo": "latest",
-    "commitsmile": "^1.0.3"
+    "turbo": "latest"
   },
   "engines": {
     "node": ">=20"
